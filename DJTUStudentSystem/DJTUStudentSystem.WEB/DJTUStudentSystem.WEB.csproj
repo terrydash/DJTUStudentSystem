@@ -266,7 +266,12 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\我的发布.pubxml" />
+    <Content Include="SB_Admin2_Sample\bower.json" />
+    <Content Include="SB_Admin2_Sample\composer.json" />
+    <Content Include="SB_Admin2_Sample\LICENSE" />
+    <Content Include="SB_Admin2_Sample\README.md" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="SB_Admin2_Sample\index.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -319,6 +324,11 @@
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
     <Folder Include="Models\" />
+    <Folder Include="SB_Admin2_Sample\bower_components\" />
+    <Folder Include="SB_Admin2_Sample\dist\" />
+    <Folder Include="SB_Admin2_Sample\js\" />
+    <Folder Include="SB_Admin2_Sample\less\" />
+    <Folder Include="SB_Admin2_Sample\pages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
