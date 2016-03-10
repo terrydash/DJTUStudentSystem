@@ -15,6 +15,10 @@ namespace DJTUStudentSystem.WEB.Controllers
         { 
             return View();
         }
+        public ActionResult CheckLogin()
+        {
+            return View();
 
+        }
     }
 }
