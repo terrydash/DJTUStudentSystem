@@ -3,66 +3,41 @@
     <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - 我的 ASP.NET MVC 应用程序</title>
+        <title>大连科技学院学生选课系统</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/bootstrap/js")
+        @Styles.Render("~/css")
         @Styles.Render("~/bundles/bootstrap/css")
     </head>
 <body>
 
-    <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-top" >
+        <div class="container">
+          
+                <div class="navbar-header navbar-brand">
 
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">管理后台</a>
-            </div>
+                    <div class="navbar-btn"><p class="fa fa-user">大连科技学院学生选课系统</p></div>
+                </div>
 
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-
-                  
-                    
-
-                        
-
-                    <li><a href="/UserManage">用户管理</a></li>
-                   
-
-                </ul>
-
-              
-                
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="/Profile"></a>
-                        </li>
-                        <li><a href="/Home/LoginOut">退出登录</a></li>
-                    </ul>
-                
-
-            </div>
+            
         </div>
     </div>
 
-    <div class="container-fluid body-content">
-        <div style="min-height:650px;">
+    <div class="container">
+        <div style="min-height:400px" >
             @RenderBody()
         </div>
         <hr />
         <footer class="text-center panel-footer">
-            <p>&copy; @DateTime.Now.Year 徐国旭版权所有</p>
+            <p>&copy; @DateTime.Now.Year 大连科技学院教务处版权所有 开发者：<a href="mailto:mybest13@163.com">徐国旭</a></p>
         </footer>
     </div>
 
     
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap/js")
+
 
 </body>
 
