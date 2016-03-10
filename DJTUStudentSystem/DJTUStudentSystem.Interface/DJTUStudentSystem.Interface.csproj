@@ -43,11 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="IBaseBLL.cs" />
+    <Compile Include="IBaseDAL.cs" />
+    <Compile Include="IStudentLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DJTUStudentSystem.DataBaseModel\DJTUStudentSystem.DataBaseModel.csproj">
+      <Project>{84fd4397-877e-4b42-a7bd-43723e6c0d64}</Project>
+      <Name>DJTUStudentSystem.DataBaseModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

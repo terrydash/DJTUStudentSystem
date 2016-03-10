@@ -43,11 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Student_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DJTUStudentSystem.DAL\DJTUStudentSystem.DAL.csproj">
+      <Project>{5ed492b1-c777-4790-a043-f851d35f96f1}</Project>
+      <Name>DJTUStudentSystem.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.DataBaseModel\DJTUStudentSystem.DataBaseModel.csproj">
+      <Project>{84fd4397-877e-4b42-a7bd-43723e6c0d64}</Project>
+      <Name>DJTUStudentSystem.DataBaseModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.Interface\DJTUStudentSystem.Interface.csproj">
+      <Project>{c6cea11d-fbdc-4d1d-a6c4-62421d367c9d}</Project>
+      <Name>DJTUStudentSystem.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
