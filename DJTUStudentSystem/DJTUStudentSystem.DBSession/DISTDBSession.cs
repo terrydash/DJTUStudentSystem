@@ -5,7 +5,8 @@ using System.Text;
 
 namespace DJTUStudentSystem.DBSession
 {
-    public class Class1
+    public static class DISTDBSession
     {
+
     }
 }
