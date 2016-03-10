@@ -45,12 +45,12 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentBootstrap, Version=3.3.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentBootstrap.3.3.5.1\lib\net40\FluentBootstrap.dll</HintPath>
+    <Reference Include="FluentBootstrap, Version=3.3.5.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentBootstrap.3.3.5.2\lib\net40\FluentBootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentBootstrap.Mvc, Version=3.3.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentBootstrap.Mvc.3.3.5.1\lib\net40\FluentBootstrap.Mvc.dll</HintPath>
+    <Reference Include="FluentBootstrap.Mvc, Version=3.3.5.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentBootstrap.Mvc.3.3.5.2\lib\net40\FluentBootstrap.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentBootstrap.Mvc.T4MVC, Version=3.3.5.1, Culture=neutral, processorArchitecture=MSIL">
