@@ -11,39 +11,59 @@
         @Scripts.Render("~/bundles/bootstrap/js")
         @Styles.Render("~/bundles/bootstrap/css")
     </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("将你的徽标放置在此处", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                   
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                            <li>@Html.ActionLink("关于", "About", "Home")</li>
-                            <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - 我的 ASP.NET MVC 应用程序</p>
-                </div>
-            </div>
-        </footer>
+<body>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">管理后台</a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                  
+                    
+
+                        
+
+                    <li><a href="/UserManage">用户管理</a></li>
+                   
+
+                </ul>
+
+              
+                
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/Profile"></a>
+                        </li>
+                        <li><a href="/Home/LoginOut">退出登录</a></li>
+                    </ul>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid body-content">
+        <div style="min-height:650px;">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer class="text-center panel-footer">
+            <p>&copy; @DateTime.Now.Year 徐国旭版权所有</p>
+        </footer>
+    </div>
+
+    
+
+</body>
+
 </html>
