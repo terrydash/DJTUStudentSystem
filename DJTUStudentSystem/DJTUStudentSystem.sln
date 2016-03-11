@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DJTUStudentSystem.WEB", "DJTUStudentSystem.WEB\DJTUStudentSystem.WEB.csproj", "{3F26724B-B7B5-407F-8B5B-ED6B12A7D2C5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DJTUStudentSystem.WCF", "DJTUStudentSystem.WCF\DJTUStudentSystem.WCF.csproj", "{2F96A6C1-DB15-46B4-B24E-C0493EEADDDA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DJTUStudentSystem.DataBaseModel", "DJTUStudentSystem.DataBaseModel\DJTUStudentSystem.DataBaseModel.csproj", "{84FD4397-877E-4B42-A7BD-43723E6C0D64}"
@@ -21,16 +19,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DJTUStudentSystem.Common", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DJTUStudentSystem.WindowsUI", "DJTUStudentSystem.WindowsUI\DJTUStudentSystem.WindowsUI.csproj", "{8020D461-3C65-40E6-A933-957209ED9BD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DJTUStudentSystem.MVCWEB", "DJTUStudentSystem.MVCWEB\DJTUStudentSystem.MVCWEB.csproj", "{4F940E38-4DA5-4A2C-BE20-133F4FE831D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3F26724B-B7B5-407F-8B5B-ED6B12A7D2C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F26724B-B7B5-407F-8B5B-ED6B12A7D2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F26724B-B7B5-407F-8B5B-ED6B12A7D2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F26724B-B7B5-407F-8B5B-ED6B12A7D2C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F96A6C1-DB15-46B4-B24E-C0493EEADDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F96A6C1-DB15-46B4-B24E-C0493EEADDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F96A6C1-DB15-46B4-B24E-C0493EEADDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{8020D461-3C65-40E6-A933-957209ED9BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8020D461-3C65-40E6-A933-957209ED9BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8020D461-3C65-40E6-A933-957209ED9BD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F940E38-4DA5-4A2C-BE20-133F4FE831D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F940E38-4DA5-4A2C-BE20-133F4FE831D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F940E38-4DA5-4A2C-BE20-133F4FE831D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F940E38-4DA5-4A2C-BE20-133F4FE831D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
