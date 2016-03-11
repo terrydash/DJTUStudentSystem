@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="IBaseBLL.cs" />
     <Compile Include="IBaseDAL.cs" />
+    <Compile Include="IDataBaseModelToViewModel.cs" />
     <Compile Include="IStudentLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,6 +57,9 @@
       <Project>{84fd4397-877e-4b42-a7bd-43723e6c0d64}</Project>
       <Name>DJTUStudentSystem.DataBaseModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

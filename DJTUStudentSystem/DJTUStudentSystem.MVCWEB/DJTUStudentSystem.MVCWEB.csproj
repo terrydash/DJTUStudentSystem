@@ -41,6 +41,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -66,9 +70,6 @@
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
@@ -114,9 +115,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\StudentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -178,11 +181,12 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Student\Main.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\" />
-    <Folder Include="Models\" />
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -194,6 +198,14 @@
     <ProjectReference Include="..\DJTUStudentSystem.BLL\DJTUStudentSystem.BLL.csproj">
       <Project>{6bb4a9a3-74a7-492c-93db-c4e7186a7216}</Project>
       <Name>DJTUStudentSystem.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.DataBaseModel\DJTUStudentSystem.DataBaseModel.csproj">
+      <Project>{84fd4397-877e-4b42-a7bd-43723e6c0d64}</Project>
+      <Name>DJTUStudentSystem.DataBaseModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.Interface\DJTUStudentSystem.Interface.csproj">
+      <Project>{c6cea11d-fbdc-4d1d-a6c4-62421d367c9d}</Project>
+      <Name>DJTUStudentSystem.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
