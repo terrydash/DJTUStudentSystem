@@ -24,6 +24,16 @@ namespace DJTUStudentSystem.BLL
         {
             throw new NotImplementedException();
         }
+       public Student GetStudentEntityFromDB_WithStudentCodeAndStudentPassword(string _StudentCode, string _StudentPassword = "")
+        {
+            return S_DAL.GetStudentEntityFromDB_WithStudentCodeAndStudentPassword(_StudentCode, _StudentPassword);
+
+        }
+        public Student GetStudentEntityFromDB_WithStudentCode(string _StudentCode)
+        {
+            return S_DAL.GetStudentEntityFromDB_WithStudentCode(_StudentCode);
+
+        }
 
         public Student GetEntityFromDAL_WithEntityID(int EntityID)
         {

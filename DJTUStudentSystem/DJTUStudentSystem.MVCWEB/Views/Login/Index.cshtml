@@ -1,5 +1,7 @@
-﻿@{
+﻿
+@{
     Layout = null;
+
 }
 
 <!DOCTYPE html>
@@ -50,8 +52,8 @@
                             <h2>
                                 <i class="icon-leaf green"></i>
                                 <span class="red">大连科技学院学生选课系统</span>
-                                
-                            </h2>                            
+                             </h2>
+                            
                         </div>
 
                         <div class="space-6"></div>
@@ -66,19 +68,21 @@
                                         <div class="space-6"></div>
 
 
-                                        <form>
+                                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", role = "form",ID="Myform"}))
+                                        {
                                             <fieldset>
                                                 <label class="block clearfix">
                                                     <label class="blue">学号</label>
                                                        <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="请输入学号" />
-                                                        <i class="icon-user"></i>
+                                                        <input type="text" ID="StudentCode" name="StudentCode" class="form-control" placeholder="请输入学号" />
+                                                        
+                                                          <i class="icon-user"></i>
                                                     </span>
                                                 </label>
                                                 <label class="block clearfix">
                                                       <label class="blue">密码</label>
                                                         <span class="block input-icon input-icon-right">
-                                                        <input type="password" class="form-control" placeholder="请输入密码" />
+                                                        <input type="password" ID="StudentPassword" name="StudentPassword"  class="form-control" placeholder="请输入密码" />
                                                         <i class="icon-lock"></i>
                                                     </span>
                                                 </label>
@@ -86,10 +90,10 @@
                                                 <div class="space-4"></div>
                                             </fieldset>
                                             <div class="center">
-                                                <button type="button" class="btn btn-warning">重&nbsp;&nbsp;置</button>
-                                                <button type="button" name="go" class="btn btn-success">点击登陆</button>
+                                                <button type="reset"  class="btn btn-warning">重&nbsp;&nbsp;置</button>
+                                                <button type="submit" value="Login" class="btn btn-success" id="buttonsubmit">点击登陆</button>
                                             </div>
-                                        </form>
+                                        }
 
                                        
 
@@ -136,7 +140,29 @@
     </script>
 
     <!-- inline scripts related to this page -->
-
+    <script language="javascript" type="text/javascript">
+    $(document).ready(function(){
+        $(function () {
+            $('#StudentCode').blur(MyAjax);
+        });
+        function MyAjax() {
+            $.ajax({
+                //需要使用post提交
+                type: "post",
+                url: "Student/GetStudentNameByCode",
+                data: "scode=" + $('#StudentCode').val() ,
+                async: true, //异步
+                cache: false, //不加载缓存
+                success: function (e) {
+                    alert(e);//返回json格式
+                },
+                error: function (err) {
+                    alert("出错了！");
+                }
+            });
+        }
+    })
+    </script>  
     
     
 </body>

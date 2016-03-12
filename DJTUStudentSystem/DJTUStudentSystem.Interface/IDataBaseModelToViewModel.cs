@@ -5,8 +5,9 @@ using System.Text;
 
 namespace DJTUStudentSystem.Interface
 {
-    public  interface IDataBaseModelToViewModel<T,T2>
+      public interface IDataBaseModelToViewModel<T,T2>
     {
-       List<T> ConvertDataBaseModelToViewModel(List<T2> t);
+         List<T> ConvertDataBaseModelToViewModelList(List<T2> _EntityList);
+        T ConvertDataBaseModelToViewModel(T2 _Entity);
     }
 }

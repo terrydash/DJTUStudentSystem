@@ -19,30 +19,43 @@ namespace DJTUStudentSystem.DAL
                                                          .Page(_PageIndex, _PageIndex)
                                                          .ToList();
         }
-        public Student GetEntityFromDB_WithEntityID(int EntityID)
+        public Student GetEntityFromDB_WithEntityID(int _EntityID)
+        {
+
+            return GetEntityListFromDB_WithEntityID(_EntityID).FirstOrDefault();
+
+        }
+
+        public Student GetStudentEntityFromDB_WithStudentCode(string _StudentCode)
+
+        {
+
+            return DISTDBSession.Context.From<Student>()
+                                                    .Where(d => d.StdCode == _StudentCode)
+                                                    .First();                                      
+                                                    
+        }
+
+
+
+        public Student GetStudentEntityFromDB_WithStudentCodeAndStudentPassword(string _StudentCode, string _StudentPassword = "")
+
         {
            
-                return GetEntityListFromDB_WithEntityID(EntityID).FirstOrDefault();
-                
+                    return DISTDBSession.Context.From<Student>()
+                                                            .Where(d => d.StdCode == _StudentCode && d.Password==_StudentPassword)
+                                                            .First();
         }
+        
+        
 
-
-        /*
-        public Student GetEntityFromDB_WithEntity(Student _entityModel)
-        {   if (_entityModel!=null)
-            {
-                                                
-            }
-        }
-        */
-
-        public List<Student> GetEntityListFromDB_WithEntityID(int EntityID)
+        public List<Student> GetEntityListFromDB_WithEntityID(int _EntityID)
         {  
-                  return EntityID <= 0 ? DISTDBSession.Context.From<Student>().Top(20)                                                     
+                  return _EntityID <= 0 ? DISTDBSession.Context.From<Student>()                                                    
                                                         .OrderBy(Student._.StdCode.Asc)
                                                         .ToList():
                                          DISTDBSession.Context.From<Student>()
-                                                        .Where(d => d.StdID == EntityID)
+                                                        .Where(d => d.StdID == _EntityID)
                                                         .OrderBy(Student._.StdCode.Asc)
                                                         .ToList();
           

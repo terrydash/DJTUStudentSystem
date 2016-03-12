@@ -9,7 +9,7 @@
     <!-- basic styles -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
-
+    <link href="/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <!--[if IE 7]>
       <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
     <![endif]-->
@@ -756,7 +756,7 @@
     <!--[if !IE]> -->
 
     <script type="text/javascript">
-			window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>"+"<"+"script>");
+        window.jQuery || document.write("<script src='/Scripts/jquery-2.2.1.min.js'>" + "<" + "script>");
     </script>
 
     <!-- <![endif]-->
@@ -769,7 +769,7 @@
     <script type="text/javascript">
 			if("ontouchend" in document) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"script>");
     </script>
-    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/Scripts/bootstrap.min.js"></script>
     <script src="/assets/js/typeahead-bs2.min.js"></script>
 
     <!-- page specific plugin scripts -->
@@ -778,7 +778,7 @@
     <![endif]-->
 
    
-    <script src="/assets/js/jquery.dataTables.min.js"></script>
+    <script src="/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="/assets/js/jquery.dataTables.bootstrap.js"></script>
     <!-- ace scripts -->
 
@@ -786,45 +786,21 @@
     <script src="/assets/js/ace.min.js"></script>
     <script src="/assets/js/ace-extra.min.js"></script>
     <!-- inline scripts related to this page -->
-    
-
     <script type="text/javascript">
-			jQuery(function($) {
-				var oTable1 = $('#sample-table-2').dataTable( {
-				"aoColumns": [
-			      { "bSortable": false },
-			      null, null,null, null, null,
-				  { "bSortable": false }
-				] } );
+        $(document).ready(function () {
+            $('#sample-table-2').DataTable({"language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Chinese.json"
 
 
-				$('table th input:checkbox').on('click' , function(){
-					var that = this;
-					$(this).closest('table').find('tr > td:first-child input:checkbox')
-					.each(function(){
-						this.checked = that.checked;
-						$(this).closest('tr').toggleClass('selected');
-					});
+            }
 
-				});
+            })
+        });
 
 
-				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-				function tooltip_placement(context, source) {
-					var $source = $(source);
-					var $parent = $source.closest('table')
-					var off1 = $parent.offset();
-					var w1 = $parent.width();
-
-					var off2 = $source.offset();
-					var w2 = $source.width();
-
-					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-					return 'left';
-				}
-			})
     </script>
-    
+
+   
     
 </body>
 </html>

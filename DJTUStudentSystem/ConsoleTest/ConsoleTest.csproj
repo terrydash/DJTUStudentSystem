@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E859D585-B03E-4530-8FF0-DD9DE3A88942}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsoleTest</RootNamespace>
+    <AssemblyName>ConsoleTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DJTUStudentSystem.BLL\DJTUStudentSystem.BLL.csproj">
+      <Project>{6bb4a9a3-74a7-492c-93db-c4e7186a7216}</Project>
+      <Name>DJTUStudentSystem.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.Common\DJTUStudentSystem.Common.csproj">
+      <Project>{2ac0c5dd-b795-4f1b-a2b9-f2d1290e1f6e}</Project>
+      <Name>DJTUStudentSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.DAL\DJTUStudentSystem.DAL.csproj">
+      <Project>{5ed492b1-c777-4790-a043-f851d35f96f1}</Project>
+      <Name>DJTUStudentSystem.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.DataBaseModel\DJTUStudentSystem.DataBaseModel.csproj">
+      <Project>{84fd4397-877e-4b42-a7bd-43723e6c0d64}</Project>
+      <Name>DJTUStudentSystem.DataBaseModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.DBSession\DJTUStudentSystem.DBSession.csproj">
+      <Project>{97551229-866d-432f-961d-8a265e4960cb}</Project>
+      <Name>DJTUStudentSystem.DBSession</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.Interface\DJTUStudentSystem.Interface.csproj">
+      <Project>{c6cea11d-fbdc-4d1d-a6c4-62421d367c9d}</Project>
+      <Name>DJTUStudentSystem.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.MVCWEB\DJTUStudentSystem.MVCWEB.csproj">
+      <Project>{4f940e38-4da5-4a2c-be20-133f4fe831d5}</Project>
+      <Name>DJTUStudentSystem.MVCWEB</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
