@@ -17,7 +17,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         public ActionResult Main()
         {
             Student_BLL S_BLL = new Student_BLL();
-            var StuList = S_BLL.GetALLEntityToListFromDAL().Take(100).ToList();
+            var StuList = S_BLL.GetALLEntityToListFromDAL().Take(10).ToList();
             StudentViewModel _StudentViewModel = new StudentViewModel();
             var Students=_StudentViewModel.ConvertDataBaseModelToViewModelList(StuList);
             

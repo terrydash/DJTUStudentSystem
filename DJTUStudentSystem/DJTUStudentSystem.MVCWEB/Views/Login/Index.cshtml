@@ -90,7 +90,7 @@
                                                 <div class="space-4"></div>
                                             </fieldset>
                                             <div class="center">
-                                                <button type="reset"  class="btn btn-warning">重&nbsp;&nbsp;置</button>
+                                                <button type="reset"  class="btn btn-danger">重&nbsp;&nbsp;置</button>
                                                 <button type="submit" value="Login" class="btn btn-success" id="buttonsubmit">点击登陆</button>
                                             </div>
                                         }
@@ -126,7 +126,9 @@
     <script type="text/javascript">
 			window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
     </script>
-
+    <script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    </script>
     <!-- <![endif]-->
     <!--[if IE]>
     <script type="text/javascript">
@@ -135,9 +137,7 @@
     <![endif]-->
     <script src='/assets/js/bootstrap.min.js'>
     </script>
-    <script type="text/javascript">
-			if("ontouchend" in document) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-    </script>
+    
 
     <!-- inline scripts related to this page -->
     <script language="javascript" type="text/javascript">
@@ -163,6 +163,7 @@
         }
     })
     </script>  
+    
     
     
 </body>
