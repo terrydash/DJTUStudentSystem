@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/Content/fakeLoader.css" />
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
-    
+
     <!--[if IE 7]>
       <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
     <![endif]-->
@@ -45,19 +45,19 @@
 
 
 <body class="login-layout">
-    
+
     <div class="main-container">
         <div class="main-content">
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
                     <div class="login-container">
-                       
+
                         <div class="center">
                             <h2>
                                 <i class="icon-leaf green"></i>
                                 <span class="red">大连科技学院学生选课系统</span>
-                             </h2>
-                            
+                            </h2>
+
                         </div>
 
                         <div class="space-6"></div>
@@ -72,67 +72,67 @@
                                         <div class="space-6"></div>
 
 
-                                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", role = "form",ID="Myform"}))
+                                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", role = "form", ID = "Myform" }))
                                         {
                                             <fieldset>
                                                 <label class="block clearfix">
                                                     <label class="blue">学号</label>
-                                                       <span class="block input-icon input-icon-right">
+                                                    <span class="block input-icon input-icon-right">
                                                         <input type="text" ID="StudentCode" name="StudentCode" class="form-control" required maxlength="10" placeholder="请输入学号" />
-                                                        
-                                                          <i class="icon-user"></i>
+
+                                                        <i class="icon-user"></i>
                                                     </span>
                                                 </label>
                                                 <label class="block clearfix">
-                                                      <label class="blue">密码</label>
-                                                        <span class="block input-icon input-icon-right">
-                                                        <input type="password" ID="StudentPassword" maxlength="15" name="StudentPassword" required  class="form-control" placeholder="请输入密码" />
+                                                    <label class="blue">密码</label>
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="password" ID="StudentPassword" maxlength="15" name="StudentPassword" required class="form-control" placeholder="请输入密码" />
                                                         <i class="icon-lock"></i>
                                                     </span>
-                                                 
+
                                                 </label>
                                                 <div class="block clearfix">
                                                     <label class="blue">验证码</label>
-                                                    <div class="block clearfix " >
+                                                    <div class="block clearfix ">
                                                         <span class="input-icon input-icon-right">
-                                                            <input type="text"  maxlength="4" ID="inputyanzhengma" name="ValidateCode" required class="form-control" placeholder="请输入验证码" />
+                                                            <input type="text" maxlength="4" ID="inputyanzhengma" name="ValidateCode" required class="form-control" placeholder="请输入验证码" />
                                                             <i class="icon-leaf"></i>
                                                         </span>
-                                                        <img id="valiCode" alt="请输入验证码"  style="cursor:pointer" />
+                                                        <img id="valiCode" alt="请输入验证码" style="cursor:pointer" />
                                                     </div>
                                                 </div>
                                                 <div class="space"></div>
                                                 <div class="space-4"></div>
 
-                                                <div id="myAlert" class="alert alert-danger" >                                                    
-                                                        <label class="control-label" id="ajaxresult"></label>
-                                                    </div>
-                                           
-                                                    <div class="center">
-                                                        <button type="reset" class="btn btn-danger">重&nbsp;&nbsp;置</button>
-                                                        <button value="Login" class="btn btn-success" id="buttonsubmit">点击登陆</button>
-                                                    </div>
-</fieldset>
-                                           
+                                                <div id="myAlert" class="alert alert-danger">
+                                                    <label class="control-label" id="ajaxresult"></label>
+                                                </div>
+
+                                                <div class="center">
+                                                    <button type="reset" class="btn btn-danger">重&nbsp;&nbsp;置</button>
+                                                    <button value="Login" class="btn btn-success" id="buttonsubmit">点击登陆</button>
+                                                </div>
+                                            </fieldset>
+
                                         }
 
-                                       
-                                       
-                                       
+
+
+
                                     </div><!-- /widget-main -->
 
                                     <div class="toolbar clearfix">
                                         <h5 class="center black">
-                                           @System.DateTime.Now.Year.ToString() &copy; 大连科技学院教务处版权所有 
+                                            @System.DateTime.Now.Year.ToString() &copy; 大连科技学院教务处版权所有
                                         </h5>
                                         <h5 class="center white">
                                             开发者：<b class="red">徐国旭</b>
                                         </h5>
                                     </div>
                                 </div><!-- /widget-body -->
-                            </div><!-- /login-box -->                         
+                            </div><!-- /login-box -->
 
-                            
+
                         </div><!-- /position-relative -->
                     </div>
                 </div><!-- /.col -->
@@ -141,22 +141,17 @@
     </div><!-- /.main-container -->
     <!-- basic scripts -->
     <!--[if !IE]> -->
-
-   
-
-    
-   
     <!-- <![endif]-->
     <!--[if IE]>
     <script type="text/javascript">
      window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
     </script>
     <![endif]-->
-    
+
     <script src="/Scripts/jquery-2.2.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
-     <script src='/assets/js/bootstrap.min.js'></script>
+    <script src='/assets/js/bootstrap.min.js'></script>
     <script src="/Scripts/jquery.form.min.js"></script>
     <script src="/Scripts/fakeLoader.min.js"></script>
     <!-- inline scripts related to this page -->
@@ -167,16 +162,16 @@
             $("#valiCode").bind("click", function () {
                 finderr = true;
                 this.src = "/Login/GetValidateCode?time=" + (new Date()).getTime();
-               
+
             });
-          
+
             $("#valiCode").click();
             $("#Myform").validate();
             $('#Myform').ajaxForm();
-            $('#Myform').submit(MyAjax);           
+            $('#Myform').submit(MyAjax);
             $('#inputyanzhengma').bind("propertychange input", function () { checkyanzhengma(); });
             $("#myAlert").hide();
-           
+
         });
         function alertshow()
         {
@@ -188,7 +183,7 @@
                 $("#myAlert").hide();
                 return false;
             }
-            
+
             $.ajax({
                 //需要使用post提交
                 type: "post",
@@ -199,7 +194,7 @@
                 //dataType: "json",//对象为json
                 success: function (e) {
                     if (e == "true")
-                    {   
+                    {
                         $("#myAlert").removeClass("alert-danger");
                         $("#myAlert").addClass("alert-success");
                         $("#ajaxresult").html("验证码正确！");
@@ -229,7 +224,7 @@
         function MakeYZM() {
             finderr = true;
             $("#valiCode").click();
-           
+
         }
         function MyAjax() {
             if (finderr == true) {
@@ -237,7 +232,7 @@
                 $("#myAlert").removeClass("alert-success");
                 $("#myAlert").addClass("alert-danger");
                 $("#ajaxresult").html("请填写正确后提交！");
-                
+
                 alertshow();
                 return false;
             }
@@ -258,18 +253,17 @@
                         $("#myAlert").removeClass("alert-danger");
                         $("#myAlert").addClass("alert-success");
                         $("#ajaxresult").html("登陆成功！正在转向主页面请稍后!");
-                        alertshow();                        
+                        alertshow();
                         window.location.href = "/Student/Main";
                     }
                     else{
-                    $("#myAlert").removeClass("alert-success");
-                    $("#myAlert").addClass("alert-danger");
-                    $("#ajaxresult").html(e);
-                    finderr = true;
                     MakeYZM();
+                    finderr = true;
                     $('#inputyanzhengma').val("");
                     $('#inputyanzhengma').focus();
-                    $("#myAlert").hide();
+ 		    $("#myAlert").removeClass("alert-success");
+                    $("#myAlert").addClass("alert-danger");
+                    $("#ajaxresult").html(e);
                     }
                 },
                 error: function (err) {
@@ -279,14 +273,14 @@
                     $("#myAlert").removeClass("sr-only");
                     MakeYZM();
                 }
-               
+
             });
             return false;
         }
     })
-    </script>  
-    
-    
-    
+    </script>
+
+
+
 </body>
 </html>

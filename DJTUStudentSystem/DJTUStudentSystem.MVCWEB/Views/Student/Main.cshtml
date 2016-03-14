@@ -1,7 +1,8 @@
 ﻿@{ 
     ViewBag.Title = "Main";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   
+
+
 }
 @using DJTUStudentSystem.MVCWEB.Models
 @model List<StudentViewModel>
@@ -12,8 +13,12 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="table-responsive">
+                
+                <h1>
+                    @ViewBag.StudentName 同学你好!为方便你们不再使用XP系统选课，特开发此选课系统，开发中，请稍后！@ViewBag.StudentPhotoUrl@ViewBag.StudentPhotoUr
+                </h1>
                 <table id="sample-table-2" class="table table-striped table-bordered table-hover">
-                    <thead>
+                     <thead>
                         <tr>
                             
                             <th class="hidden-480">ID</th>
@@ -104,6 +109,7 @@
 
                     </tbody>
                 </table>
+                
             </div>
         </div>
     </div>

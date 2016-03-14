@@ -98,7 +98,8 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 _StudentViewModel = _StudentViewModel.ConvertDataBaseModelToViewModel(_StudentModel);
                 if (_StudentViewModel != null)
                 {
-                    result = _StudentViewModel.StudentName + _StudentViewModel.StudentPassword;
+                    
+                    Session["Student"] = _StudentViewModel;
                     Session["LoginTimePass"] = null;
                     return Content("loginok");
 
