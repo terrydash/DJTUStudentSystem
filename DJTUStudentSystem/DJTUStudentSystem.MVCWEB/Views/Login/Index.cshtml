@@ -14,10 +14,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- basic styles -->
-
+    <link rel="stylesheet" href="/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Content/fakeLoader.css" />
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
-
+    
     <!--[if IE 7]>
       <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
     <![endif]-->
@@ -42,12 +43,15 @@
     <![endif]-->
 </head>
 
+
 <body class="login-layout">
+    
     <div class="main-container">
         <div class="main-content">
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
                     <div class="login-container">
+                       
                         <div class="center">
                             <h2>
                                 <i class="icon-leaf green"></i>
@@ -82,17 +86,33 @@
                                                 <label class="block clearfix">
                                                       <label class="blue">密码</label>
                                                         <span class="block input-icon input-icon-right">
-                                                        <input type="password" ID="StudentPassword" name="StudentPassword" required  class="form-control" placeholder="请输入密码" />
+                                                        <input type="password" ID="StudentPassword" maxlength="15" name="StudentPassword" required  class="form-control" placeholder="请输入密码" />
                                                         <i class="icon-lock"></i>
                                                     </span>
+                                                 
                                                 </label>
+                                                <div class="block clearfix">
+                                                    <label class="blue">验证码</label>
+                                                    <div class="container-fluid block">
+                                                        <span class="input-icon input-icon-right">
+                                                            <input type="text"  maxlength="4" ID="inputyanzhengma" name="ValidateCode" required class="form-control" placeholder="请输入验证码" />
+                                                            <i class="icon-leaf"></i>
+                                                        </span>
+                                                        <img id="valiCode" alt="请输入验证码" style="cursor:pointer" />
+                                                    </div>
+                                                </div>
                                                 <div class="space"></div>
                                                 <div class="space-4"></div>
-                                                <div class="center">
-                                                    <button type="reset" class="btn btn-danger">重&nbsp;&nbsp;置</button>
-                                                    <button value="Login" class="btn btn-success" id="buttonsubmit">点击登陆</button>
-                                                </div>
-                                            </fieldset>
+
+                                                <div id="myAlert" class="alert alert-danger" >                                                    
+                                                        <label class="control-label" id="ajaxresult"></label>
+                                                    </div>
+                                           
+                                                    <div class="center">
+                                                        <button type="reset" class="btn btn-danger">重&nbsp;&nbsp;置</button>
+                                                        <button value="Login" class="btn btn-success" id="buttonsubmit">点击登陆</button>
+                                                    </div>
+</fieldset>
                                            
                                         }
 
@@ -136,41 +156,128 @@
     <script src="/Scripts/jquery-2.2.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src='/assets/js/bootstrap.min.js'></script>
+     <script src='/assets/js/bootstrap.min.js'></script>
     <script src="/Scripts/jquery.form.min.js"></script>
-
+    <script src="/Scripts/fakeLoader.min.js"></script>
     <!-- inline scripts related to this page -->
     <script language="javascript" type="text/javascript">
-        $.validator.setDefaults({
-            submitHandler: function () {
-                alert("提交事件!");
-            }
-        });
+    var finderr = false;
     $(document).ready(function(){
         $(function () {
-           
+            $("#valiCode").bind("click", function () {
+                finderr = true;
+                this.src = "/Login/GetValidateCode?time=" + (new Date()).getTime();
+               
+            });
+          
+            $("#valiCode").click();
             $("#Myform").validate();
             $('#Myform').ajaxForm();
-            $('#Myform').submit(MyAjax);
+            $('#Myform').submit(MyAjax);           
+            $('#inputyanzhengma').bind("propertychange input", function () { checkyanzhengma(); });
+            $("#myAlert").hide();
            
-
         });
-        function MyAjax() {
-            $(this).ajaxSubmit();
-            alert($('#Myform').serialize());
+        function alertshow()
+        {
+            $("#myAlert").show();
+        }
+        function checkyanzhengma() {
+            if ($('#inputyanzhengma').val().length == 0)
+            {
+                $("#myAlert").hide();
+                return false;
+            }
+            
             $.ajax({
                 //需要使用post提交
                 type: "post",
-                url: "Student/GetStudentNameByCode",
-                data: "scode=" + $('#StudentCode').val() ,
+                url: "/Login/CheckYanZhengMa",
+                data: "yzm="+ $('#inputyanzhengma').val(),
                 async: true, //异步
                 cache: false, //不加载缓存
+                //dataType: "json",//对象为json
                 success: function (e) {
-                    alert(e);//返回json格式
+                    if (e == "true")
+                    {   
+                        $("#myAlert").removeClass("alert-danger");
+                        $("#myAlert").addClass("alert-success");
+                        $("#ajaxresult").html("验证码正确！");
+                        alertshow();
+                        finderr = false;
+                    } else
+                    {
+                        $("#myAlert").removeClass("alert-success");
+                        $("#myAlert").addClass("alert-danger");
+                        $("#ajaxresult").html(e);
+                        finderr = true;
+                        alertshow();
+                    }
+
                 },
                 error: function (err) {
-                    alert("出错了！");
+                    MakeYZM();
+                    $("#myAlert").removeClass("alert-success");
+                    $("#myAlert").addClass("alert-danger");
+                    $("#ajaxresult").html("访问出错请联系管理员!");
+                    alertshow();
+                }
+
+            });
+            return false;
+        }
+        function MakeYZM() {
+            finderr = true;
+            $("#valiCode").click();
+           
+        }
+        function MyAjax() {
+            if (finderr == true) {
+                MakeYZM();
+                $("#myAlert").removeClass("alert-success");
+                $("#myAlert").addClass("alert-danger");
+                $("#ajaxresult").html("请填写正确后提交！");
+                
+                alertshow();
+                return false;
+            }
+            checkyanzhengma();
+            $(this).ajaxSubmit();
+            $.ajax({
+                //需要使用post提交
+                type: "post",
+                url: "/Login/CheckLogin",
+                data: $('#Myform').serialize(),
+                async: true, //异步
+                cache: false, //不加载缓存
+                //dataType: "json",//对象为json
+                success: function (e) {
+                    if (e == "loginok")
+                    {
+                        $("#buttonsubmit").attr("disabled", true);
+                        $("#myAlert").removeClass("alert-danger");
+                        $("#myAlert").addClass("alert-success");
+                        $("#ajaxresult").html("登陆成功！正在转向主页面请稍后!");
+                        alertshow();                        
+                        window.location.href = "/Student/Main";
+                    }
+                    else{
+                    $("#myAlert").removeClass("alert-success");
+                    $("#myAlert").addClass("alert-danger");
+                    $("#ajaxresult").html(e);
+                    finderr = true;
+                    MakeYZM();
+                    $('#inputyanzhengma').val("");
+                    $('#inputyanzhengma').focus();
+                    $("#myAlert").hide();
+                    }
+                },
+                error: function (err) {
+                    $("#myAlert").removeClass("alert-success");
+                    $("#myAlert").addClass("alert-danger");
+                    $("#ajaxresult").html("访问出错请联系管理员!");
+                    $("#myAlert").removeClass("sr-only");
+                    MakeYZM();
                 }
                
             });

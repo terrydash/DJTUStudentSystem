@@ -21,6 +21,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -258,6 +260,8 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\fakeLoader.css" />
+    <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\jquery.mobile-1.4.5.min.css" />
     <Content Include="Content\jquery.mobile.theme-1.4.5.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -417,6 +421,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\" />
+    <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -428,6 +433,10 @@
     <ProjectReference Include="..\DJTUStudentSystem.BLL\DJTUStudentSystem.BLL.csproj">
       <Project>{6bb4a9a3-74a7-492c-93db-c4e7186a7216}</Project>
       <Name>DJTUStudentSystem.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.Common\DJTUStudentSystem.Common.csproj">
+      <Project>{2ac0c5dd-b795-4f1b-a2b9-f2d1290e1f6e}</Project>
+      <Name>DJTUStudentSystem.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\DJTUStudentSystem.DataBaseModel\DJTUStudentSystem.DataBaseModel.csproj">
       <Project>{84fd4397-877e-4b42-a7bd-43723e6c0d64}</Project>
