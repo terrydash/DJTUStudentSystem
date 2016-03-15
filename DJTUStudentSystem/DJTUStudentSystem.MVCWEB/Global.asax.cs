@@ -14,15 +14,28 @@ namespace DJTUStudentSystem.MVCWEB
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
-        {   ///在线人数
-            
+        {
+            Application["OnLineUserCount"] = 0; ///在线人数
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
-       
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            Application.Lock();
+            Application["OnLineUserCount"] = Convert.ToInt32(Application["OnLineUserCount"]) + 1;
+            Application.UnLock();
+        }
+
+        protected void Session_End(object sender, EventArgs e)
+        {
+            Application.Lock();
+            Application["OnLineUserCount"] = Convert.ToInt32(Application["OnLineUserCount"]) - 1;
+            Application.UnLock();
+        }
 
     }
 }

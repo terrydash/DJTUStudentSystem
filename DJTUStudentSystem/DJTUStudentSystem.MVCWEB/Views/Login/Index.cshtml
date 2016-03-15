@@ -125,8 +125,11 @@
                                         <h5 class="center black">
                                             @System.DateTime.Now.Year.ToString() &copy; 大连科技学院教务处版权所有
                                         </h5>
-                                        <h5 class="center white">
+                                        <h4 class="center white">
                                             开发者：<b class="red">徐国旭</b>
+                                        </h4>
+                                        <h5 class="center white">
+                                            当前在线人数：<b>@HttpContext.Current.Application["OnLineUserCount"]</b>
                                         </h5>
                                     </div>
                                 </div><!-- /widget-body -->
