@@ -365,24 +365,27 @@
 
                 <ul class="nav nav-list">
                     <li class="active">
-                        <a href="index.html">
+                        <a href="#">
                             <i class="icon-dashboard"></i>
-                            <span class="menu-text"> 控制台 </span>
+                            <span class="menu-text">主页面 </span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="typography.html">
+                        <a href="#">
                             <i class="icon-text-width"></i>
-                            <span class="menu-text"> 文字排版 </span>
+                            <span class="menu-text"> 选   课 </span>
+                            <span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
+                                <i class="icon-warning-sign red bigger-130"></i>
+                            </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="#" class="dropdown-toggle">
                             <i class="icon-desktop"></i>
-                            <span class="menu-text"> UI 组件 </span>
-
+                            <span class="menu-text"> 报    名 </span>
+                            <span class="badge badge-primary ">3</span>
                             <b class="arrow icon-angle-down"></b>
                         </a>
 
@@ -467,96 +470,12 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-list"></i>
-                            <span class="menu-text"> 表格 </span>
+                  
 
-                            <b class="arrow icon-angle-down"></b>
-                        </a>
+                    
+              
 
-                        <ul class="submenu">
-                            <li>
-                                <a href="tables.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    简单 &amp; 动态
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="jqgrid.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    jqGrid plugin
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-edit"></i>
-                            <span class="menu-text"> 表单 </span>
-
-                            <b class="arrow icon-angle-down"></b>
-                        </a>
-
-                        <ul class="submenu">
-                            <li>
-                                <a href="form-elements.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    表单组件
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="form-wizard.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    向导提示 &amp; 验证
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="wysiwyg.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    编辑器
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="dropzone.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    文件上传
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="widgets.html">
-                            <i class="icon-list-alt"></i>
-                            <span class="menu-text"> 插件 </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="calendar.html">
-                            <i class="icon-calendar"></i>
-
-                            <span class="menu-text">
-                                日历
-                                <span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
-                                    <i class="icon-warning-sign red bigger-130"></i>
-                                </span>
-                            </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="gallery.html">
-                            <i class="icon-picture"></i>
-                            <span class="menu-text"> 相册 </span>
-                        </a>
-                    </li>
+                   
 
                     <li>
                         <a href="#" class="dropdown-toggle">
@@ -793,8 +712,8 @@
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#sample-table-2').DataTable({"language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Chinese.json"
+            $('#sample-table-2').DataTable({"bSort": true,"language": {
+                "url": "/Scripts/DataTables/Chinese.json","bStateSave":true,"bJQueryUI":true
             }
             })
         });

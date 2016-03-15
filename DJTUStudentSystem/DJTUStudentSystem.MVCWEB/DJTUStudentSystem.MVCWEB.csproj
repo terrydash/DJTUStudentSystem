@@ -505,6 +505,7 @@
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.form.min.js.map" />
+    <Content Include="Scripts\DataTables\Chinese.json" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -531,7 +532,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

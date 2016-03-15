@@ -156,8 +156,9 @@
     <script src="/Scripts/fakeLoader.min.js"></script>
     <!-- inline scripts related to this page -->
     <script language="javascript" type="text/javascript">
-    var finderr = false;
-    $(document).ready(function(){
+        var finderr = false;
+    $(document).ready(function () {
+       
         $(function () {
             $("#valiCode").bind("click", function () {
                 
@@ -261,7 +262,7 @@
                     finderr = true;
                     $('#inputyanzhengma').val("");
                     $('#inputyanzhengma').focus();
- 		    $("#myAlert").removeClass("alert-success");
+ 		             $("#myAlert").removeClass("alert-success");
                     $("#myAlert").addClass("alert-danger");
                     $("#ajaxresult").html(e);
                     }
