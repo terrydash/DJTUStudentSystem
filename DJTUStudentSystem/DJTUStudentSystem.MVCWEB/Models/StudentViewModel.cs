@@ -15,6 +15,9 @@ namespace DJTUStudentSystem.MVCWEB.Models
         public string StudentName { get; set; }
         public string StudentCode { get; set; }
         public string StudentPassword { get; set; }
+        public string PhotoUrl { get; set; }
+        
+        public List<StuReportViewModel> StuReportViewModelList{ get;set;} //成绩单和所修课程
         public List<StudentViewModel> ConvertDataBaseModelToViewModelList(List<Student> LS)
         {
             if (LS != null)
@@ -40,14 +43,17 @@ namespace DJTUStudentSystem.MVCWEB.Models
         public  StudentViewModel ConvertDataBaseModelToViewModel(Student _Entity)
         {
             if (_Entity!=null)
-            { 
+            {
+                LoadEntityListFromCache_BLL C_BLl = new LoadEntityListFromCache_BLL();
             var _StudentViewModel = new StudentViewModel();
             _StudentViewModel.StudentCode = _Entity.StdCode;
             _StudentViewModel.StudentID =_Entity.StdID;
             _StudentViewModel.StudentName = _Entity.StdName;
-            _StudentViewModel.StudentPassword = _Entity.Password;            
-           
-            return _StudentViewModel;
+            _StudentViewModel.StudentPassword = _Entity.Password;
+             StuReportViewModel S = new StuReportViewModel();
+            _StudentViewModel.StuReportViewModelList = S.ConvertDataBaseModelToViewModelList(C_BLl.GetVw_StuReportByStuid(Config.Setting.isReadFromDB, _Entity.StdID));
+            _StudentViewModel.PhotoUrl = @"http://125.222.144.18/photo/" + _Entity.StdCode.Substring(0, 8) + @"/" + _Entity.StdCode + @".jpg";
+                return _StudentViewModel;
             }
             return null;
         }

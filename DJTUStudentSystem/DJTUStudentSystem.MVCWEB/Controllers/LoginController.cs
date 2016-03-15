@@ -52,7 +52,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             }
            
         }
-        [HttpPost]
+        
         public ActionResult CheckLogin()
         {
 
@@ -82,7 +82,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 }
             }
 
-            string result = string.Empty;
+            string result = "SB";
             if (Request.IsAjaxRequest())
             {
 

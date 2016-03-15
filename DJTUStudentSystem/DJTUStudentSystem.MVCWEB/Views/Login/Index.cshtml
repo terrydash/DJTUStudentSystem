@@ -149,9 +149,9 @@
     <![endif]-->
 
     <script src="/Scripts/jquery-2.2.1.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.validate.min.js"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
-    <script src='/assets/js/bootstrap.min.js'></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/Scripts/jquery.form.min.js"></script>
     <script src="/Scripts/fakeLoader.min.js"></script>
     <!-- inline scripts related to this page -->
@@ -160,7 +160,7 @@
     $(document).ready(function(){
         $(function () {
             $("#valiCode").bind("click", function () {
-                finderr = true;
+                
                 this.src = "/Login/GetValidateCode?time=" + (new Date()).getTime();
 
             });
@@ -222,7 +222,7 @@
             return false;
         }
         function MakeYZM() {
-            finderr = true;
+            
             $("#valiCode").click();
 
         }
@@ -266,11 +266,11 @@
                     $("#ajaxresult").html(e);
                     }
                 },
-                error: function (err) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $("#myAlert").removeClass("alert-success");
                     $("#myAlert").addClass("alert-danger");
-                    $("#ajaxresult").html("访问出错请联系管理员!");
-                    $("#myAlert").removeClass("sr-only");
+                    $("#ajaxresult").html("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status+"," + XMLHttpRequest.readyState +","+ textStatus);
+                    alertshow();
                     MakeYZM();
                 }
 
@@ -279,8 +279,6 @@
         }
     })
     </script>
-
-
 
 </body>
 </html>

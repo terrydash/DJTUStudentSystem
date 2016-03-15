@@ -46,15 +46,20 @@
     <Compile Include="ActiveYearEntity.cs" />
     <Compile Include="ClassModelEntity.cs" />
     <Compile Include="ClassAndTeachEntity.cs" />
+    <Compile Include="CScheduleEneity.cs" />
     <Compile Include="CurriculaEntity.cs" />
     <Compile Include="DepartmentEntity.cs" />
     <Compile Include="SpecialEntity.cs" />
     <Compile Include="StudentEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StureportEntity.cs" />
+    <Compile Include="TeachClassEntity.cs" />
     <Compile Include="vw_actyearEntity.cs" />
     <Compile Include="Vw_ClassEntity.cs" />
+    <Compile Include="Vw_CscheduleEntity.cs" />
     <Compile Include="Vw_StudentEntity.cs" />
+    <Compile Include="Vw_StureportEntity.cs" />
+    <Compile Include="Vw_TeachClassEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

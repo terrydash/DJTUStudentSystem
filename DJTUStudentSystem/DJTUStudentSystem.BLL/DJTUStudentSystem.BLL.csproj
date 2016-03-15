@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actyear_BLL.cs" />
+    <Compile Include="LoadEntityListFromCache_BLL.cs" />
+    <Compile Include="Stureport_BLL.cs" />
+    <Compile Include="Vw_Student_BLL.cs" />
     <Compile Include="Student_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -50,6 +54,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DJTUStudentSystem.Common\DJTUStudentSystem.Common.csproj">
+      <Project>{2ac0c5dd-b795-4f1b-a2b9-f2d1290e1f6e}</Project>
+      <Name>DJTUStudentSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.Config\DJTUStudentSystem.Config.csproj">
+      <Project>{8d0017bc-3242-4d2d-9aef-f37c9aeaf806}</Project>
+      <Name>DJTUStudentSystem.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DJTUStudentSystem.DAL\DJTUStudentSystem.DAL.csproj">
       <Project>{5ed492b1-c777-4790-a043-f851d35f96f1}</Project>
       <Name>DJTUStudentSystem.DAL</Name>

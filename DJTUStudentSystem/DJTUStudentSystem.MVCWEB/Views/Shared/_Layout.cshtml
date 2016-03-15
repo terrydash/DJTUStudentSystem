@@ -1,10 +1,13 @@
 ﻿@{ 
+    
     if (Session["Student"] == null)
     {
         Response.Redirect("/Login/Index");
     }
+    
 }
 
+@model DJTUStudentSystem.MVCWEB.Models.StudentViewModel
 
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -276,10 +279,10 @@
 
                     <li class="light-blue">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                            <img class="nav-user-photo" src= @ViewBag.StudentPhotoUrl alt="@ViewBag.StudentName 的照片" />
+                            <img class="nav-user-photo" src= @Model.PhotoUrl alt="@Model.StudentName 的照片" />
                             <span class="user-info">
                                 <small>欢迎光临,</small>
-                                @ViewBag.StudentName
+                                @Model.StudentName
                             </span>
 
                             <i class="icon-caret-down"></i>

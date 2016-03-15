@@ -137,12 +137,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AbstractKCBViewModel.cs" />
+    <Compile Include="Models\StudentKCBViewModel.cs" />
     <Compile Include="Models\StudentViewModel.cs" />
+    <Compile Include="Models\StuReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +184,7 @@
     <Content Include="assets\css\jquery.gritter.css" />
     <Content Include="assets\css\select2.css" />
     <Content Include="assets\css\ui.jqgrid.css" />
+    <Content Include="assets\font\glyphicons-halflings-regular.svg" />
     <Content Include="assets\images\gallery\image-1.jpg" />
     <Content Include="assets\images\gallery\image-2.jpg" />
     <Content Include="assets\images\gallery\image-3.jpg" />
@@ -490,6 +495,10 @@
     <Content Include="assets\css\images\Thumbs.db" />
     <Content Include="assets\font\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\font\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\font\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\font\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\font\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\My.pubxml" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -538,6 +547,10 @@
     <ProjectReference Include="..\DJTUStudentSystem.Common\DJTUStudentSystem.Common.csproj">
       <Project>{2ac0c5dd-b795-4f1b-a2b9-f2d1290e1f6e}</Project>
       <Name>DJTUStudentSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DJTUStudentSystem.Config\DJTUStudentSystem.Config.csproj">
+      <Project>{8d0017bc-3242-4d2d-9aef-f37c9aeaf806}</Project>
+      <Name>DJTUStudentSystem.Config</Name>
     </ProjectReference>
     <ProjectReference Include="..\DJTUStudentSystem.DataBaseModel\DJTUStudentSystem.DataBaseModel.csproj">
       <Project>{84fd4397-877e-4b42-a7bd-43723e6c0d64}</Project>

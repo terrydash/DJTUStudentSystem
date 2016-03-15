@@ -38,7 +38,7 @@ namespace DJTUStudentSystem.DAL
 
 
 
-        public Student GetStudentEntityFromDB_WithStudentCodeAndStudentPassword(string _StudentCode, string _StudentPassword = "")
+        public Student GetStudentEntityFromDB_WithStudentCodeAndStudentPassword(string _StudentCode, string _StudentPassword )
 
         {
            
