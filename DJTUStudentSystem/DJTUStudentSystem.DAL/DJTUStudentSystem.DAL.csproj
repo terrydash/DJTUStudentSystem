@@ -47,8 +47,10 @@
     <Compile Include="StrReport_DAL.cs" />
     <Compile Include="Student_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vw_Cschedule_DAL.cs" />
     <Compile Include="Vw_Student_DAL.cs" />
     <Compile Include="Vw_Stureport.cs" />
+    <Compile Include="Vw_TeachClass_DAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

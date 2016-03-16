@@ -6,12 +6,12 @@ using System.Web.Mvc;
 using DJTUStudentSystem.BLL;
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
-    public class CacheController : Controller
+    public partial class CacheController : Controller
     {
         //
         // GET: /Cache/
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             if (Session["Student"] == null)
             {

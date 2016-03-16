@@ -46,9 +46,11 @@
     <Compile Include="Actyear_BLL.cs" />
     <Compile Include="LoadEntityListFromCache_BLL.cs" />
     <Compile Include="Stureport_BLL.cs" />
+    <Compile Include="Vw_Cschedule_BLL.cs" />
     <Compile Include="Vw_Student_BLL.cs" />
     <Compile Include="Student_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vw_TeachClass_BLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

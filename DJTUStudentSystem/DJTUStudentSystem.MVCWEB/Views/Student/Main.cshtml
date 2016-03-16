@@ -10,22 +10,56 @@
 @model StudentViewModel
 
 
-<div class="well well-small center text-success hidden-480 hid">
-    <h3>
-        大连科技学院-@Model.GetNowActYear().ATName @Model.StudentName 的课程表
+<div class="well well-small center text-success ">
+    <h3 class="hidden-480">
+        大连科技学院-@Model.GetNowActYear().ATName <br /> @Model.StudentName 的课程表
     </h3>
+    
     <h4 class="text-left text-danger">
-        欢迎你 <b>@Model.StudentName 同学</b>
+       @Html.Bootstrap().Alert(AlertState.Success, " 欢迎你!<b>"+@Model.StudentName +"同学</b>，如果你对软件开发(C#,ASP.NET MVC,BOOTSTRAP,JQUERY等)和本系统有任何建议欢迎你点击<a target='blank' href='http://shang.qq.com/wpa/qunwpa?idkey=73d440ad17b13b11fc91e12206c1fe73091dffd2cf29feff473ea7cd02bd1919'><img border='0' src='http://pub.idqqimg.com/wpa/images/group.png' alt='大科院选课系统开发群' title='大科院选课系统开发群'></a>进行讨论，进群请改真实姓名和学号!")
     </h4>
+    
 </div>
-@using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).AddCss("hidden-480 ").Begin()) 
+@using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("hidden-480 text-center").Begin())
 {
-    @table.TableHeaderRow("/", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日" );
-    
-    
+    @table.TableHeaderRow("/", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日").SetAlignment(TextAlignment.Center);
 
+
+    for (int i = 1; i <= 7; i++)
+    {
+
+        using (var row = table.TableRow().Begin())
+        {
+
+            @row.TableData("第" + (i * 2 - 1).ToString() + "-" + (i * 2).ToString() + "节");
+            for (int j = 1; j <= 7; j++)
+
+            {
+                if ((i+j) % 2 == 0)
+              
+                    {
+                        @row.TableData(Model.NowKCBstring[i, j]).SetState(TableState.Warning);
+                    }
+                    else
+                    {
+                        @row.TableData(Model.NowKCBstring[i, j]).SetState(TableState.Success);
+                    }
+              }
+
+
+        }
+
+
+
+
+
+    }
 }
-    <div class="row">
+<div class="row">
+
+        <div class="col-xs-12">
+            <div class="table-responsive">
+            <div class="row">
         <div class="col-xs-12">
             <div class="table-responsive">
                 

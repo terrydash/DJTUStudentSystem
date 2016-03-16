@@ -1,0 +1,58 @@
+﻿@{
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using DJTUStudentSystem.MVCWEB.Models
+@using FluentBootstrap;
+@using FluentBootstrap.Mvc;
+@model  List<TeachClassViewModel>
+
+@using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("hidden-480 text-center").Begin())
+{
+    int i = 0;
+    @table.TableHeaderRow("序号", "课程名称", "任课教师", "开放状态", "开放人数", "已选人数", "余量", "课程表", "操作").AddCss("text-center ");
+    foreach (var item in Model)
+    {
+        var rowg = table.TableHeaderRow();
+        if (((int)item.OpenNum > (int)item.HaveNum ) && (item.SelectState=="开放"))
+        {
+            rowg.SetState(TableState.Success);
+
+        }
+        else
+        {
+            rowg.SetState(TableState.Danger);
+        }
+
+        using (var row=rowg.Begin())
+        {
+
+
+            @row.TableData(i=i+1).AddStyle(" display", "table-cell"); 
+            @row.TableData(item.CourseName);
+            @row.TableData(item.TeacherName);
+            @row.TableData(item.SelectState);
+            @row.TableData(item.OpenNum);
+            @row.TableData(item.HaveNum);
+            @row.TableData(((int)item.OpenNum) -((int)item.HaveNum));
+            @row.TableData(item.KCB);
+            if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState=="开放")
+            {
+                @row.TableData(Html.Bootstrap().Button("选此课", ButtonType.Button).SetState(ButtonState.Success))
+            }
+            else
+            {
+                if (item.SelectState != "开放")
+                {
+                    @row.TableData("锁定").SetState(TextState.Danger);
+                }
+                else
+                {
+                    @row.TableData("已满").SetState(TextState.Danger);
+                }
+
+
+            }
+        }
+    }
+}

@@ -9,34 +9,34 @@ using DJTUStudentSystem.MVCWEB.Models;
 
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
-    public class LoginController : Controller
+    public partial class LoginController : Controller
     {
-        
+
         //
         // GET: /Login/
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
-            ViewData["LostSession"] = false;
+            
             if (Session["Student"] == null)
             {
-                ViewData["LostSession"] = true;
+                RedirectToAction("/Login/Index");
             }
-           
+
 
             return View();
         }
         [AllowAnonymous]
-        public ActionResult GetValidateCode()
+        public virtual ActionResult GetValidateCode()
         {
             string _ValidateCode = ValidateCode.CreateValidateCode(4);
             Session["ValidateCode"] = _ValidateCode;
             return File(ValidateCode.CreateValidateGraphic(_ValidateCode), @"image/jpeg");
         }
-        public ActionResult CheckYanZhengMa(string yzm)
+        public virtual ActionResult CheckYanZhengMa(string yzm)
         {
-            
-                
+
+
             if (Session["ValidateCode"] != null & string.IsNullOrEmpty(Request.Form["ValidateCode"]))
             {
                 string _ValidateCode = Session["ValidateCode"] as string;
@@ -55,16 +55,16 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 return Content("验证码错误！");
 
             }
-           
+
         }
-        
-        public ActionResult CheckLogin()
+
+        public virtual ActionResult CheckLogin()
         {
 
             string StudentCode = Request.Form["StudentCode"];
             string StudentPassword = Request.Form["StudentPassword"];
 
-          
+
             if (Session["LoginTimePass"] != null)
             {
 
@@ -103,7 +103,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 _StudentViewModel = _StudentViewModel.ConvertDataBaseModelToViewModel(_StudentModel);
                 if (_StudentViewModel != null)
                 {
-                    
+
                     Session["Student"] = _StudentViewModel;
                     Session["LoginTimePass"] = null;
                     return Content("loginok");

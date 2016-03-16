@@ -1,4 +1,15 @@
 /* cyrillic-ext */
+@media (min-width: @screen-sm-min) {
+  .vertical-middle-sm 
+  {
+      display: table;
+      display: table-cell;
+      height: 100%;
+      min-height: 100%;
+      float: none !important;
+    }
+  }
+}
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;

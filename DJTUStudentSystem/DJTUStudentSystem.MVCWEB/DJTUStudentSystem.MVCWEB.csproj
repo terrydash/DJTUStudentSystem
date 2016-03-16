@@ -132,7 +132,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="T4MVCExtensions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\T4MVCExtensions.3.11.0\lib\net40\T4MVCExtensions.dll</HintPath>
+      <HintPath>..\packages\T4MVCExtensions.3.17.3\lib\net40\T4MVCExtensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -147,6 +147,8 @@
     <Compile Include="Models\StudentKCBViewModel.cs" />
     <Compile Include="Models\StudentViewModel.cs" />
     <Compile Include="Models\StuReportViewModel.cs" />
+    <Compile Include="Models\TeachClassKCBViewModel.cs" />
+    <Compile Include="Models\TeachClassViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +531,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Student\Main.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Student\ChooseElectiveCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -560,6 +563,9 @@
       <Project>{c6cea11d-fbdc-4d1d-a6c4-62421d367c9d}</Project>
       <Name>DJTUStudentSystem.Interface</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
