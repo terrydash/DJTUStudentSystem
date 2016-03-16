@@ -13,6 +13,11 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
         public ActionResult Index()
         {
+            if (Session["Student"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            ViewData["LostSession"] = true;
             return View();
         }
 

@@ -17,8 +17,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
         public ActionResult Index()
         {
+            ViewData["LostSession"] = false;
+            if (Session["Student"] == null)
+            {
+                ViewData["LostSession"] = true;
+            }
            
-            
+
             return View();
         }
         [AllowAnonymous]

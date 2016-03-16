@@ -47,18 +47,18 @@ namespace DJTUStudentSystem.BLL
         }
         public List<Vw_StuReport> GetNowActYearVw_StuReportByStuid(bool isReloadFromDB, int Stuid)
         {
-            if ((CacheHelper.GetCache("Vw_StuReportByStuid")==null) || isReloadFromDB)
+            if ((CacheHelper.GetCache("Vw_NowStuReportByStuid")==null) || isReloadFromDB)
             {
                 Vw_StuReport_DAL V_S_Dal = new Vw_StuReport_DAL();
-                var _Activeyear = GetNowActyear(Config.Setting.isReadFromDB);
+                var _Activeyear = GetNowActyear(DJTUStudentSystem.Config.Setting.isReadFromDB);
                 var Vw_StuReportList = V_S_Dal.GetNowActYearVw_StuReportListFromDB_WithStuID(Stuid, _Activeyear.ATID);
-                CacheHelper.SetCache("Vw_StuReportByStuid", Vw_StuReportList);
+                CacheHelper.SetCache("Vw_NowStuReportByStuid", Vw_StuReportList);
             }
-            if (CacheHelper.GetCache("Vw_StuReportByStuid")==null)
+            if (CacheHelper.GetCache("Vw_NowStuReportByStuid") ==null)
             {
                 return null;
             }
-            return CacheHelper.GetCache("Vw_StuReportByStuid") as List<Vw_StuReport>;
+            return CacheHelper.GetCache("Vw_NowStuReportByStuid") as List<Vw_StuReport>;
         }
     }
 }
