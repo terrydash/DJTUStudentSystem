@@ -67,9 +67,12 @@ namespace DJTUStudentSystem.MVCWEB.Models
             }
 
             _TeachClassViewModel.CourseName = _Entity.课程名称;
-            _TeachClassViewModel.HaveNum = _Entity.Havenum;
+            
             _TeachClassViewModel.KCBList = _TeachClassKCBViewModelList;
+            if (_Entity.OpenNum == null) { _Entity.OpenNum = 0; }
+            if (_Entity.Havenum == null) { _Entity.Havenum = 0; }
             _TeachClassViewModel.OpenNum = _Entity.OpenNum;
+            _TeachClassViewModel.HaveNum = _Entity.Havenum;
             _TeachClassViewModel.TCID = _Entity.TCID;
             _TeachClassViewModel.TeacherName = _Entity.任课教师;
             _TeachClassViewModel.SelectState = _Entity.SelectState;
