@@ -6,6 +6,37 @@
 @using FluentBootstrap;
 @using FluentBootstrap.Mvc;
 @model  List<TeachClassViewModel>
+@using DJTUStudentSystem.MVCWEB.Models
+@{
+    var StudentModel = Session["Student"] as StudentViewModel;
+}
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    消息
+                </h4>
+            </div>
+            <div class="modal-body">
+               <label id="message"></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 @using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").Begin())
 {
@@ -27,7 +58,7 @@
 
     foreach (var item in Model)
     {
-        var rowg = table.TableRow();
+        var rowg = table.TableRow().AddCss("vertical-center");
         if (((int)item.OpenNum > (int)item.HaveNum) && (item.SelectState == "开放"))
         {
             rowg.SetState(TableState.Success);
@@ -42,31 +73,39 @@
         {
 
 
-            @row.TableData(i = i + 1).AddStyle(" display", "table-cell");
-            @row.TableData(item.CourseName);
-            @row.TableData(item.TeacherName).AddCss("text-center hidden-480 ");
-            @row.TableData(item.SelectState).AddCss("text-center hidden-480 ");
-            @row.TableData(item.OpenNum).AddCss("text-center hidden-480 ");
-            @row.TableData(item.HaveNum).AddCss("text-center hidden-480 ");
-            @row.TableData(((int)item.OpenNum) - ((int)item.HaveNum));
-            @row.TableData(item.KCB);
-                if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放")
-                {
-                @row.TableData(Html.Bootstrap().Button("选此课", ButtonType.Button).SetState(ButtonState.Success))
-                }
-                else
-                {
-                    if (item.SelectState != "开放")
-                    {
-                    @row.TableData("锁定").SetState(TextState.Danger);
-                    }
-                    else
-                    {
-                    @row.TableData("已满").SetState(TextState.Danger);
-                    }
+            @row.TableData(i = i + 1).AddCss("vert-align");
+            @row.TableData(item.CourseName).AddCss("vert-align"); ;
+                        @row.TableData(item.TeacherName).AddCss("text-center hidden-480 vert-align");
+                        @row.TableData(item.SelectState).AddCss("text-center hidden-480 vert-align");
+                        @row.TableData(item.OpenNum).AddCss("text-center hidden-480 vert-align");
+                        @row.TableData(item.HaveNum).AddCss("text-center hidden-480 vert-align");
+                        @row.TableData(((int)item.OpenNum) - ((int)item.HaveNum)).AddCss("vert-align");
+                        @row.TableData(item.KCB).AddCss("vert-align");
+                        if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放")
+                        {
+                                
+                
+                       @row.TableData("<button type='button' onclick='ChooseCourse(" + @item.TCID + ")' class='btn btn-success vert-align' >选此课</button>").AddCss("vert-align");
 
 
+
+
+
+            }
+            else
+            {
+                if (item.SelectState != "开放")
+                {
+                                @row.TableData("锁定").SetState(TextState.Danger).AddCss("vert-align");
+                            }
+                            else
+                            {
+                                @row.TableData("已满").SetState(TextState.Danger).AddCss("vert-align");
+                            }
+
+
+                        }
+                    }
                 }
             }
-        }
-}
+

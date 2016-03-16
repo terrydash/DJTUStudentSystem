@@ -22,7 +22,52 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             var _Vw_TeachClassList=_Vw_TeachClass_BLL.GetNowTeachClassCsort2();
             _TeachClassViewModelList = _TeachClassViewModel.ConvertDataBaseModelToViewModelList(_Vw_TeachClassList);
             return View(_TeachClassViewModelList);
-        }  
+        }
+
+        public ActionResult ChooseCourse(int tcid)
+        {if (Session["Student"] == null)
+            { return Content("lostsession"); }
+          if (Request.IsAjaxRequest())
+            {
+               
+                if (Session["ChooseTimePass"] != null)
+                {
+
+                    var session = Session["ChooseTimePass"].ToString(); ;
+                    var dt1 = DateTime.Now;
+                    try
+                    {
+                        dt1 = Convert.ToDateTime(session);
+                    }
+                    catch
+                    {
+                        return Content("出错了");
+                    }
+                    var dt2 = DateTime.Now;
+                    TimeSpan ts = dt2.Subtract(dt1);
+                    if (ts.TotalSeconds < 10)
+                    {
+                        return Content("请等待10秒后再试!已等待" + ts.TotalSeconds.ToString("0.00") + "秒");
+
+                    }
+                }
+                Session["ChooseTimePass"] = DateTime.Now.ToString();
+
+
+            }
+            StudentViewModel _StudentViewModel = new StudentViewModel();
+            if (_StudentViewModel.StuReportViewModelList!=null)
+            {
+
+                var isChooseThisTCid=_StudentViewModel.StuReportViewModelList.Find(d => Convert.ToInt32(d.CourseResult) > 60 && d.TeachClassID == tcid);
+                if (isChooseThisTCid != null)
+                {
+                    return Content("已经修过该门课程无法再修!");
+                }
+
+            }
+            return Content("不能能直接访问!");
+        }
 
         public virtual ActionResult Main()
         {
