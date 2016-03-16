@@ -501,8 +501,8 @@
     <Content Include="assets\font\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\font\glyphicons-halflings-regular.woff" />
     <Content Include="assets\font\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2" />
-    <Content Include="fonts\DXI1ORHCpsQm3Vp6mXoaTegdm0LZdjqr5-oayXSOefg.woff2" />
+    <Content Include="fonts\font1.css" />
+    <Content Include="fonts\font2.css" />
     <None Include="Properties\PublishProfiles\My.pubxml" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
