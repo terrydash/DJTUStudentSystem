@@ -42,19 +42,21 @@ namespace DJTUStudentSystem.DBSession
             {
                 proc.AddInParameter(item.parameterName, item.DbType, item.value);
             }
-
-            foreach (var item in Outparameters)
-            {
-                proc.AddOutParameter(item.parameterName, item.DbType);
-            }
+            if (Outparameters!=null)
+            { 
+                foreach (var item in Outparameters)
+                {
+                 proc.AddOutParameter(item.parameterName, item.DbType);
+                 }
             proc.ExecuteNonQuery();
-            
+            }
             return proc.GetReturnValues();
         }
         public  class Procparameters
         {
             public string parameterName { get; set; }
             public System.Data.DbType DbType { get; set; }
+            public int size { get; set; }
             public object value { get; set; }
         }
 

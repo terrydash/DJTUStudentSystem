@@ -35,6 +35,16 @@ namespace DJTUStudentSystem.MVCWEB.Models
             var _StuReportViewModel = new StuReportViewModel();
             _StuReportViewModel.CourseID = _Entity.CCID;
             _StuReportViewModel.CourseName = _Entity.课程名称;
+            try
+            {
+                Convert.ToInt32(_Entity.成绩);
+
+            }
+            catch
+            {
+
+                _Entity.成绩 = "0";
+            }
             _StuReportViewModel.CourseResult = _Entity.成绩;
             _StuReportViewModel.AtyName = _Entity.当前学期;
             _StuReportViewModel.Minor = _Entity.Minor;

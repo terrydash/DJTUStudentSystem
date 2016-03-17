@@ -605,13 +605,12 @@
                 cache: false, //不加载缓存
                 //dataType: "json",//对象为json
                 success: function (e) {
-                    if (e == "lostsession")
-                    {
-                        window.location.href = "/Login/Index";
-                    }
+                   
+                    
                     $(':button').attr("disabled", false);
                     $('#message').html(e);
-                    $('#myModal').modal({backdrop: 'static', keyboard: true });
+                    $('#myModal').modal({ backdrop: 'static', keyboard: true });
+                    
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     
@@ -622,6 +621,35 @@
 
             });
           
+        }
+
+        function DeleteCourse(srid) {
+
+            var data = "srid=" + srid;
+            $(':button').attr("disabled", true);
+            $.ajax({
+                //需要使用post提交
+                type: "post",
+                url: "/Student/DeleteCourse",
+                data: data,
+                async: true, //异步
+                cache: false, //不加载缓存
+                //dataType: "json",//对象为json
+                success: function (e) {
+                    
+                    $(':button').attr("disabled", false);
+                    $('#message').html(e);                   
+                    $('#myModal').modal({ backdrop: 'static', keyboard: true });
+                  
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
+                    $(':button').attr("disabled", false);
+                }
+
+            });
+
         }
         $(document).ready(function () {
             

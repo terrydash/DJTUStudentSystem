@@ -6,11 +6,19 @@ using System.Web.Mvc;
 using DJTUStudentSystem.BLL;
 using DJTUStudentSystem.MVCWEB.Models;
 using DJTUStudentSystem.Config;
+using System.Text;
 
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
     public partial class StudentController : Controller
     {
+        #region 检查SESSION是否存在的封装 public string CheckSession(string SessionName,int WaitTime)
+        /// <summary>
+        ///  检查SESSION是否存在的封装 
+        /// </summary>
+        /// <param name="SessionName"></param>
+        /// <param name="WaitTime"></param>
+        /// <returns></returns>
         public string CheckSession(string SessionName,int WaitTime)
         {
            
@@ -39,8 +47,14 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             return "SessionOk".ToUpper();
 
         }
+        #endregion
+        #region 进入选课页面  public ActionResult ChooseElectiveCourse()
         //
         // GET: /Student/
+        /// <summary>
+        /// 进入选课页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ChooseElectiveCourse()
         {
             var CheckSessionResult = CheckSession("进入选课页面", 10);
@@ -58,7 +72,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             Setting.isReadFromDB = false;
             return View(_TeachClassViewModelList);
         }
-
+        #endregion
+        #region 选课操作AJAX public ActionResult ChooseCourse(int tcid)
+        /// <summary>
+        /// 选课操作AJAX
+        /// </summary>
+        /// <param name="tcid">要选课的ID号</param>
+        /// <returns></returns>
         public ActionResult ChooseCourse(int tcid)
         {
            
@@ -70,18 +90,21 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 {
                     return Content(CheckSessionResult);
                 }
+                StudentViewModel _StudentViewModel = Session["Student"] as StudentViewModel;
+                DJTUStudentSystem.DataBaseModel.Vw_TeachClass teachclass;
+            try { 
 
-
-            StudentViewModel _StudentViewModel = Session["Student"] as StudentViewModel;
+            
             Setting.isReadFromDB = true;
             Student_BLL S_BLL = new Student_BLL();
             _StudentViewModel = _StudentViewModel.ConvertDataBaseModelToViewModel((S_BLL.GetEntityFromDAL_WithEntityID(_StudentViewModel.StudentID)));
-           
-            Session["Student"] = _StudentViewModel;
-            Setting.isReadFromDB = false;
+                    Setting.isReadFromDB = false;
+                    Session["Student"] = _StudentViewModel;
+            
             Vw_TeachClass_BLL VTB = new Vw_TeachClass_BLL();
            
-            var teachclass = VTB.GetEntityFromDAL_WithEntityID(tcid);
+            teachclass = VTB.GetEntityFromDAL_WithEntityID(tcid);
+
             var GradeCanChoose = Setting.GradeCanChooseCourse().Find(d => d.GradeName == _StudentViewModel.GradeName);
                 var HowManyNowHaveStudentChoose = _StudentViewModel.NowStuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修").ToList().Count;
                 if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
@@ -103,7 +126,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
                 if (_StudentViewModel.StuReportViewModelList != null)
                 {
-                    Setting.isReadFromDB = false;
+                    
                     var isChooseThisTCid = _StudentViewModel.NowStuReportViewModelList.Find(d=> d.CourseID == teachclass.CCID);
                     if (isChooseThisTCid != null)
                     {
@@ -114,7 +137,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 //已经修过该门课程的判断
                 if (_StudentViewModel.StuReportViewModelList!=null)
             {
-                Setting.isReadFromDB = false;
+                
                 var isChooseThisTCid=_StudentViewModel.StuReportViewModelList.Find(d => Convert.ToInt32(d.CourseResult) > 60 && d.CourseID== teachclass.CCID);
                 if (isChooseThisTCid != null)
                 {
@@ -124,18 +147,38 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             }
                 Stureport_BLL Stu_BLL = new Stureport_BLL();
                 Stu_BLL.AddSelectClass(tcid, _StudentViewModel.StudentCode, "主修");
+                Stureport_BLL Stu1_BLL = new Stureport_BLL();
+                bool result=false;
+               
+                    result = Stu1_BLL.Insert(tcid, _StudentViewModel.StudentID);
 
-                
-          }
-
+                if (result)
+                {
+                        Session["刷新选课页面的时间"] = null;
+                    return Content("选课成功！请返回首页查看课表！");
+                }else
+                {
+                    return Content("选课失败！请联系管理员");
+                }
+                }
+                catch (Exception e)
+                {
+                    return Content(e.ToString());
+                }
+            }
             return Content("不能能直接访问!");
         }
-
+        #endregion
+        #region 主页面/Student/Main public virtual ActionResult Main()
+        /// <summary>
+        /// 主页面
+        /// </summary>
+        /// <returns></returns>
         public virtual ActionResult Main()
         {
             if (Session["Student"] == null)
             { return Content("lostsession"); }
-            var CheckSessionResult = CheckSession("刷新选课页面的时间", 10);
+            var CheckSessionResult = CheckSession("刷新选课页面的时间", 5);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
             {
@@ -160,7 +203,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             return View(_StudentViewModel);
 
         }
-
+        #endregion
+        #region 删除课程
+        /// <summary>
+        /// 删除课程
+        /// </summary>
+        /// <param name="srid"></param>
+        /// <returns></returns>
         public ActionResult DeleteCourse(int srid)
         {
             var CheckSessionResult = CheckSession("提交选课AJAX的时间", 15);
@@ -172,15 +221,31 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
                 if (Request.IsAjaxRequest())
                 {
+                Stureport_BLL S_Bll = new Stureport_BLL();
+                bool result=false;
+                    try
+                { 
+                   result= S_Bll.Delete(srid);
+                }
+                catch
+                {
+                    return Content("退选出错！请联系管理员");
+                }
 
-                        
-
-
+                return Content("退选成功！");
 
                 }
 
                 return Content("不能直接访问!");
         }
+        #endregion 
+        #region 获取学生本学期的课表 public static string[,] GetStudentNowKCBWithStuID(int StuID)
+        /// <summary>
+        /// 获取学生本学期的课表
+        /// </summary>
+        /// <param name="StuID">学生的ID</param>
+        /// <returns>存储课表的二维数组</returns>
+
         public static string[,] GetStudentNowKCBWithStuID(int StuID)
         {
             string[,] KCB = new string[8, 8];
@@ -236,6 +301,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             return KCB;
 
         }
+        #endregion
 
 
     }
