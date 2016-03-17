@@ -1,5 +1,8 @@
 ﻿@{
-    
+    if (Session["Student"] == null)
+    {
+        Response.Redirect("/Login/Index");
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using DJTUStudentSystem.MVCWEB.Models
@@ -7,12 +10,39 @@
 @using FluentBootstrap.Mvc;
 @model  List<TeachClassViewModel>
 @using DJTUStudentSystem.MVCWEB.Models
+@using DJTUStudentSystem.Config
+
+
 @{
     var StudentModel = Session["Student"] as StudentViewModel;
+    var HowManyHaveStudentChoose = StudentModel.StuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修" && Convert.ToInt32(d.CourseResult) > 60).ToList().Count;
+    var HowManyNowHaveStudentChoose= StudentModel.NowStuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修") .ToList().Count;
+    var GradeCanChoose= Setting.GradeCanChooseCourse().Find(d => d.GradeName == StudentModel.GradeName);
 }
+@{ 
+    if (GradeCanChoose == null)
+    {
 
+        @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您的年级<B>" + StudentModel.GradeName + "</B>未开放选课!如有疑问请联系管理员！").SetDismissible(true);
+    }
+    else if (!GradeCanChoose.isChooseCouse)
+    {
+        @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您的年级<B>" + StudentModel.GradeName + "</B>未开放选课!如有疑问请联系管理员！").SetDismissible(true);
+    }
+    else if (HowManyHaveStudentChoose >= 3)
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+    {
+        @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您已经修够了3门公选课，无需再选择了!如有疑问请联系管理员！").SetDismissible(true);
+    }
+    else
+
+    {
+
+        if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
+        {
+            @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您本学期已经选择了" + HowManyNowHaveStudentChoose + "门公选课,你所在年级" + StudentModel.GradeName + "级,只允许选择" + GradeCanChoose.HowManyCanChoose.ToString() + "门公选课!").SetDismissible(true);
+        }
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -38,7 +68,7 @@
     </div><!-- /.modal -->
 </div>
 
-@using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").Begin())
+using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").Begin())
 {
     int i = 0;
     <thead class="text-center">
@@ -81,19 +111,27 @@
                         @row.TableData(item.HaveNum).AddCss("text-center hidden-480 vert-align");
                         @row.TableData(((int)item.OpenNum) - ((int)item.HaveNum)).AddCss("vert-align");
                         @row.TableData(item.KCB).AddCss("vert-align");
-                        if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放")
-                        {
-                                
-                
+                    if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null && item.SelectState!="锁定")
+                    {
+
+                        @row.TableData("<button type='button' onclick='DeleteCourse(" + StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID).SRID + ")' class='btn btn-danger vert-align' >退 选</button>").AddCss("vert-align");
+                    }
+
+                    else
+
+                    if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放" && StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null)
+                    {
+
+
                        @row.TableData("<button type='button' onclick='ChooseCourse(" + @item.TCID + ")' class='btn btn-success vert-align' >选此课</button>").AddCss("vert-align");
 
 
 
 
 
-            }
-            else
-            {
+                        }
+                        else
+                        {
                 if (item.SelectState != "开放")
                 {
                                 @row.TableData("锁定").SetState(TextState.Danger).AddCss("vert-align");
@@ -109,3 +147,5 @@
                 }
             }
 
+    }
+}

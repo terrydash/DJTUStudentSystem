@@ -11,6 +11,10 @@ namespace DJTUStudentSystem.BLL
     public class Stureport_BLL : IBaseBLL<StuReport>
     {
         StrReport_DAL S_Dal = new StrReport_DAL();
+        public Dictionary<string, object> AddSelectClass(int TCID, string StdCode, string Minor)
+        {
+            return S_Dal.AddSelectClass(TCID, StdCode, Minor);
+        }
         public List<StuReport> GetALLEntityToListFromDAL()
         {
             return S_Dal.GetALLEntityToListFromDB();

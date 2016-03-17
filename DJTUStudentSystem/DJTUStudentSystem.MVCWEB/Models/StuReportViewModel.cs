@@ -12,7 +12,9 @@ namespace DJTUStudentSystem.MVCWEB.Models
         public string AtyName { get; set; }//学期
         public int? CourseID { get; set; }//课程名称
         public int? TeachClassID { get; set; }//教学班ID
+        public int? SRID { get; set; }//学生选课表的ID
         public string CourseName { get; set; }//课程名称
+        public string CSort { get; set; }//课程类型
         public string CourseResult { get; set; }//课程成绩
          public string Minor { get; set; }//课程方式
         
@@ -37,6 +39,8 @@ namespace DJTUStudentSystem.MVCWEB.Models
             _StuReportViewModel.AtyName = _Entity.当前学期;
             _StuReportViewModel.Minor = _Entity.Minor;
             _StuReportViewModel.TeachClassID = _Entity.TCID;
+            _StuReportViewModel.CSort = _Entity.Csort;
+            _StuReportViewModel.SRID = _Entity.SRID;
             return _StuReportViewModel;
         }
     }

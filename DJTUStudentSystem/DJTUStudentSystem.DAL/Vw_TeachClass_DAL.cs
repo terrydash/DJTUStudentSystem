@@ -39,6 +39,7 @@ namespace DJTUStudentSystem.DAL
                        .OrderBy(Vw_TeachClass._.TCID.Desc)
                        .ToList();
         }
+       
         public List<Vw_TeachClass> GetEntityListFromDB_WithEntityID(int AtyID,string Csort,string Minor)
         {
             return       DISTDBSession.Context.From<Vw_TeachClass>()

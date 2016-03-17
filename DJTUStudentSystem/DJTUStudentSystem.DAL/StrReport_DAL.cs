@@ -9,6 +9,20 @@ namespace DJTUStudentSystem.DAL
 {
     public class StrReport_DAL : IBaseDAL<StuReport>
     {
+        public Dictionary<string, object> AddSelectClass(int TCID,string StdCode,string Minor)
+        {   List<DISTDBSession.Procparameters> _parametersinlist = new List<DISTDBSession.Procparameters>();
+            List<DISTDBSession.Procparameters> _parametersoutlist = new List<DISTDBSession.Procparameters>();
+            DISTDBSession.Procparameters _parameters = new DISTDBSession.Procparameters() { parameterName = "TCID", DbType = System.Data.DbType.Int32, value = TCID };
+            _parametersinlist.Add(_parameters);
+            _parameters = new DISTDBSession.Procparameters() { parameterName = "Stdcode", DbType = System.Data.DbType.StringFixedLength, value = StdCode };
+            _parametersinlist.Add(_parameters);
+            _parameters = new DISTDBSession.Procparameters() { parameterName = "Minor", DbType = System.Data.DbType.StringFixedLength, value = Minor };
+            _parametersinlist.Add(_parameters);
+            _parameters = new DISTDBSession.Procparameters() { parameterName = "R", DbType = System.Data.DbType.String, value = ""};
+            _parametersoutlist.Add(_parameters);
+            return DISTDBSession.ExecuteProc("usp_SELECTCLASS_Add", _parametersinlist, _parametersoutlist);
+
+        }
         public List<StuReport> GetALLEntityToListFromDB()
         {
             return DISTDBSession.Context.From<StuReport>()
