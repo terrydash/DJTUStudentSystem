@@ -140,7 +140,7 @@ using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | Table
 
                     else
 
-                    if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放" && StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null)
+                    if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放" && StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null && HowManyNowHaveStudentChoose < GradeCanChoose.HowManyCanChoose)
                     {
 
 
@@ -157,9 +157,13 @@ using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | Table
                         {
                             @row.TableData("锁定").SetState(TextState.Danger).AddCss("vert-align");
                         }
+                        else if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose && (int)item.OpenNum > (int)item.HaveNum)
+                        {
+                            @row.TableData("选课门数已满").SetState(TextState.Danger).AddCss("vert-align");
+                        }
                         else
                         {
-                            @row.TableData("已满").SetState(TextState.Danger).AddCss("vert-align");
+                            @row.TableData("余量不足").SetState(TextState.Danger).AddCss("vert-align");
                         }
 
 

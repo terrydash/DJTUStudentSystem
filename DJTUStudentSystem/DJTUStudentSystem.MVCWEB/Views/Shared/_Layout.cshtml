@@ -591,7 +591,26 @@
     <script src="/assets/js/ace-extra.min.js"></script>
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
+        var w;
+        $(function () { $('#myModal').modal('hide') });
 
+        $(function () {
+            $('#myModal').on('hide.bs.modal', function () {
+
+              
+                if (w == "选课成功！请返回首页查看课表！" || w == "退选成功！" ) {
+                    $(':button').attr("disabled", true);
+                    
+                    $('#message').html("页面刷新中！请不要连续刷新!");
+                    $('#myModal').modal({ backdrop: 'static', keyboard: true });
+                    
+
+                    location.reload();
+                    
+                }
+                
+            })
+        });
         function ChooseCourse(tcid) {
             
             var data="tcid="+tcid;
@@ -605,8 +624,8 @@
                 cache: false, //不加载缓存
                 //dataType: "json",//对象为json
                 success: function (e) {
-                   
-                    
+                    w = e;
+                  
                     $(':button').attr("disabled", false);
                     $('#message').html(e);
                     $('#myModal').modal({ backdrop: 'static', keyboard: true });
@@ -624,7 +643,9 @@
         }
 
         function DeleteCourse(srid) {
-
+            if (confirm("确定退选吗?")) {
+             
+            
             var data = "srid=" + srid;
             $(':button').attr("disabled", true);
             $.ajax({
@@ -636,7 +657,7 @@
                 cache: false, //不加载缓存
                 //dataType: "json",//对象为json
                 success: function (e) {
-                    
+                    w = e;
                     $(':button').attr("disabled", false);
                     $('#message').html(e);                   
                     $('#myModal').modal({ backdrop: 'static', keyboard: true });
@@ -649,7 +670,7 @@
                 }
 
             });
-
+            }
         }
         $(document).ready(function () {
             
