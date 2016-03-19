@@ -82,7 +82,7 @@ namespace DJTUStudentSystem.BLL
             {
                 Vw_Cschedule_DAL VCD = new Vw_Cschedule_DAL();
 
-                var Vw_CscheduletList = VCD.GetVw_CscheduleyListForStudent_WithAtyidAndTCID(GetNowActyear(Config.Setting.isReadFromDB).ATID, TCID);
+                var Vw_CscheduletList = VCD.GetVw_CscheduleyList_WithAtyidAndTCID(GetNowActyear(Config.Setting.isReadFromDB).ATID, TCID);
                 CacheHelper.SetCache("NowVw_CscheduleByTCID"+TCID, Vw_CscheduletList);
             }
             if (CacheHelper.GetCache("NowVw_CscheduleByTCID" + TCID) == null)

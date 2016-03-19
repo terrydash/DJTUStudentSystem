@@ -98,7 +98,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             Setting.isReadFromDB = true;
             Student_BLL S_BLL = new Student_BLL();
             _StudentViewModel = _StudentViewModel.ConvertDataBaseModelToViewModel((S_BLL.GetEntityFromDAL_WithEntityID(_StudentViewModel.StudentID)));
-                    Setting.isReadFromDB = false;
+                    
                     Session["Student"] = _StudentViewModel;
             
             Vw_TeachClass_BLL VTB = new Vw_TeachClass_BLL();
@@ -107,24 +107,27 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
             var GradeCanChoose = Setting.GradeCanChooseCourse().Find(d => d.GradeName == _StudentViewModel.GradeName);
                 var HowManyNowHaveStudentChoose = _StudentViewModel.NowStuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修").ToList().Count;
-                if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
+                    //选课判断：是否超过设置的选课数目
+                    if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
                 {
 
                     return Content(_StudentViewModel.StudentName+@"同学您好，您本学期已经选择了" + HowManyNowHaveStudentChoose + @"门公选课,你所在年级" + _StudentViewModel.GradeName + @"级,只允许选择" + GradeCanChoose.HowManyCanChoose.ToString() + @"门公选课!");
                 }
+                    //选课判断：课程是否已经选满
 
                     if (teachclass.OpenNum<=teachclass.Havenum)
-            {
+                {
 
                     return Content("该课程已经选满!");
                 }
+                    //选课判断：课程是否为开放状态
             if (teachclass.SelectState!="开放")
             {
                 return Content("该课程不是开放状态!");
 
             }
-
-                if (_StudentViewModel.StuReportViewModelList != null)
+                //选课判断：该课程是否已经选择过
+                if (_StudentViewModel.NowStuReportViewModelList != null)
                 {
                     
                     var isChooseThisTCid = _StudentViewModel.NowStuReportViewModelList.Find(d=> d.CourseID == teachclass.CCID);
@@ -145,14 +148,54 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 }
 
             }
+
+                    //选课判断：课表是否与本学期课表冲突
+                  Vw_Cschedule_BLL _Vw_Cschedule_BLL = new Vw_Cschedule_BLL();
+                  var _TeachClassCscheduleList=  _Vw_Cschedule_BLL.GetNowVw_CscheduleyList_WithAtyidAndTCID(tcid);
+
+                  if (_TeachClassCscheduleList!=null && _StudentViewModel.NowStuReportViewModelList != null)
+                   {
+                        var _StudentNowCscheduleList = _Vw_Cschedule_BLL.GetNowVw_CscheduleyListForStudent_WithStuID(_StudentViewModel.StudentID);
+                        foreach (var _TeachClassCschedule in _TeachClassCscheduleList)
+                        {
+                            var FindKCBList=_StudentNowCscheduleList.FindAll(d => d.SectionTH == _TeachClassCschedule.SectionTH && d.DayOfWeek == _TeachClassCschedule.DayOfWeek);
+                            if (FindKCBList!=null)
+                            {
+                                foreach (var FindKCB in FindKCBList)
+                                {
+                                    if (FindKCB.StartW == null) { FindKCB.StartW = 0; }
+                                    if (FindKCB.EndW == null) { FindKCB.EndW = 0; }
+                                    int startnum = 0;
+                                    int j = 0;
+                                    switch (FindKCB.DSZ)
+                                    {
+                                        case "单":
+
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+
+                                }
+
+
+                            }
+                        }
+
+
+                    }
+
+
+                //选课成功插入数据库
                 Stureport_BLL Stu_BLL = new Stureport_BLL();
                 Stu_BLL.AddSelectClass(tcid, _StudentViewModel.StudentCode, "主修");
                 Stureport_BLL Stu1_BLL = new Stureport_BLL();
                 bool result=false;
                
                     result = Stu1_BLL.Insert(tcid, _StudentViewModel.StudentID);
-
-                if (result)
+                    Setting.isReadFromDB = false;
+                    if (result)
                 {
                         Session["刷新选课页面的时间"] = null;
                     return Content("选课成功！请返回首页查看课表！");

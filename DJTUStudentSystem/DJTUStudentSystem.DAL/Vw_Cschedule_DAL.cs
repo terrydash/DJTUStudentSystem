@@ -38,7 +38,7 @@ namespace DJTUStudentSystem.DAL
 
                             .ToList();
         }
-        public List<Vw_Cschedule> GetVw_CscheduleyListForStudent_WithAtyidAndTCID(int Atyid,int TCID)
+        public List<Vw_Cschedule> GetVw_CscheduleyList_WithAtyidAndTCID(int Atyid,int TCID)
         {
             return DISTDBSession.Context.From<Vw_Cschedule>()
                                                              .Where(d => d.AtyID == Atyid && d.TCID == TCID)
