@@ -25,14 +25,14 @@
     @table.TableHeaderRow("/", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日").SetAlignment(TextAlignment.Center).AddCss("vert-align");
 
 
-    for (int i = 1; i <= 7; i++)
+    for (int j = 1; j <= 7; j++)
     {
 
         using (var row = table.TableRow().Begin())
         {
 
-            @row.TableData("第" + (i * 2 - 1).ToString() + "-" + (i * 2).ToString() + "节").AddCss("vert-align");
-            for (int j = 1; j <= 7; j++)
+            @row.TableData("第" + (j * 2 - 1).ToString() + "-" + (j * 2).ToString() + "节").AddCss("vert-align");
+            for (int i = 1; i <= 7; i++)
 
             {
                 if ((i+j) % 2 == 0)
@@ -119,4 +119,4 @@
             </div>
         </div>
     </div>
-
+                </div></div></div><

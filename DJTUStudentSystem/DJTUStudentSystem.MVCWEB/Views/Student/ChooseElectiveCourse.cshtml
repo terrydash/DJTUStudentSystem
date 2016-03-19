@@ -49,31 +49,7 @@
         else {
             @Html.Bootstrap().Alert(AlertState.Success, StudentModel.StudentName, "同学您好，您本学期已经选择了" + HowManyNowHaveStudentChoose + "门公选课,你所在年级" + StudentModel.GradeName + "级,允许选择" + GradeCanChoose.HowManyCanChoose.ToString() + "门公选课!").SetDismissible(true);
         }
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close"
-                        data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    消息
-                </h4>
-            </div>
-            <div class="modal-body">
-               <label id="message"></label>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal">
-                    关闭
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
+    
 
 using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").Begin())
 {

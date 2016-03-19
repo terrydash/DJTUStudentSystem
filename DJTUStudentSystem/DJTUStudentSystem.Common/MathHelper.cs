@@ -12,18 +12,18 @@ namespace DJTUStudentSystem.Common
     /// <param name="StartNum"></param>
     /// <param name="EndNum"></param>
     /// <returns></returns>
-        public static int[] GetEvenNumbser(int StartNum,int EndNum)
+        public static List<int> GetEvenNumbser(int StartNum,int EndNum)
         {
-            int[] EvenNumbse = new int[] {0};
-            int index = 0;
+            List<int> intlist = new List<int>();
+            
             if (EndNum < StartNum) { return null; }
             for (int i = StartNum; i <= EndNum ; i++)
             {
-                if (i % 2 == 0) { EvenNumbse[index] = i; index += 1; }
+                if (i % 2 == 0) { intlist.Add(i); }
                 
 
             }
-            return EvenNumbse;
+            return intlist;
         }
         /// <summary>
         /// 获得数列中的所有奇数
@@ -31,18 +31,18 @@ namespace DJTUStudentSystem.Common
         /// <param name="StartNum"></param>
         /// <param name="EndNum"></param>
         /// <returns></returns>
-        public static int[] GetOddNumbser(int StartNum, int EndNum)
+        public static List<int> GetOddNumbser(int StartNum, int EndNum)
         {
+            List<int> intlist = new List<int>();
             if (EndNum < StartNum) { return null; }
-            int[] OddNumbse = new int[] { 0 };
-            int index = 0;
+                       
             for (int i = StartNum; i <= EndNum; i++)
             {
-                if (i % 2 == 1) { OddNumbse[index] = i; index += 1; }
+                if (i % 2 == 1) { intlist.Add(i); }
 
 
             }
-            return OddNumbse;
+            return intlist;
         }
     }
 }

@@ -53,8 +53,9 @@ namespace DJTUStudentSystem.MVCWEB.Models
                 if (_Vw_Cschedule.DSZ != "整")
                 { _TeachClassKCBViewModel.SingleOrDouble = "(" + _Vw_Cschedule.DSZ + "周)"; }
                 else { _TeachClassKCBViewModel.SingleOrDouble = string.Empty; }
+
                 _TeachClassKCBViewModel.Week = _Vw_Cschedule.DayOfWeek;
-                var _KCB = "&nbsp;第" + _TeachClassKCBViewModel.StartWeek + "-" +_TeachClassKCBViewModel.EndWeek + "周&nbsp;" +_TeachClassKCBViewModel.Section+_TeachClassKCBViewModel.SingleOrDouble + "&nbsp;" + _TeachClassKCBViewModel.RoomName;
+                var _KCB = "&nbsp;第" + _TeachClassKCBViewModel.StartWeek + "-" +_TeachClassKCBViewModel.EndWeek + "周&nbsp;周"+_TeachClassKCBViewModel.Week+"&nbsp" +_TeachClassKCBViewModel.Section+_TeachClassKCBViewModel.SingleOrDouble + "&nbsp;" + _TeachClassKCBViewModel.RoomName;
                 if (string.IsNullOrEmpty(_TeachClassViewModel.KCB))
                 {
                     _TeachClassViewModel.KCB = _KCB;
