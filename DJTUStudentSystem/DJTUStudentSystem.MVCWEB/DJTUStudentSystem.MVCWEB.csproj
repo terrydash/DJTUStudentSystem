@@ -538,6 +538,8 @@
     <Content Include="Views\Student\Main.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Student\ChooseElectiveCourse.cshtml" />
+    <Content Include="UITemplate\B-JUI-v1.3.beta2.zip" />
+    <Content Include="UITemplate\AdminLTE-2.3.0.zip" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
