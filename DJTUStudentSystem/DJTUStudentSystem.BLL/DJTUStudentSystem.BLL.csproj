@@ -53,6 +53,7 @@
     <Compile Include="Vw_TeachClass_BLL.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

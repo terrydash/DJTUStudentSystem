@@ -8,7 +8,7 @@ using DJTUStudentSystem.BLL;
 using DJTUStudentSystem.MVCWEB.Models;
 using DJTUStudentSystem.Config;
 using System.Text;
-
+using Newtonsoft.Json;
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
     
@@ -227,7 +227,9 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             Setting.isReadFromDB = false;
             ViewBag.StudentName = _StudentViewModel.StudentName;
             ViewBag.StudentPhotoUrl = _StudentViewModel.PhotoUrl;
-            return View(_StudentViewModel);
+            
+            return Content(JsonHelper.SerializeObject(_StudentViewModel));
+            //return View(_StudentViewModel);
 
         }
         #endregion
