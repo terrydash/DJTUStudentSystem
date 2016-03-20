@@ -23,7 +23,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 RedirectToAction("/Login/Index");
             }
 
-
+            
             return View();
         }
         [AllowAnonymous]

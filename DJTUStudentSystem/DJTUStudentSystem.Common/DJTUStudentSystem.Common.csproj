@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CacheHelper.cs" />
     <Compile Include="JsonHelper.cs" />
+    <Compile Include="LogHelper.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

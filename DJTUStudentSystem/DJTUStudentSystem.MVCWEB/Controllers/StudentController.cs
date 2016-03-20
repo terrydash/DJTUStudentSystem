@@ -203,8 +203,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public virtual ActionResult Main()
         {
-            if (Session["Student"] == null)
-            { return Content("lostsession"); }
+            
             var CheckSessionResult = CheckSession("刷新选课页面的时间", 5);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
@@ -213,8 +212,10 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             }
             if (Session["Student"] == null)
             {
+               
                 Response.Redirect("/Login/Index");
             }
+            
 
 
             Student_BLL S_BLL = new Student_BLL();
@@ -227,9 +228,9 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             Setting.isReadFromDB = false;
             ViewBag.StudentName = _StudentViewModel.StudentName;
             ViewBag.StudentPhotoUrl = _StudentViewModel.PhotoUrl;
-            
-            return Content(JsonHelper.SerializeObject(_StudentViewModel));
-            //return View(_StudentViewModel);
+            LogHelper.Logger.Info(JsonHelper.SerializeObject(Session["Student"] as StudentViewModel));
+            //return Content(JsonHelper.SerializeObject(_StudentViewModel));
+           return View(_StudentViewModel);
 
         }
         #endregion
