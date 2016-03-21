@@ -50,6 +50,7 @@ namespace DJTUStudentSystem.BLL
             List<Vw_Cschedule> Vw_CscheduleList = new List<Vw_Cschedule>();
             LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
             var Vw_StuReportList = L_BLL.GetNowActYearVw_StuReportByStuid(Setting.isReadFromDB, StuID);
+            if (Vw_StuReportList == null){ return null; }
             foreach (var StuReport in Vw_StuReportList)
             {
                 if (StuReport.TCID != null)

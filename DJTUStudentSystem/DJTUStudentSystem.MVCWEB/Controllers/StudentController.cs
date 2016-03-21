@@ -325,15 +325,21 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                         }
 
                     }
-                }            
-              
-
+                }  
             }
             return KCB;
 
         }
         #endregion
+        #region 所选课程 与学生课表 进行比较 看有几周冲突 private string CompareKCB(List<DataBaseModel.Vw_Cschedule> _TeachClassCcheduleList,List<DataBaseModel.Vw_Cschedule> _StudentNowCscheduleList)
 
+
+        /// <summary>
+        /// 所选课程 与学生课表 进行比较 看有几周冲突 private string CompareKCB(List<DataBaseModel.Vw_Cschedule> _TeachClassCcheduleList,List<DataBaseModel.Vw_Cschedule> _StudentNowCscheduleList)
+        /// </summary>
+        /// <param name="_TeachClassCcheduleList">所选课的课表</param>
+        /// <param name="_StudentNowCscheduleList">学生本学期的课表</param>
+        /// <returns></returns>
         private string CompareKCB(List<DataBaseModel.Vw_Cschedule> _TeachClassCcheduleList,List<DataBaseModel.Vw_Cschedule> _StudentNowCscheduleList)
         {
             int ConfictWeek = 0;//冲突周数
@@ -454,7 +460,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             return Message;
         }
 
-
-
+        #endregion
+       
     }
 }

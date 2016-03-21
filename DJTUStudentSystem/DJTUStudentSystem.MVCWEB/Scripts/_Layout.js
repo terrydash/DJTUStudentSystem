@@ -1,6 +1,11 @@
 ﻿var w;
 $(function () { $('#myModal').modal('hide') });
 
+
+
+
+  
+
 $(function () {
     $('#myModal').on('hide.bs.modal', function () {
 

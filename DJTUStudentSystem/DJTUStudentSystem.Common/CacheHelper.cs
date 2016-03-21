@@ -25,7 +25,7 @@ namespace DJTUStudentSystem.Common
     /// </summary>
     public static void SetCache(string CacheKey, object objObject)
     {
-
+            if (objObject == null) { return; }
             _cache.Insert(CacheKey, objObject);
     }
 

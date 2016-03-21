@@ -1,6 +1,9 @@
 ﻿var finderr = false;
 $(document).ready(function () {
 
+   
+
+
     $(function () {
         $("#valiCode").bind("click", function () {
             this.src = "/Login/GetValidateCode?time=" + (new Date()).getTime();
@@ -18,7 +21,7 @@ $(document).ready(function () {
         $("#myAlert").show();   
     }
     function checkyanzhengma() {
-        if ($('#inputyanzhengma').val().length == 0) {
+        if ($('#inputyanzhengma').val().length <4) {
             $("#myAlert").hide();
             return false;
         }

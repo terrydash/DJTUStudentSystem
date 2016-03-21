@@ -33,47 +33,47 @@ namespace DJTUStudentSystem.BLL
         }
         public List<Vw_StuReport> GetVw_StuReportByStuid(bool isReloadFromDB, int Stuid)
         {
-            if ((CacheHelper.GetCache("Vw_StuReportByStuid")==null) || (isReloadFromDB))
+            if ((CacheHelper.GetCache("Vw_StuReportByStuid" + Stuid.ToString()) ==null) || (isReloadFromDB))
             {
                 Vw_StuReport_DAL V_S_Dal = new Vw_StuReport_DAL();
                 var Vw_StuReportList = V_S_Dal.GetVw_StuReportListFromDB_WithStuID(Stuid);
-                CacheHelper.SetCache("Vw_StuReportByStuid", Vw_StuReportList);
+                CacheHelper.SetCache("Vw_StuReportByStuid" + Stuid.ToString(), Vw_StuReportList);
             }
-            if (CacheHelper.GetCache("Vw_StuReportByStuid")==null)
+            if (CacheHelper.GetCache("Vw_StuReportByStuid" + Stuid.ToString()) ==null)
             {
                 return null;
             }
-            return CacheHelper.GetCache("Vw_StuReportByStuid") as List<Vw_StuReport>;
+            return CacheHelper.GetCache("Vw_StuReportByStuid"+ Stuid.ToString()) as List<Vw_StuReport>;
         }
         public List<Vw_StuReport> GetNowActYearVw_StuReportByStuid(bool isReloadFromDB, int Stuid)
         {
-            if ((CacheHelper.GetCache("Vw_NowStuReportByStuid")==null) || isReloadFromDB)
+            if ((CacheHelper.GetCache("Vw_NowStuReportByStuid" + Stuid.ToString()) ==null) || isReloadFromDB)
             {
                 Vw_StuReport_DAL V_S_Dal = new Vw_StuReport_DAL();
-                var _Activeyear = GetNowActyear(DJTUStudentSystem.Config.Setting.isReadFromDB);
+                var _Activeyear = GetNowActyear(Config.Setting.isReadFromDB);
                 var Vw_StuReportList = V_S_Dal.GetNowActYearVw_StuReportListFromDB_WithStuID(Stuid, _Activeyear.ATID);
-                CacheHelper.SetCache("Vw_NowStuReportByStuid", Vw_StuReportList);
+                CacheHelper.SetCache("Vw_NowStuReportByStuid" + Stuid.ToString(), Vw_StuReportList);
             }
-            if (CacheHelper.GetCache("Vw_NowStuReportByStuid") ==null)
+            if (CacheHelper.GetCache("Vw_NowStuReportByStuid" + Stuid.ToString()) ==null)
             {
                 return null;
             }
-            return CacheHelper.GetCache("Vw_NowStuReportByStuid") as List<Vw_StuReport>;
+            return CacheHelper.GetCache("Vw_NowStuReportByStuid"+Stuid.ToString()) as List<Vw_StuReport>;
         }
         public List<Vw_Cschedule> GetNowVw_CscheduleByStuid(bool isReloadFromDB, int Stuid)
         {
-            if ((CacheHelper.GetCache("NowVw_CscheduleByStuid") == null) || isReloadFromDB)
+            if ((CacheHelper.GetCache("NowVw_CscheduleByStuid"+Stuid.ToString()) == null) || isReloadFromDB)
             {
                Vw_Cschedule_BLL V_C_BLL = new Vw_Cschedule_BLL();
                 
                 var NowVw_CscheduletList = V_C_BLL.GetNowVw_CscheduleyListForStudent_WithStuID(Stuid);
-                CacheHelper.SetCache("NowVw_CscheduleByStuid", NowVw_CscheduletList);
+                CacheHelper.SetCache("NowVw_CscheduleByStuid" + Stuid.ToString(), NowVw_CscheduletList);
             }
-            if (CacheHelper.GetCache("NowVw_CscheduleByStuid") == null)
+            if (CacheHelper.GetCache("NowVw_CscheduleByStuid" + Stuid.ToString()) == null)
             {
                 return null;
             }
-            return CacheHelper.GetCache("NowVw_CscheduleByStuid") as List<Vw_Cschedule>;
+            return CacheHelper.GetCache("NowVw_CscheduleByStuid" + Stuid.ToString()) as List<Vw_Cschedule>;
 
         }
         public List<Vw_Cschedule> GetNowVw_CscheduleByTCID(bool isReloadFromDB, int TCID)
