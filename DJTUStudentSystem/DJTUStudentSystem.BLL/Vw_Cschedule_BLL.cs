@@ -31,6 +31,20 @@ namespace DJTUStudentSystem.BLL
         {
             return V_DAL.GetEntityListFromDB_WithEntityID(EntityID);
         }
+        public List<Vw_Cschedule> GetNowVw_CscheduleyList_WithAtyidAndTCID(int TCID)
+        {
+            LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
+            return V_DAL.GetVw_CscheduleyList_WithAtyidAndTCID(L_BLL.GetNowActyear(Setting.isReadFromDB).ATID, TCID);
+
+        }
+
+        public List<Vw_Cschedule>  GetVw_CscheduleyList_WithAtyidAndTCID(int Atyid,int TCID)
+        {
+
+            return V_DAL.GetVw_CscheduleyList_WithAtyidAndTCID(Atyid, TCID);
+
+        }
+
         public List<Vw_Cschedule> GetNowVw_CscheduleyListForStudent_WithStuID(int StuID)
         {
             List<Vw_Cschedule> Vw_CscheduleList = new List<Vw_Cschedule>();
@@ -40,7 +54,7 @@ namespace DJTUStudentSystem.BLL
             {
                 if (StuReport.TCID != null)
                 {
-                    var _Vw_CscheduleyList = V_DAL.GetVw_CscheduleyListForStudent_WithAtyidAndTCID(L_BLL.GetNowActyear(Setting.isReadFromDB).ATID, (int)StuReport.TCID);
+                    var _Vw_CscheduleyList = V_DAL.GetVw_CscheduleyList_WithAtyidAndTCID(L_BLL.GetNowActyear(Setting.isReadFromDB).ATID, (int)StuReport.TCID);
                     if (_Vw_CscheduleyList!=null)
                     { 
                         foreach (var item in _Vw_CscheduleyList)

@@ -64,10 +64,10 @@ namespace DJTUStudentSystem.MVCWEB.Models
                 _StudentViewModel.GradeName = VSB.GetEntityFromDAL_WithEntityID(_Entity.StdID).年级;
              _StudentViewModel.GradeID =_Entity.GradeID ;
              StuReportViewModel S = new StuReportViewModel();
-             _StudentViewModel.NowStuReportViewModelList= S.ConvertDataBaseModelToViewModelList(C_BLl.GetNowActYearVw_StuReportByStuid(Config.Setting.isReadFromDB, _Entity.StdID));
-                _StudentViewModel.StuReportViewModelList = S.ConvertDataBaseModelToViewModelList(C_BLl.GetVw_StuReportByStuid(Config.Setting.isReadFromDB, _Entity.StdID));
+             _StudentViewModel.NowStuReportViewModelList= S.ConvertDataBaseModelToViewModelList(C_BLl.GetNowActYearVw_StuReportByStuid(Setting.isReadFromDB, _Entity.StdID));
+                _StudentViewModel.StuReportViewModelList = S.ConvertDataBaseModelToViewModelList(C_BLl.GetVw_StuReportByStuid(Setting.isReadFromDB, _Entity.StdID));
             _StudentViewModel.PhotoUrl = @"http://125.222.144.18/photo/" + _Entity.StdCode.Substring(0, 8) + @"/" + _Entity.StdCode + @".jpg";
-                _StudentViewModel.NowKCBstring = DJTUStudentSystem.MVCWEB.Controllers.StudentController.GetStudentNowKCBWithStuID(_Entity.StdID);
+                _StudentViewModel.NowKCBstring = Controllers.StudentController.GetStudentNowKCBWithStuID(_Entity.StdID);
                 return _StudentViewModel;
             }
             return null;

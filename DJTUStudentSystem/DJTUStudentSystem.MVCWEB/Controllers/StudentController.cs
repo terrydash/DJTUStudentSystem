@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DJTUStudentSystem.Common;
 using System.Web.Mvc;
 using DJTUStudentSystem.BLL;
 using DJTUStudentSystem.MVCWEB.Models;
@@ -10,8 +11,10 @@ using System.Text;
 
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
+    
     public partial class StudentController : Controller
     {
+        private bool AllowChooseChourse = true;
         #region 检查SESSION是否存在的封装 public string CheckSession(string SessionName,int WaitTime)
         /// <summary>
         ///  检查SESSION是否存在的封装 
@@ -84,6 +87,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
            
           if (Request.IsAjaxRequest())
             {
+                string Message = string.Empty;
                 var CheckSessionResult = CheckSession("提交选课AJAX的时间", 15);
 
              if (CheckSessionResult!="SessionOk".ToUpper())
@@ -98,7 +102,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             Setting.isReadFromDB = true;
             Student_BLL S_BLL = new Student_BLL();
             _StudentViewModel = _StudentViewModel.ConvertDataBaseModelToViewModel((S_BLL.GetEntityFromDAL_WithEntityID(_StudentViewModel.StudentID)));
-                    Setting.isReadFromDB = false;
+                    
                     Session["Student"] = _StudentViewModel;
             
             Vw_TeachClass_BLL VTB = new Vw_TeachClass_BLL();
@@ -107,24 +111,27 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
             var GradeCanChoose = Setting.GradeCanChooseCourse().Find(d => d.GradeName == _StudentViewModel.GradeName);
                 var HowManyNowHaveStudentChoose = _StudentViewModel.NowStuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修").ToList().Count;
-                if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
+                    //选课判断：是否超过设置的选课数目
+                    if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
                 {
 
                     return Content(_StudentViewModel.StudentName+@"同学您好，您本学期已经选择了" + HowManyNowHaveStudentChoose + @"门公选课,你所在年级" + _StudentViewModel.GradeName + @"级,只允许选择" + GradeCanChoose.HowManyCanChoose.ToString() + @"门公选课!");
                 }
+                    //选课判断：课程是否已经选满
 
                     if (teachclass.OpenNum<=teachclass.Havenum)
-            {
+                {
 
                     return Content("该课程已经选满!");
                 }
+                    //选课判断：课程是否为开放状态
             if (teachclass.SelectState!="开放")
             {
                 return Content("该课程不是开放状态!");
 
             }
-
-                if (_StudentViewModel.StuReportViewModelList != null)
+                //选课判断：该课程是否已经选择过
+                if (_StudentViewModel.NowStuReportViewModelList != null)
                 {
                     
                     var isChooseThisTCid = _StudentViewModel.NowStuReportViewModelList.Find(d=> d.CourseID == teachclass.CCID);
@@ -145,16 +152,36 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 }
 
             }
-                Stureport_BLL Stu_BLL = new Stureport_BLL();
-                Stu_BLL.AddSelectClass(tcid, _StudentViewModel.StudentCode, "主修");
+
+                    //选课判断：课表是否与本学期课表冲突
+                  Vw_Cschedule_BLL _Vw_Cschedule_BLL = new Vw_Cschedule_BLL();
+                  var _TeachClassCscheduleList=  _Vw_Cschedule_BLL.GetNowVw_CscheduleyList_WithAtyidAndTCID(tcid);
+
+                  if (_TeachClassCscheduleList!=null && _StudentViewModel.NowStuReportViewModelList != null)
+                   {
+                        var _StudentNowCscheduleList = _Vw_Cschedule_BLL.GetNowVw_CscheduleyListForStudent_WithStuID(_StudentViewModel.StudentID);
+                        AllowChooseChourse = true;
+                      Message = CompareKCB(_TeachClassCscheduleList, _StudentNowCscheduleList);
+                        if (AllowChooseChourse == false && Message!=string.Empty)
+                        {
+
+                            return Content(Message);
+                        }
+
+                    }
+
+
+                //选课成功插入数据库
+              
                 Stureport_BLL Stu1_BLL = new Stureport_BLL();
                 bool result=false;
                
                     result = Stu1_BLL.Insert(tcid, _StudentViewModel.StudentID);
-
-                if (result)
+                    Setting.isReadFromDB = false;
+                    if (result)
                 {
                         Session["刷新选课页面的时间"] = null;
+                        if (Message != string.Empty) { return Content(Message+"选课成功！请返回首页查看课表！"); }
                     return Content("选课成功！请返回首页查看课表！");
                 }else
                 {
@@ -261,6 +288,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             var Vw_Cschedule = L_BLL.GetNowVw_CscheduleByStuid(Setting.isReadFromDB,StuID);
             foreach (var _Vw_Cschedule in Vw_Cschedule)
             {
+                string _KCB = string.Empty;
                 StudentKCBViewModel _StudentKCBViewModel = new StudentKCBViewModel();
                 _StudentKCBViewModel.CCID = _Vw_Cschedule.CCID;
                 _StudentKCBViewModel.TCID = _Vw_Cschedule.TCID;
@@ -283,7 +311,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                     if  (_StudentKCBViewModel.Section==(intSection * 2 - 1).ToString() + "-" + (intSection * 2).ToString() + "节")
                     {
                         intWeek = Convert.ToInt32(_StudentKCBViewModel.Week);
-                        var _KCB= _StudentKCBViewModel.CourseName + "<br />" + _StudentKCBViewModel.TeacherName + "<br />第" + _StudentKCBViewModel.StartWeek + "-" + _StudentKCBViewModel.EndWeek + "周&nbsp;" + _StudentKCBViewModel.SingleOrDouble + "<br />" + _StudentKCBViewModel.RoomName; 
+                         _KCB= _StudentKCBViewModel.CourseName + "<br />" + _StudentKCBViewModel.TeacherName + "<br />第" + _StudentKCBViewModel.StartWeek + "-" + _StudentKCBViewModel.EndWeek + "周&nbsp;" + _StudentKCBViewModel.SingleOrDouble + "<br />" + _StudentKCBViewModel.RoomName; 
                         if (KCB[intWeek,intSection]==string.Empty)
                         {
                             KCB[intWeek, intSection] = _KCB;
@@ -302,6 +330,127 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
         }
         #endregion
+
+        private string CompareKCB(List<DataBaseModel.Vw_Cschedule> _TeachClassCcheduleList,List<DataBaseModel.Vw_Cschedule> _StudentNowCscheduleList)
+        {
+            int ConfictWeek = 0;//冲突周数
+            string Message = string.Empty;
+
+            StringBuilder _StringBuilder = new StringBuilder();
+            foreach (var _TeachClassCschedule in _TeachClassCcheduleList)
+            {
+                if (_TeachClassCschedule.StartW == null) { _TeachClassCschedule.StartW = 0; }
+                if (_TeachClassCschedule.EndW == null) { _TeachClassCschedule.EndW = 0; }
+                List<int> XuShengKeBiaohouShu = new List<int>();
+
+                if (_TeachClassCschedule.DSZ == "单")
+                {
+                    XuShengKeBiaohouShu = MathHelper.GetOddNumbser((int)_TeachClassCschedule.StartW, (int)_TeachClassCschedule.EndW);
+
+                }
+                else if (_TeachClassCschedule.DSZ == "双")
+                {
+                    XuShengKeBiaohouShu = MathHelper.GetEvenNumbser((int)_TeachClassCschedule.StartW, (int)_TeachClassCschedule.EndW);
+
+                }
+                else
+                {
+                    for (int i = (int)_TeachClassCschedule.StartW; i <= (int)_TeachClassCschedule.EndW; i++)
+                    {
+                        XuShengKeBiaohouShu.Add(i);
+                    }
+
+                }
+
+
+                var FindKCBList = _StudentNowCscheduleList.FindAll(d => d.SectionTH == _TeachClassCschedule.SectionTH && d.DayOfWeek == _TeachClassCschedule.DayOfWeek);
+                if (FindKCBList != null)
+                {
+                    foreach (var FindKCB in FindKCBList)
+                    {
+                        if (FindKCB.StartW == null) { FindKCB.StartW = 0; }
+                        if (FindKCB.EndW == null) { FindKCB.EndW = 0; }
+                        List<int> SuoXuanKeZhouShu = new List<int>();
+                        
+                        if (FindKCB.DSZ == "单")
+                        {
+                            SuoXuanKeZhouShu = MathHelper.GetOddNumbser((int)FindKCB.StartW, (int)FindKCB.EndW);
+
+                        }
+                        else if (FindKCB.DSZ == "双")
+                        {
+                            SuoXuanKeZhouShu = MathHelper.GetEvenNumbser((int)FindKCB.StartW, (int)FindKCB.EndW);
+
+                        }
+                        else
+                        {
+                            for (int i = (int)FindKCB.StartW; i <= (int)FindKCB.EndW; i++)
+                            {
+                                SuoXuanKeZhouShu.Add(i);
+                            }
+
+                        }
+                      
+
+
+                          
+
+                            foreach (var _XuSheng in XuShengKeBiaohouShu)
+                            {
+                                foreach (var _SuoXuan in SuoXuanKeZhouShu)
+                                {
+                                    if (_SuoXuan==_XuSheng)
+                                    {
+                                        if (_StringBuilder.Length==0)
+                                        {
+                                            _StringBuilder.Append("您所选的课程<<"+_TeachClassCschedule.CCname+">> 在第");
+
+                                        }
+                                        _StringBuilder.Append(_SuoXuan+" &nbsp;");
+                                        ConfictWeek += 1;
+                                       
+                                    }
+
+                                }
+                                
+                            }
+                        
+                        if (_StringBuilder.Length != 0)
+                        {
+                            _StringBuilder.Append("周与<<" + FindKCB.CCname + ">>的周"+FindKCB.DayOfWeek+"的"+FindKCB.SectionTH+"有冲突！");
+                            if (Message.Length == 0)
+                            {
+                                Message = _StringBuilder.ToString();
+                            }
+                            else
+                            {
+                                Message = Message + _StringBuilder.ToString();
+
+                            }
+                            _StringBuilder.Clear();
+                        }
+
+
+                    }
+
+
+                }
+            }
+           
+            if (ConfictWeek > Setting.AllowConfictWeeks)
+            {
+                _StringBuilder.Append("超过了系统设定的只允许冲突" + Setting.AllowConfictWeeks + "周，不允许选课！");
+                AllowChooseChourse = false;
+
+            }
+            if (_StringBuilder.Length == 0 && AllowChooseChourse == true)
+            {
+                return string.Empty;
+            }
+
+            return Message;
+        }
+
 
 
     }
