@@ -29,10 +29,16 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         [AllowAnonymous]
         public virtual ActionResult GetValidateCode()
         {
+           
+            
             string _ValidateCode = ValidateCode.CreateValidateCode(4);
             Session["ValidateCode"] = _ValidateCode;
-            return File(ValidateCode.CreateValidateGraphic(_ValidateCode), @"image/jpeg");
+            return File(ValidateCode.CreateValidateGraphic(Session["ValidateCode"].ToString()), @"image/jpeg");
+            
+                
+
         }
+       
         public virtual ActionResult CheckYanZhengMa(string yzm)
         {
 

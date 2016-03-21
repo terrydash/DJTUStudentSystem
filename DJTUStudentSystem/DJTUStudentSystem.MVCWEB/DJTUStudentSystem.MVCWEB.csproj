@@ -246,9 +246,11 @@
     <Content Include="assets\js\jquery.sparkline.min.js" />
     <Content Include="assets\js\jquery.ui.touch-punch.min.js" />
     <Content Include="assets\js\jquery.validate.min.js" />
+    <Content Include="assets\js\knockout-3.4.0.js" />
     <Content Include="assets\js\main.js" />
     <Content Include="assets\js\markdown\bootstrap-markdown.min.js" />
     <Content Include="assets\js\markdown\markdown.min.js" />
+    <Content Include="assets\js\messages_zh.js" />
     <Content Include="assets\js\respond.min.js" />
     <Content Include="assets\js\select2.min.js" />
     <Content Include="assets\js\typeahead-bs2.min.js" />
@@ -413,6 +415,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\_Layout.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.foundation.js" />
@@ -518,6 +521,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\LoginMainPage.js" />
     <Content Include="Scripts\_refence.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
