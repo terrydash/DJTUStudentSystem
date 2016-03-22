@@ -12,13 +12,28 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
     public class GetJsonController : Controller
     {
         
+        public ActionResult GetNowElectiveCourseList()
+        {
+            StudentController S = new StudentController();
+            var CheckSessionResult = S.CheckSession("获取学生课表", 10);
+            if (CheckSessionResult != "SessionOk".ToUpper())
+            {
+                return null;
+            }
+            if (!Request.IsAjaxRequest()) { return null; }
 
+
+        }
             
-
+        /// <summary>
+        /// 获得当前学期的学生课表
+        /// </summary>
+        /// <param name="StuID">学生ID</param>
+        /// <returns>包含课表的LIST JSON数据</returns>
         public ActionResult GetStudentNowKCBWithStuID_Json(int StuID)
         {
             StudentController S = new StudentController();
-             var CheckSessionResult = S.CheckSession("进入选课页面", 10);
+             var CheckSessionResult = S.CheckSession("获取学生课表", 10);
             if (CheckSessionResult != "SessionOk".ToUpper())
             {
                 return null;
