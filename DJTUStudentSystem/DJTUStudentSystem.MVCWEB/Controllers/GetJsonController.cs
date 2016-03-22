@@ -9,13 +9,22 @@ using DJTUStudentSystem.Config;
 using DJTUStudentSystem.Common;
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
-    public class KCBController : Controller
+    public class GetJsonController : Controller
     {
-        //
-        // GET: /KCB/
+        
+
+            
 
         public ActionResult GetStudentNowKCBWithStuID_Json(int StuID)
         {
+            StudentController S = new StudentController();
+             var CheckSessionResult = S.CheckSession("进入选课页面", 10);
+            if (CheckSessionResult != "SessionOk".ToUpper())
+            {
+                return null;
+            }
+            if (!Request.IsAjaxRequest()) { return null; }
+           
             List<StudentKCBViewModel> _StudentKCBViewModelList = new List<StudentKCBViewModel>();
             LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
             var Vw_Cschedule = L_BLL.GetNowVw_CscheduleByStuid(Setting.isReadFromDB, StuID);

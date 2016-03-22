@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using DJTUStudentSystem.Common;
 using System.Web.Mvc;
 using DJTUStudentSystem.BLL;
 using DJTUStudentSystem.MVCWEB.Models;
 using DJTUStudentSystem.Config;
 using System.Text;
-using Newtonsoft.Json;
+
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
-    
+
+    //学生选课相关
     public partial class StudentController : Controller
     {
-        private bool AllowChooseChourse = true;
+        private bool AllowChooseChourse = true;//是否允许选课
         #region 检查SESSION是否存在的封装 public string CheckSession(string SessionName,int WaitTime)
         /// <summary>
         ///  检查SESSION是否存在的封装 
@@ -22,7 +22,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <param name="SessionName"></param>
         /// <param name="WaitTime"></param>
         /// <returns></returns>
-        public string CheckSession(string SessionName,int WaitTime)
+        public  string CheckSession(string SessionName,int WaitTime)
         {
            
             if (Session[SessionName] != null)

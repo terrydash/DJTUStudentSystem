@@ -1,11 +1,6 @@
-﻿var w;
+﻿
+var w;
 $(function () { $('#myModal').modal('hide') });
-
-
-
-
-  
-
 $(function () {
     $('#myModal').on('hide.bs.modal', function () {
 
@@ -23,6 +18,7 @@ $(function () {
 
     })
 });
+//选课的AJAX
 function ChooseCourse(tcid) {
 
     var data = "tcid=" + tcid;
