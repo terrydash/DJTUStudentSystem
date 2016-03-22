@@ -15,42 +15,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
     public partial class StudentController : Controller
     {
         private bool AllowChooseChourse = true;//是否允许选课
-        #region 检查SESSION是否存在的封装 public string CheckSession(string SessionName,int WaitTime)
-        /// <summary>
-        ///  检查SESSION是否存在的封装 
-        /// </summary>
-        /// <param name="SessionName"></param>
-        /// <param name="WaitTime"></param>
-        /// <returns></returns>
-        public  string CheckSession(string SessionName,int WaitTime)
-        {
-           
-            if (Session[SessionName] != null)
-            {
-
-                var session = Session[SessionName].ToString(); ;
-                var dt1 = DateTime.Now;
-                try
-                {
-                    dt1 = Convert.ToDateTime(session);
-                }
-                catch
-                {
-                    return "出错了";
-                }
-                var dt2 = DateTime.Now;
-                TimeSpan ts = dt2.Subtract(dt1);
-                if (ts.TotalSeconds < WaitTime)
-                {
-                    return "请等待" + WaitTime.ToString() + "后再试!已等待" + ts.TotalSeconds.ToString("0.00") + "秒";
-
-                }
-            }
-            Session[SessionName] = DateTime.Now.ToString();
-            return "SessionOk".ToUpper();
-
-        }
-        #endregion
+      
         #region 进入选课页面  public ActionResult ChooseElectiveCourse()
         //
         // GET: /Student/
@@ -60,7 +25,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult ChooseElectiveCourse()
         {
-            var CheckSessionResult = CheckSession("进入选课页面", 10);
+            var CheckSessionResult = SessionHelper.CheckSession("进入选课页面", 10);
             if (CheckSessionResult!="SessionOk".ToUpper())
                 {
                     return Content(CheckSessionResult);
@@ -88,7 +53,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
           if (Request.IsAjaxRequest())
             {
                 string Message = string.Empty;
-                var CheckSessionResult = CheckSession("提交选课AJAX的时间", 15);
+                var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 15);
 
              if (CheckSessionResult!="SessionOk".ToUpper())
                 {
@@ -204,7 +169,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         public virtual ActionResult Main()
         {
             
-            var CheckSessionResult = CheckSession("刷新选课页面的时间", 5);
+            var CheckSessionResult = SessionHelper.CheckSession("刷新选课页面的时间", 5);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
             {
@@ -242,7 +207,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult DeleteCourse(int srid)
         {
-            var CheckSessionResult = CheckSession("提交选课AJAX的时间", 15);
+            var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 15);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
             {

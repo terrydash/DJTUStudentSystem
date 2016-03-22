@@ -17,7 +17,7 @@ namespace DJTUStudentSystem.MVCWEB.Models
         public int? OpenNum { get; set; } //开放人数
         public int? HaveNum { get; set; } //已选人数
         public string KCB { get; set; }// 课程表
-        public List<TeachClassKCBViewModel> KCBList { get; set; } //课程表的列表
+        //public List<TeachClassKCBViewModel> KCBList { get; set; } //课程表的列表
         public string SelectState { get; set; }//开放状态
 
         public List<TeachClassViewModel> ConvertDataBaseModelToViewModelList(List<Vw_TeachClass> _EntityList)
@@ -69,7 +69,7 @@ namespace DJTUStudentSystem.MVCWEB.Models
 
             _TeachClassViewModel.CourseName = _Entity.课程名称;
             
-            _TeachClassViewModel.KCBList = _TeachClassKCBViewModelList;
+            //_TeachClassViewModel.KCBList = _TeachClassKCBViewModelList;
             if (_Entity.OpenNum == null) { _Entity.OpenNum = 0; }
             if (_Entity.Havenum == null) { _Entity.Havenum = 0; }
             

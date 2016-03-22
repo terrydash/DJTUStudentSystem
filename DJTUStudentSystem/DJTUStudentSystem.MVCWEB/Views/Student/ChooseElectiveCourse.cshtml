@@ -58,95 +58,115 @@ using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | Table
         <tr >
             <th>序号</th>
             <th>课程名称</th>
-            <th class=" hidden-480">任课教师</th>
-            <th class=" hidden-480">开放状态</th>
-            <th class=" hidden-480">开放人数</th>
-            <th class=" hidden-480">已选人数</th>
+            <th class= "hidden-480">任课教师</th>
+            <th class="hidden-480">开放状态</th>
+            <th class="hidden-480">开放人数</th>
+            <th class="hidden-480">已选人数</th>
             <th>余量</th>
             <th>课程表</th>
             <th>操作</th>
         </tr>
     </thead>
 
+    <tbody data-bind="foreach: List">
+        <tr>
+            <td></td>
+            <td>
+                <span data-bind="text: CourseName"></span>
 
-            foreach (var item in Model)
-            {
-                var rowg = table.TableRow();
-                if (((int)item.OpenNum > (int)item.HaveNum) && (item.SelectState == "开放") && (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null))
-                {
-                    rowg.SetState(TableState.Success);
+            </td>
+            <td>
+                <span data-bind="text:TeacherName"></span>
+            </td>
+            <td>
+                <span data-bind="text:SelectState"></span>
+            </td>
 
-                }
-                else if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null)
+        </tr>
 
-                {
-                    rowg.SetState(TableState.Warning);
-                }
-                else
-                {
-                    rowg.SetState(TableState.Danger);
-                }
+    </tbody>
+    
+            /*
+                 foreach (var item in Model)
+                 {
+                     var rowg = table.TableRow();
+                     if (((int)item.OpenNum > (int)item.HaveNum) && (item.SelectState == "开放") && (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null))
+                     {
+                         rowg.SetState(TableState.Success);
 
-                using (var row = rowg.Begin())
-                {
+                     }
+                     else if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null)
 
-                    if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null)
-                    {
-                        @row.TableData("<B>已选</b>&nbsp;").AddCss("vert-align");
-                    }
-                    else
-                    {
-                        @row.TableData(i = i + 1).AddCss("vert-align");
-                    }
+                     {
+                         rowg.SetState(TableState.Warning);
+                     }
+                     else
+                     {
+                         rowg.SetState(TableState.Danger);
+                     }
 
-                    @row.TableData(item.CourseName).AddCss("vert-align"); ;
-                    @row.TableData(item.TeacherName).AddCss("text-center hidden-480 vert-align");
-                    @row.TableData(item.SelectState).AddCss("text-center hidden-480 vert-align");
-                    @row.TableData(item.OpenNum).AddCss("text-center hidden-480 vert-align");
-                    @row.TableData(item.HaveNum).AddCss("text-center hidden-480 vert-align");
-                    @row.TableData(((int)item.OpenNum) - ((int)item.HaveNum)).AddCss("vert-align");
-                    @row.TableData(item.KCB).AddCss("vert-align");
-                    if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null && item.SelectState!="锁定")
-                    {
+                     using (var row = rowg.Begin())
+                     {
 
+                         if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null)
+                         {
+                             @row.TableData("<B>已选</b>&nbsp;").AddCss("vert-align");
+                         }
+                         else
+                         {
+                             @row.TableData(i = i + 1).AddCss("vert-align");
+                         }
 
-                        @row.TableData("<button type='button' onclick='DeleteCourse(" + StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID).SRID + ")' class='btn btn-danger' >退 选</button>").AddCss("vert-align");
-
-                    }
-
-                    else
-
-                    if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放" && StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null && HowManyNowHaveStudentChoose < GradeCanChoose.HowManyCanChoose)
-                    {
-
-
-                        @row.TableData("<button type='button' onclick='ChooseCourse(" + @item.TCID + ")' class='btn btn-success vert-align' >选此课</button>").AddCss("vert-align");
-
-
-
-
-
-                    }
-                    else
-                    {
-                        if (item.SelectState != "开放")
-                        {
-                            @row.TableData("锁定").SetState(TextState.Danger).AddCss("vert-align");
-                        }
-                        else if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose && (int)item.OpenNum > (int)item.HaveNum)
-                        {
-                            @row.TableData("选课门数已满").SetState(TextState.Danger).AddCss("vert-align");
-                        }
-                        else
-                        {
-                            @row.TableData("余量不足").SetState(TextState.Danger).AddCss("vert-align");
-                        }
+                         @row.TableData(item.CourseName).AddCss("vert-align"); ;
+                         @row.TableData(item.TeacherName).AddCss("text-center hidden-480 vert-align");
+                         @row.TableData(item.SelectState).AddCss("text-center hidden-480 vert-align");
+                         @row.TableData(item.OpenNum).AddCss("text-center hidden-480 vert-align");
+                         @row.TableData(item.HaveNum).AddCss("text-center hidden-480 vert-align");
+                         @row.TableData(((int)item.OpenNum) - ((int)item.HaveNum)).AddCss("vert-align");
+                         @row.TableData(item.KCB).AddCss("vert-align");
+                         if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null && item.SelectState!="锁定")
+                         {
 
 
-                    }
-                }
-            }
+                             @row.TableData("<button type='button' onclick='DeleteCourse(" + StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID).SRID + ")' class='btn btn-danger' >退 选</button>").AddCss("vert-align");
+
+                         }
+
+                         else
+
+                         if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放" && StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null && HowManyNowHaveStudentChoose < GradeCanChoose.HowManyCanChoose)
+                         {
+
+
+                             @row.TableData("<button type='button' onclick='ChooseCourse(" + @item.TCID + ")' class='btn btn-success vert-align' >选此课</button>").AddCss("vert-align");
+
+
+
+
+
+                         }
+                         else
+                         {
+                             if (item.SelectState != "开放")
+                             {
+                                 @row.TableData("锁定").SetState(TextState.Danger).AddCss("vert-align");
+                             }
+                             else if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose && (int)item.OpenNum > (int)item.HaveNum)
+                             {
+                                 @row.TableData("选课门数已满").SetState(TextState.Danger).AddCss("vert-align");
+                             }
+                             else
+                             {
+                                 @row.TableData("余量不足").SetState(TextState.Danger).AddCss("vert-align");
+                             }
+
+
+                         }
+                     }
+                 }
+                 */
         }
 
     }
 }
+

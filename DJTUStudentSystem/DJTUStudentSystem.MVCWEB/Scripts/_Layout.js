@@ -83,6 +83,7 @@ function DeleteCourse(srid) {
 $(document).ready(function () {
     $('#message').html("<h1>当前系统为测试阶段，所选课程只为测试，选课视为无效，正式选课前将清空名单！</h1>");
     $('#myModal').modal({ backdrop: 'static', keyboard: true });
+   
     $('#sample-table-2').DataTable({
         "bSort": true, "language": {
             "sProcessing": "处理中...",
@@ -109,7 +110,9 @@ $(document).ready(function () {
             }
         }
     })
+    
 });
+/*
 $(document).ready(function () {
 
     $('#Elective').DataTable({
@@ -139,3 +142,4 @@ $(document).ready(function () {
         }
     })
 });
+*/

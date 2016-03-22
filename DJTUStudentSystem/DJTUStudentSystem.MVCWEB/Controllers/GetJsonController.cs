@@ -12,15 +12,24 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
     public class GetJsonController : Controller
     {
         
-        public ActionResult GetNowElectiveCourseList()
+        public ActionResult GetNowElectiveCourseList_Json()
         {
-            StudentController S = new StudentController();
-            var CheckSessionResult = S.CheckSession("获取学生课表", 10);
+            
+            var CheckSessionResult = SessionHelper.CheckSession("获取当前学期的选修课", 10);
             if (CheckSessionResult != "SessionOk".ToUpper())
             {
                 return null;
             }
             if (!Request.IsAjaxRequest()) { return null; }
+            Setting.isReadFromDB = true;
+            LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
+            List<TeachClassViewModel> _TeachClassViewModelList = new List<TeachClassViewModel>();
+            TeachClassViewModel _TeachClassViewModel = new TeachClassViewModel();
+            Vw_TeachClass_BLL _Vw_TeachClass_BLL = new Vw_TeachClass_BLL();
+            var _Vw_TeachClassList = _Vw_TeachClass_BLL.GetNowTeachClassCsort2();
+            _TeachClassViewModelList = _TeachClassViewModel.ConvertDataBaseModelToViewModelList(_Vw_TeachClassList);
+            Setting.isReadFromDB = false;
+            return Content(JsonHelper.SerializeObject(_TeachClassViewModelList));
 
 
         }
@@ -30,19 +39,21 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// </summary>
         /// <param name="StuID">学生ID</param>
         /// <returns>包含课表的LIST JSON数据</returns>
-        public ActionResult GetStudentNowKCBWithStuID_Json(int StuID)
-        {
-            StudentController S = new StudentController();
-             var CheckSessionResult = S.CheckSession("获取学生课表", 10);
+        public ActionResult GetStudentNowKCBWithStuID_Json()
+        {   if (Session["Student"] == null) { return Content("LostSession".ToUpper()); }
+           
+             var CheckSessionResult = SessionHelper.CheckSession("获取学生课表", 10);
             if (CheckSessionResult != "SessionOk".ToUpper())
             {
-                return null;
+                return Content(CheckSessionResult);
             }
-            if (!Request.IsAjaxRequest()) { return null; }
-           
-            List<StudentKCBViewModel> _StudentKCBViewModelList = new List<StudentKCBViewModel>();
+            if (!Request.IsAjaxRequest()) { return Content("不可直接调用"); }
+            var Student = Session["Student"] as StudentViewModel;
+
+
+             List <StudentKCBViewModel> _StudentKCBViewModelList = new List<StudentKCBViewModel>();
             LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
-            var Vw_Cschedule = L_BLL.GetNowVw_CscheduleByStuid(Setting.isReadFromDB, StuID);
+            var Vw_Cschedule = L_BLL.GetNowVw_CscheduleByStuid(Setting.isReadFromDB, Student.StudentID);
             if (Vw_Cschedule == null) { return Content("没有课表"); }
             foreach (var _Vw_Cschedule in Vw_Cschedule)
             {
