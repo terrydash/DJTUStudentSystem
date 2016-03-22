@@ -617,7 +617,7 @@
     <script src="/assets/js/ace-extra.min.js"></script>
     <script src="/assets/js/knockout-3.4.0.js"></script>
     <!-- inline scripts related to this page -->
-
+    
     <script src="/Scripts/_Layout.js"></script>
 
     <script type="text/javascript">
@@ -631,16 +631,17 @@
                 cache: false, //不加载缓存
                 dataType: "json",//对象为json
                 success: function (e) {
-                   e.len
+                   
                     $.each(e,function(j,item){
                         
                               for (i=1;i<=7;i++)                        
                             {
                             
-                                if (item.Section==(i*2-1)+"-"+(i*2)+"节")
+                                if (item.Section==((i*2-1)+"-"+(i*2)+"节"))
                                 {
-                                    alert(item.StartWeek+"-"+item.EndWeek+"周");
-                                    $("'#"+item.Week+"_"+i+"'").html(item.StartWeek+"-"+item.EndWeek+"周");
+                                    //alert(item.StartWeek+"-"+item.EndWeek+"周");
+                                    var str=$("#"+item.Week+"_"+i).html()+" <br />"+item.CourseName+" <br /> "+item.TeacherName+"<br />" +item.StartWeek+"-"+item.EndWeek+"周"+item.SingleOrDouble+" <br />"+item.RoomName;
+                                    $("#"+item.Week+"_"+i).html(str);
                                 }
 
 

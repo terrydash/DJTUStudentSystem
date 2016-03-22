@@ -42,11 +42,11 @@
                 if ((i+j) % 2 == 0)
               
                     {
-                        @row.TableData().SetState(TableState.Warning).AddCss("vert-align").SetId(j + "_" + i);
+                        @row.TableData().SetState(TableState.Warning).AddCss("vert-align").SetId(i + "_" + j);
                     }
                     else
                     {
-                        @row.TableData().SetState(TableState.Success).AddCss("vert-align").SetId(j+ "_" + i);
+                        @row.TableData().SetState(TableState.Success).AddCss("vert-align").SetId(i+ "_" + j);
                     }
               }
 
