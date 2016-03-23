@@ -1,13 +1,14 @@
-﻿@{ 
-    ViewBag.Title = "Main";
+﻿@using DJTUStudentSystem.MVCWEB.Models
+@using FluentBootstrap;
+@using FluentBootstrap.Mvc;
+@model StudentViewModel
+@{ 
+    ViewBag.Title = Model.StudentName+"的基本信息";
     Layout = "~/Views/Shared/_Layout.cshtml";
     
 
 }
-@using DJTUStudentSystem.MVCWEB.Models
-@using FluentBootstrap;
-@using FluentBootstrap.Mvc;
-@model StudentViewModel
+
 
 
 <div class="well well-small center text-success ">
@@ -123,4 +124,4 @@
             </div>
         </div>
     </div>
-                </div></div></div><
+                </div></div></div>

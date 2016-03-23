@@ -149,6 +149,7 @@
     </Compile>
     <Compile Include="Models\AbstractKCBViewModel.cs" />
     <Compile Include="Controllers\GetJsonController.cs" />
+    <Compile Include="Models\StudentChooseTeachClassViewModel.cs" />
     <Compile Include="Models\StudentKCBViewModel.cs" />
     <Compile Include="Models\StudentViewModel.cs" />
     <Compile Include="Models\StuReportViewModel.cs" />
@@ -420,6 +421,8 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\StudentPageLayout.js" />
     <Content Include="Scripts\_Layout.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />

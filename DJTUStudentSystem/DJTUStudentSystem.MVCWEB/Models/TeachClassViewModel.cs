@@ -11,15 +11,22 @@ namespace DJTUStudentSystem.MVCWEB.Models
 {
     public class TeachClassViewModel:IDataBaseModelToViewModel<TeachClassViewModel,Vw_TeachClass>
     {
+        private int i = 0;
+        public string XuHao=string.Empty;
+        public int? CourseID { get; set; }//课程名称
         public string CourseName { get; set; }//课程名称
         public int TCID { get; set; }//ID
         public string TeacherName { get; set; }//教师名称
         public int? OpenNum { get; set; } //开放人数
-        public int? HaveNum { get; set; } //已选人数
-        public string KCB { get; set; }// 课程表
+        public int? HaveNum { get; set; } //已选人数    
+        public string KCB { get; set; } // 课程表
+        public int allowance { get; set; } //余量
         //public List<TeachClassKCBViewModel> KCBList { get; set; } //课程表的列表
         public string SelectState { get; set; }//开放状态
-
+        public bool IsCurrentStudentCanChoose = true;//当前学生是否能选
+        public bool IsHaveChosen = false;//当前学生是否已选
+        
+        public string Html { get; set; }//输出HTML代码 
         public List<TeachClassViewModel> ConvertDataBaseModelToViewModelList(List<Vw_TeachClass> _EntityList)
         {
             List<TeachClassViewModel> _TeachClassViewModelList = new List<TeachClassViewModel>();
@@ -32,11 +39,12 @@ namespace DJTUStudentSystem.MVCWEB.Models
 
         public TeachClassViewModel ConvertDataBaseModelToViewModel(Vw_TeachClass _Entity)
         {
+            i += 1;
+            var SRID = 0;
             TeachClassViewModel _TeachClassViewModel = new TeachClassViewModel();
             TeachClassKCBViewModel _TeachClassKCBViewModel = new TeachClassKCBViewModel();
             List<TeachClassKCBViewModel> _TeachClassKCBViewModelList = new List<TeachClassKCBViewModel>();
-            LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
-            
+            LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();            
             var Vw_CscheduleList= L_BLL.GetNowVw_CscheduleByTCID(Setting.isReadFromDB, _Entity.TCID);
             foreach (var _Vw_Cschedule in Vw_CscheduleList)
             {
@@ -55,17 +63,18 @@ namespace DJTUStudentSystem.MVCWEB.Models
                 else { _TeachClassKCBViewModel.SingleOrDouble = string.Empty; }
 
                 _TeachClassKCBViewModel.Week = _Vw_Cschedule.DayOfWeek;
-                var _KCB = "&nbsp;第" + _TeachClassKCBViewModel.StartWeek + "-" +_TeachClassKCBViewModel.EndWeek + "周&nbsp;周"+_TeachClassKCBViewModel.Week+"&nbsp" +_TeachClassKCBViewModel.Section+_TeachClassKCBViewModel.SingleOrDouble + "&nbsp;" + _TeachClassKCBViewModel.RoomName;
+                var _KCB = "第" + _TeachClassKCBViewModel.StartWeek + "-" +_TeachClassKCBViewModel.EndWeek + "周 周"+_TeachClassKCBViewModel.Week +" "+_TeachClassKCBViewModel.Section+_TeachClassKCBViewModel.SingleOrDouble  +" " +_TeachClassKCBViewModel.RoomName;
                 if (string.IsNullOrEmpty(_TeachClassViewModel.KCB))
                 {
                     _TeachClassViewModel.KCB = _KCB;
 
                 }else
                 {
-                    _TeachClassViewModel.KCB = _TeachClassViewModel.KCB +_KCB;
+                    _TeachClassViewModel.KCB = _TeachClassViewModel.KCB +"<br />"+_KCB;
                 }
-                _TeachClassKCBViewModelList.Add(_TeachClassKCBViewModel);
+                //_TeachClassKCBViewModelList.Add(_TeachClassKCBViewModel);
             }
+            
 
             _TeachClassViewModel.CourseName = _Entity.课程名称;
             
@@ -75,14 +84,108 @@ namespace DJTUStudentSystem.MVCWEB.Models
             
             _TeachClassViewModel.OpenNum = _Entity.OpenNum;
             _TeachClassViewModel.HaveNum = _Entity.Havenum;
+            
             if (_TeachClassViewModel.HaveNum > _TeachClassViewModel.OpenNum)
             {
 
                 _TeachClassViewModel.HaveNum = _TeachClassViewModel.OpenNum;
             }
+            _TeachClassViewModel.allowance = (int)_TeachClassViewModel.OpenNum - (int)_TeachClassViewModel.HaveNum;
             _TeachClassViewModel.TCID = _Entity.TCID;
+            _TeachClassViewModel.CourseID = (int)_Entity.CCID;
             _TeachClassViewModel.TeacherName = _Entity.任课教师;
             _TeachClassViewModel.SelectState = _Entity.SelectState;
+            
+            if (System.Web.HttpContext.Current.Session["Student"] != null)
+            {
+
+                Setting.isReadFromDB = true;
+                var StudentModel = System.Web.HttpContext.Current.Session["Student"] as StudentViewModel;
+                Student_BLL S_BLL = new Student_BLL();
+                StudentModel = StudentModel.ConvertDataBaseModelToViewModel((S_BLL.GetEntityFromDAL_WithEntityID(StudentModel.StudentID)));
+                System.Web.HttpContext.Current.Session["Student"] = StudentModel;
+                Setting.isReadFromDB = false;
+                var GradeCanChoose = Setting.GradeCanChooseCourse().Find(d => d.GradeName == StudentModel.GradeName);
+                if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == _TeachClassViewModel.TCID) != null)
+                {
+                    _TeachClassViewModel.IsHaveChosen = true;
+                    SRID = (int)StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == _TeachClassViewModel.TCID).SRID;
+                }
+                var FindTeachCLass = StudentModel.StuReportViewModelList.FindAll(d => d.CourseID == _TeachClassViewModel.CourseID);
+
+                if (FindTeachCLass != null)
+                {
+                    var maxresult = 0;
+                    foreach (var item in FindTeachCLass)
+                    {
+                        try
+                        {
+                            if (Convert.ToInt32(item.CourseResult) > maxresult)
+                            {
+                                maxresult = Convert.ToInt32(item.CourseResult);
+
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogHelper.Logger.Error(e.ToString());
+                        }
+                        if (maxresult > 60)
+                        {
+                            _TeachClassViewModel.IsCurrentStudentCanChoose = false;
+                            _TeachClassViewModel.Html = "已经修过";
+                        }
+
+                    }
+
+                }
+                if (_TeachClassViewModel.allowance == 0)
+                {
+                    _TeachClassViewModel.IsCurrentStudentCanChoose = false;
+                    _TeachClassViewModel.Html = "已选满";
+
+                }
+
+
+                if (_TeachClassViewModel.SelectState != "开放")
+                {
+                    _TeachClassViewModel.IsCurrentStudentCanChoose = false;
+                    _TeachClassViewModel.Html = "锁定状态";
+                }
+                if (StudentModel.HowManyHaveStudentChoose >= 3)
+                {
+
+                    _TeachClassViewModel.IsCurrentStudentCanChoose = false;
+                    _TeachClassViewModel.Html = "已修够3门";
+                }
+                if (StudentModel.HowManyNowHaveStudentChoose >= StudentModel.GradeCanChoose)
+                {
+
+                    _TeachClassViewModel.IsCurrentStudentCanChoose = false;
+                    _TeachClassViewModel.Html = "本学期选满";
+                }
+                if (_TeachClassViewModel.IsHaveChosen)
+                {
+                    _TeachClassViewModel.XuHao = "已选";
+                    _TeachClassViewModel.Html = "<button type='button' onclick='DeleteCourse(" + SRID + ")' class='btn btn-danger' >退 选</button>";
+
+                }
+                else { _TeachClassViewModel.XuHao = i.ToString(); }
+               
+                if (!_TeachClassViewModel.IsHaveChosen && _TeachClassViewModel.SelectState == "开放" && _TeachClassViewModel.allowance > 0 && StudentModel.HowManyHaveStudentChoose<3 &&  StudentModel.HowManyNowHaveStudentChoose <StudentModel.GradeCanChoose)
+                {
+                    {
+                        _TeachClassViewModel.IsCurrentStudentCanChoose = true;
+                        _TeachClassViewModel.Html = "<button type='button' onclick='ChooseCourse(" + _TeachClassViewModel.TCID + ")' class='btn btn-success vert-align' >选此课</button>";
+                    }
+                }
+
+
+
+            }
+
+
+
             return _TeachClassViewModel;
 
         }

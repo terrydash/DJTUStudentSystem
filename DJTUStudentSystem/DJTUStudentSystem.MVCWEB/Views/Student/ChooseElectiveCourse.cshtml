@@ -1,172 +1,47 @@
 ﻿@{
-    if (Session["Student"] == null)
-    {
-        Response.Redirect("/Login/Index");
-    }
+
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "公选课选课";
+
 }
-@using DJTUStudentSystem.MVCWEB.Models
 @using FluentBootstrap;
 @using FluentBootstrap.Mvc;
-@model  List<TeachClassViewModel>
-@using DJTUStudentSystem.MVCWEB.Models
-@using DJTUStudentSystem.Config
-
-
-@{  Setting.isReadFromDB = true;
-    var StudentModel = Session["Student"] as StudentViewModel;
-    DJTUStudentSystem.BLL.Student_BLL S_BLL = new DJTUStudentSystem.BLL.Student_BLL();
-    StudentModel = StudentModel.ConvertDataBaseModelToViewModel((S_BLL.GetEntityFromDAL_WithEntityID(StudentModel.StudentID)));
-    Session["Student"] = StudentModel;
-    Setting.isReadFromDB = false;
-    var HowManyHaveStudentChoose = StudentModel.StuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修" && Convert.ToInt32(d.CourseResult) > 60).ToList().Count;
-    var HowManyNowHaveStudentChoose= StudentModel.NowStuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修") .ToList().Count;
-    var GradeCanChoose= Setting.GradeCanChooseCourse().Find(d => d.GradeName == StudentModel.GradeName);
-}
-@{ 
-    if (GradeCanChoose == null)
-    {
-
-        @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您的年级<B>" + StudentModel.GradeName + "</B>未开放选课!如有疑问请联系管理员！").SetDismissible(true);
-    }
-    else if (!GradeCanChoose.isChooseCouse)
-    {
-        @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您的年级<B>" + StudentModel.GradeName + "</B>未开放选课!如有疑问请联系管理员！").SetDismissible(true);
-    }
-    else if (HowManyHaveStudentChoose >= 3)
-
-    {
-        @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您已经修够了3门公选课，无需再选择了!如有疑问请联系管理员！").SetDismissible(true);
-    }
-    else
-
-    {
-
-        if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
+        
+       
+        
+        @Html.Bootstrap().Heading1("大连科技学院公选课开课计划").SetAlignment(TextAlignment.Center).SetState(TextState.Primary).SetBackgroundState(BackgroundState.Success)
+        
+        @using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").SetId("Elective").Begin())
         {
-            @Html.Bootstrap().Alert(AlertState.Danger, StudentModel.StudentName, "同学您好，您本学期已经选择了" + HowManyNowHaveStudentChoose + "门公选课,你所在年级" + StudentModel.GradeName + "级,只允许选择" + GradeCanChoose.HowManyCanChoose.ToString() + "门公选课!").SetDismissible(true);
-        }
-        else {
-            @Html.Bootstrap().Alert(AlertState.Success, StudentModel.StudentName, "同学您好，您本学期已经选择了" + HowManyNowHaveStudentChoose + "门公选课,你所在年级" + StudentModel.GradeName + "级,允许选择" + GradeCanChoose.HowManyCanChoose.ToString() + "门公选课!").SetDismissible(true);
-        }
-    
+            
+            <thead class="text-center">
+                <tr>
+                    <th>序号</th>
+                    <th>课程名称</th>
+                    <th class=" hidden-480">任课教师</th>
+                    <th class=" hidden-480">开放状态</th>
+                    <th class=" hidden-480">开放人数</th>
+                    <th class=" hidden-480">已选人数</th>
+                    <th>余量</th>
+                    <th>课程表</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: CouseList">
+                <tr data-bind="css:{success:(IsCurrentStudentCanChoose) ,warning:(IsHaveChosen),danger:(!IsCurrentStudentCanChoose)}"  class="vert-align">
+                    <td class="vert-align"><span data-bind="html: XuHao"></span></td>                    
+                    <td class="vert-align"><span data-bind="html: CourseName"></span></td>
+                    <td class="vert-align"><span data-bind="html: TeacherName"></span></td>
+                    <td class="vert-align"><span data-bind="html: SelectState"></span></td>
+                    <td class="vert-align"><span data-bind="html: OpenNum"></span></td>
+                    <td class="vert-align"><span data-bind="html: HaveNum"></span></td>
+                    <td class="vert-align"><span data-bind="html: allowance"></span></td>
+                    <td class="vert-align"><span data-bind="html: KCB"></span></td>
+                    <td class="vert-align"><span data-bind="html: Html"></span></td>
+                </tr>
+            </tbody>
 
-using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").SetId("Elective").Begin())
-{
-    int i = 0;
-    <thead class="text-center">
-        <tr >
-            <th>序号</th>
-            <th>课程名称</th>
-            <th class= "hidden-480">任课教师</th>
-            <th class="hidden-480">开放状态</th>
-            <th class="hidden-480">开放人数</th>
-            <th class="hidden-480">已选人数</th>
-            <th>余量</th>
-            <th>课程表</th>
-            <th>操作</th>
-        </tr>
-    </thead>
-
-    <tbody data-bind="foreach: List">
-        <tr>
-            <td></td>
-            <td>
-                <span data-bind="text: CourseName"></span>
-
-            </td>
-            <td>
-                <span data-bind="text:TeacherName"></span>
-            </td>
-            <td>
-                <span data-bind="text:SelectState"></span>
-            </td>
-
-        </tr>
-
-    </tbody>
-    
-            /*
-                 foreach (var item in Model)
-                 {
-                     var rowg = table.TableRow();
-                     if (((int)item.OpenNum > (int)item.HaveNum) && (item.SelectState == "开放") && (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null))
-                     {
-                         rowg.SetState(TableState.Success);
-
-                     }
-                     else if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null)
-
-                     {
-                         rowg.SetState(TableState.Warning);
-                     }
-                     else
-                     {
-                         rowg.SetState(TableState.Danger);
-                     }
-
-                     using (var row = rowg.Begin())
-                     {
-
-                         if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null)
-                         {
-                             @row.TableData("<B>已选</b>&nbsp;").AddCss("vert-align");
-                         }
-                         else
-                         {
-                             @row.TableData(i = i + 1).AddCss("vert-align");
-                         }
-
-                         @row.TableData(item.CourseName).AddCss("vert-align"); ;
-                         @row.TableData(item.TeacherName).AddCss("text-center hidden-480 vert-align");
-                         @row.TableData(item.SelectState).AddCss("text-center hidden-480 vert-align");
-                         @row.TableData(item.OpenNum).AddCss("text-center hidden-480 vert-align");
-                         @row.TableData(item.HaveNum).AddCss("text-center hidden-480 vert-align");
-                         @row.TableData(((int)item.OpenNum) - ((int)item.HaveNum)).AddCss("vert-align");
-                         @row.TableData(item.KCB).AddCss("vert-align");
-                         if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) != null && item.SelectState!="锁定")
-                         {
-
-
-                             @row.TableData("<button type='button' onclick='DeleteCourse(" + StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID).SRID + ")' class='btn btn-danger' >退 选</button>").AddCss("vert-align");
-
-                         }
-
-                         else
-
-                         if ((int)item.OpenNum > (int)item.HaveNum && item.SelectState == "开放" && StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == item.TCID) == null && HowManyNowHaveStudentChoose < GradeCanChoose.HowManyCanChoose)
-                         {
-
-
-                             @row.TableData("<button type='button' onclick='ChooseCourse(" + @item.TCID + ")' class='btn btn-success vert-align' >选此课</button>").AddCss("vert-align");
-
-
-
-
-
-                         }
-                         else
-                         {
-                             if (item.SelectState != "开放")
-                             {
-                                 @row.TableData("锁定").SetState(TextState.Danger).AddCss("vert-align");
-                             }
-                             else if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose && (int)item.OpenNum > (int)item.HaveNum)
-                             {
-                                 @row.TableData("选课门数已满").SetState(TextState.Danger).AddCss("vert-align");
-                             }
-                             else
-                             {
-                                 @row.TableData("余量不足").SetState(TextState.Danger).AddCss("vert-align");
-                             }
-
-
-                         }
-                     }
-                 }
-                 */
+         
         }
 
-    }
-}
-
+   

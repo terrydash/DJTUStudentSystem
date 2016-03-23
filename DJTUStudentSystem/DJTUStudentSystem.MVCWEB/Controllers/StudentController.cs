@@ -25,6 +25,10 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult ChooseElectiveCourse()
         {
+            if (Session["Student"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
             var CheckSessionResult = SessionHelper.CheckSession("进入选课页面", 10);
             if (CheckSessionResult!="SessionOk".ToUpper())
                 {

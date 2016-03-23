@@ -1,4 +1,4 @@
-﻿
+﻿var ViewModel;
 var w;
 $(function () { $('#myModal').modal('hide') });
 $(function () {
@@ -12,12 +12,13 @@ $(function () {
             $('#myModal').modal({ backdrop: 'static', keyboard: true });
 
 
-            location.reload();
+            GetNowElective();
 
         }
 
     })
 });
+
 //选课的AJAX
 function ChooseCourse(tcid) {
 
