@@ -17,7 +17,7 @@ namespace DJTUStudentSystem.BLL
         /// <returns></returns>
         public Activeyear GetNowActyear(bool isReloadFromDB)
         {
-            if ((CacheHelper.GetCache("NowActyear")==null) || isReloadFromDB)
+            if ((CacheHelper.GetCache("NowActyear")==null))
             {
                 Actyear_BLL A_BLL = new Actyear_BLL();
                 var NowActyear = A_BLL.GetNowActiveYear();
