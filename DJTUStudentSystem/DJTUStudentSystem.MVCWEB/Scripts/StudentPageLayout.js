@@ -1,6 +1,6 @@
 ﻿function RefreshElective()
 {
-    //$("#Elective").showLoading();
+    $("#Elective").showLoading();
     
       $.ajax({
           //需要使用post提交
@@ -15,8 +15,9 @@
               if (ajaxresult.length != 0)   
               {
 
-                  var EleCourseList = JSON.parse(ajaxresult);
-                   NewViewModel.CouseList = EleCourseList;
+                  NewViewModel.CouseList = JSON.parse(ajaxresult);
+
+                  NewViewModel.CouseList.sort();
 
                  
                   $('#message').html(ajaxresult);
@@ -37,7 +38,7 @@
 }
 function GetNowElective() {
     
-    //$("#Elective").showLoading();
+    $("#Elective").showLoading();
     $.when(
       $.ajax({
           //需要使用post提交
@@ -62,6 +63,7 @@ function GetNowElective() {
 
               var EleCourseList = JSON.parse(ajaxresult);
               NewViewModel.CouseList = EleCourseList;
+              NewViewModel.CouseList.sort();
               $('#message').html(ajaxresult);
               $('#myModal').modal({ backdrop: 'static', keyboard: true });
               

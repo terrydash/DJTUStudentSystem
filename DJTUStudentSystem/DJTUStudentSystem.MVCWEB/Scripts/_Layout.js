@@ -1,6 +1,6 @@
 ﻿var ViewModel = function () {
     var self = this;
-    self.CouseList = ko.observableArray(null)
+    self.CouseList = ko.observableArray();
 };
 var NewViewModel = new ViewModel();
 var w;
@@ -15,6 +15,7 @@ $(function () {
 
 
             w = "";
+            $("#Elective").showLoading();
             $.when
             (   
                 RefreshElective()
@@ -24,7 +25,7 @@ $(function () {
             (function () {
                 $("#Elective").hideLoading();
                 $(':button').attr("disabled", false);
-                w
+                
             }
 
             )
