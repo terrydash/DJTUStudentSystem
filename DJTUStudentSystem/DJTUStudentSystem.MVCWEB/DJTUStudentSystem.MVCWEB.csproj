@@ -191,6 +191,7 @@
     <Content Include="assets\css\jquery-ui-1.10.3.full.min.css" />
     <Content Include="assets\css\jquery.gritter.css" />
     <Content Include="assets\css\select2.css" />
+    <Content Include="assets\css\showLoading.css" />
     <Content Include="assets\css\ui.jqgrid.css" />
     <Content Include="assets\font\glyphicons-halflings-regular.svg" />
     <Content Include="assets\images\gallery\image-1.jpg" />
@@ -248,6 +249,7 @@
     <Content Include="assets\js\jquery.maskedinput.min.js" />
     <Content Include="assets\js\jquery.mobile.custom.min.js" />
     <Content Include="assets\js\jquery.nestable.min.js" />
+    <Content Include="assets\js\jquery.showLoading.min.js" />
     <Content Include="assets\js\jquery.slimscroll.min.js" />
     <Content Include="assets\js\jquery.sparkline.min.js" />
     <Content Include="assets\js\jquery.ui.touch-punch.min.js" />

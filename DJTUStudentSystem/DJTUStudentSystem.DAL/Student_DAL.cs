@@ -22,7 +22,7 @@ namespace DJTUStudentSystem.DAL
         public Student GetEntityFromDB_WithEntityID(int _EntityID)
         {
 
-            return GetEntityListFromDB_WithEntityID(_EntityID).FirstOrDefault();
+            return GetEntityListFromDB_WithEntityID(_EntityID).First(); ;
 
         }
 

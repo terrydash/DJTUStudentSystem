@@ -1,5 +1,10 @@
-﻿var ViewModel;
+﻿var ViewModel = function () {
+    var self = this;
+    self.CouseList = ko.observableArray(null)
+};
+var NewViewModel = new ViewModel();
 var w;
+var ajaxresult="";
 $(function () { $('#myModal').modal('hide') });
 $(function () {
     $('#myModal').on('hide.bs.modal', function () {
@@ -8,11 +13,24 @@ $(function () {
         if (w == "选课成功！请返回首页查看课表！" || w == "退选成功！") {
             $(':button').attr("disabled", true);
 
-            $('#message').html("页面刷新中！请不要连续刷新!");
-            $('#myModal').modal({ backdrop: 'static', keyboard: true });
 
+            w = "";
+            $.when
+            (   
+                RefreshElective()
 
-            GetNowElective();
+            )
+            .done
+            (function () {
+                $("#Elective").hideLoading();
+                $(':button').attr("disabled", false);
+                w
+            }
+
+            )
+
+            
+            
 
         }
 

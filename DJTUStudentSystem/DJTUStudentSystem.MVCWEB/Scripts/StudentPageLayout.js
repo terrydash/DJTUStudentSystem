@@ -1,6 +1,43 @@
-﻿function GetNowElective() {
+﻿function RefreshElective()
+{
+    //$("#Elective").showLoading();
     
+      $.ajax({
+          //需要使用post提交
+          type: "post",
+          url: "/GetJson/GetNowElectiveCourseList_Json",
+          async: true, //异步
+          cache: false, //不加载缓存
+          //dataType: "json",//对象为json
+          success: function (e) {
+              // $("#Elective").hideLoading();
+              ajaxresult = e;
+              if (ajaxresult.length != 0)   
+              {
+
+                  var EleCourseList = JSON.parse(ajaxresult);
+                   NewViewModel.CouseList = EleCourseList;
+
+                 
+                  $('#message').html(ajaxresult);
+                  $('#myModal').modal({ backdrop: 'static', keyboard: true });
+                  
+
+              }
+
+          },
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+              $("#Elective").hideLoading();
+              alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
+
+          }
+
+      })
+
+}
+function GetNowElective() {
     
+    //$("#Elective").showLoading();
     $.when(
       $.ajax({
           //需要使用post提交
@@ -20,26 +57,24 @@
           }
 
       })).done(function () {
+         
           if (ajaxresult.length != 0) {
 
               var EleCourseList = JSON.parse(ajaxresult);
-              ViewModel =
-              {
-                  CouseList: ko.observableArray(EleCourseList)
-              }
-             
+              NewViewModel.CouseList = EleCourseList;
+              $('#message').html(ajaxresult);
+              $('#myModal').modal({ backdrop: 'static', keyboard: true });
+              
 
-              //alert(ajaxresult);
-
-              ko.applyBindings(ViewModel);
-              $('#LoadingModal').modal('hide');
+              ko.applyBindings(NewViewModel);
+              $("#Elective").hideLoading();
 
           }
       })
 }
 $(document).ready(function () {
     
-    var ajaxresult = "";
+    
     //获取后台课表
     var host = window.location.host.toUpperCase();
     var url = window.location.href.toUpperCase();
@@ -77,12 +112,12 @@ $(document).ready(function () {
 
             }
 
-        })).done(function () { })
+        }))
 
     } else if ((currentpage == "/Student/ChooseElectiveCourse/".toUpperCase()) || (currentpage == "/Student/ChooseElectiveCourse".toUpperCase()))
     {
-
-        GetNowElective();
+        
+        $.when(GetNowElective()).done();
 
     }
 })
