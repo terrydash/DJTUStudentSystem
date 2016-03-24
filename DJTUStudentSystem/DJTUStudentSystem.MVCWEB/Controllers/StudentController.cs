@@ -34,15 +34,8 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 {
                     return Content(CheckSessionResult);
                 }
-            Setting.isReadFromDB = true;
-            LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
-            List<TeachClassViewModel> _TeachClassViewModelList = new List<TeachClassViewModel>();
-            TeachClassViewModel _TeachClassViewModel = new TeachClassViewModel();
-            Vw_TeachClass_BLL _Vw_TeachClass_BLL = new Vw_TeachClass_BLL();
-            var _Vw_TeachClassList=_Vw_TeachClass_BLL.GetNowTeachClassCsort2();
-            _TeachClassViewModelList = _TeachClassViewModel.ConvertDataBaseModelToViewModelList(_Vw_TeachClassList);
-            Setting.isReadFromDB = false;
-            return View(_TeachClassViewModelList);
+           
+            return View();
         }
         #endregion
         #region 选课操作AJAX public ActionResult ChooseCourse(int tcid)

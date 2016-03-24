@@ -34,7 +34,7 @@ function GetNowElective() {
               
               if (num > 0)
               {
-                  for (var i = 1; i < num; i++)
+                  for (var i = 0; i < num; i++)
                   {
                       ViewModel.CourseList.pop();
                   }
