@@ -1,8 +1,11 @@
-﻿var ViewModel = function () {
-    var self = this;
-    self.CouseList = ko.observableArray();
-};
-var NewViewModel = new ViewModel();
+﻿
+var ViewModel = new function () { this.CourseList = ko.observableArray();}
+ko.applyBindings(ViewModel);
+
+
+
+   
+var vw;
 var w;
 var ajaxresult="";
 $(function () { $('#myModal').modal('hide') });
@@ -12,26 +15,22 @@ $(function () {
 
         if (w == "选课成功！请返回首页查看课表！" || w == "退选成功！") {
             $(':button').attr("disabled", true);
-
-
             w = "";
-            $("#Elective").showLoading();
+            
             $.when
             (   
-                RefreshElective()
+               GetNowElective()
 
             )
             .done
-            (function () {
-                $("#Elective").hideLoading();
+            (function ()
+            {
+                
                 $(':button').attr("disabled", false);
                 
             }
 
             )
-
-            
-            
 
         }
 
@@ -53,7 +52,6 @@ function ChooseCourse(tcid) {
         //dataType: "json",//对象为json
         success: function (e) {
             w = e;
-
             $(':button').attr("disabled", false);
             $('#message').html(e);
             $('#myModal').modal({ backdrop: 'static', keyboard: true });

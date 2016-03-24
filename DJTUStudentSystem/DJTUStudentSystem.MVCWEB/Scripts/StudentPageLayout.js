@@ -1,41 +1,7 @@
-﻿function RefreshElective()
-{
-    $("#Elective").showLoading();
-    
-      $.ajax({
-          //需要使用post提交
-          type: "post",
-          url: "/GetJson/GetNowElectiveCourseList_Json",
-          async: true, //异步
-          cache: false, //不加载缓存
-          //dataType: "json",//对象为json
-          success: function (e) {
-              // $("#Elective").hideLoading();
-              ajaxresult = e;
-              if (ajaxresult.length != 0)   
-              {
+﻿
 
-                  NewViewModel.CouseList = JSON.parse(ajaxresult);
 
-                  NewViewModel.CouseList.sort();
 
-                 
-                  $('#message').html(ajaxresult);
-                  $('#myModal').modal({ backdrop: 'static', keyboard: true });
-                  
-
-              }
-
-          },
-          error: function (XMLHttpRequest, textStatus, errorThrown) {
-              $("#Elective").hideLoading();
-              alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
-
-          }
-
-      })
-
-}
 function GetNowElective() {
     
     $("#Elective").showLoading();
@@ -58,18 +24,32 @@ function GetNowElective() {
           }
 
       })).done(function () {
-         
+          $("#Elective").hideLoading();
           if (ajaxresult.length != 0) {
-
-              var EleCourseList = JSON.parse(ajaxresult);
-              NewViewModel.CouseList = EleCourseList;
-              NewViewModel.CouseList.sort();
+              /*
               $('#message').html(ajaxresult);
               $('#myModal').modal({ backdrop: 'static', keyboard: true });
+              */
+              var num=ViewModel.CourseList().length
+              
+              if (num > 0)
+              {
+                  for (var i = 1; i < num; i++)
+                  {
+                      ViewModel.CourseList.pop();
+                  }
+
+              }
+              ko.utils.arrayForEach(JSON.parse(ajaxresult), function (item) {
+
+                  ViewModel.CourseList.push(item);
+
+              });
               
 
-              ko.applyBindings(NewViewModel);
-              $("#Elective").hideLoading();
+
+              
+              
 
           }
       })
