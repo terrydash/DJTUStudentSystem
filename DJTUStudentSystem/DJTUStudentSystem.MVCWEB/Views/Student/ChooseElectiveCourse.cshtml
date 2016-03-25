@@ -8,11 +8,11 @@
 
 
     
-      <h4 class="text-left " data-bind="with: Student">
+      <h4 class="text-left " >
        
-        <div role="alert" class="alert alert-success"> 欢迎你!<b><span data-bind='text:StudentName '></span>同学</b>，你所在的年级<span data-bind='text: GradeName '></span>级，允许选择<span data-bind='text: GradeCanChoose '></span>门,本学期你已经选择了<span data-bind='text: HowManyNowHaveStudentChoose '></span>门公选课,入学以来共修过了(成绩大于等于60分)<span data-bind='text: HowManyHaveStudentChoose '></span>门公选课。</div>
+        <div role="alert" class="alert alert-info" > 欢迎你!<b><span data-bind='text: StudentName ' class="text-danger "></span>同学</b>，你所在的年级<span data-bind='text: GradeName ' class="text-danger "></span>级，允许选择<span data-bind='text: GradeCanChoose ' class="text-danger "></span>门公选课,本学期你已经选择了<span data-bind='text: HowManyNowHaveStudentChoose ' class="text-danger "></span>门公选课,入学以来共修过<span data-bind='text: HowManyHaveStudentChoose ' class="text-danger "></span>门公选课。</div>
     </h4> 
-    @Html.Bootstrap().Heading1("大连科技学院公选课开课计划").SetAlignment(TextAlignment.Center).SetState(TextState.Primary).SetBackgroundState(BackgroundState.Success)
+    @Html.Bootstrap().Heading1("大连科技学院公选课开课计划").SetAlignment(TextAlignment.Center).SetState(TextState.Muted).SetBackgroundState(BackgroundState.Success)
 
     @using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").SetId("Elective").Begin())
     {
@@ -43,6 +43,7 @@
                     <td class="vert-align"><span data-bind="html: Html"></span></td>
                 </tr>
             </tbody>
+     
 
 
     }

@@ -427,6 +427,7 @@
     <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\StudentPageLayout.js" />
+    <Content Include="Scripts\TablePager.js" />
     <Content Include="Scripts\_Layout.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />

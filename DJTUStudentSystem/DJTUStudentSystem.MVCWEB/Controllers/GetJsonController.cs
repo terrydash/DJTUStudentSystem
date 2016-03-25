@@ -14,11 +14,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         public ActionResult GetNowElectiveCourseList_Json()
         {
             if (!Request.IsAjaxRequest()) { return Content("不可直接调用"); }
-            var CheckSessionResult = SessionHelper.CheckSession("获取当前学期的选修课", 10);
+            
+            var CheckSessionResult = SessionHelper.CheckSession("获取当前学期的选修课", 2);
             if (CheckSessionResult != "SessionOk".ToUpper())
             {
                 return null;
             }
+            
             if (!Request.IsAjaxRequest()) { return null; }
             Setting.isReadFromDB = true;
             LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
@@ -37,14 +39,19 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
              if (!Request.IsAjaxRequest()) { return Content("不可直接调用"); }
            
                 if (Session["Student"] == null) { return Content("登陆信息丢失，请重新登陆！".ToUpper()); }
-
-                var CheckSessionResult = SessionHelper.CheckSession("获取学生信息", 5);
+                
+                var CheckSessionResult = SessionHelper.CheckSession("获取学生信息", 2);
                 if (CheckSessionResult != "SessionOk".ToUpper())
                 {
                     return Content(CheckSessionResult);
                 }
+                
                 var StudentModelView = Session["Student"] as StudentViewModel;
-
+                Student_BLL S_BLL = new Student_BLL();
+                Setting.isReadFromDB = true;
+                var _Student= S_BLL.GetEntityFromDAL_WithEntityID(StudentModelView.StudentID);
+                StudentModelView = StudentModelView.ConvertDataBaseModelToViewModel(_Student);
+                Setting.isReadFromDB = false;
                 return Content(JsonHelper.SerializeObject(StudentModelView));
         }
             
