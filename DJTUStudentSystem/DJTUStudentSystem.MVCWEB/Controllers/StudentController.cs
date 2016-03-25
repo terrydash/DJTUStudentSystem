@@ -34,7 +34,9 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 {
                     return Content(CheckSessionResult);
                 }
-           
+            var StudentModelView = Session["Student"] as StudentViewModel;
+            
+            
             return View();
         }
         #endregion
@@ -180,19 +182,10 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             
 
 
-            Student_BLL S_BLL = new Student_BLL();
-
-            StudentViewModel _StudentViewModel = new StudentViewModel();
-            _StudentViewModel = Session["Student"] as StudentViewModel;
-            Setting.isReadFromDB = true;
-            _StudentViewModel = _StudentViewModel.ConvertDataBaseModelToViewModel((S_BLL.GetEntityFromDAL_WithEntityID(_StudentViewModel.StudentID)));
-            Session["Student"] = _StudentViewModel;
-            Setting.isReadFromDB = false;
-            ViewBag.StudentName = _StudentViewModel.StudentName;
-            ViewBag.StudentPhotoUrl = _StudentViewModel.PhotoUrl;
+          
             LogHelper.Logger.Info(JsonHelper.SerializeObject(Session["Student"] as StudentViewModel));
-            //return Content(JsonHelper.SerializeObject(_StudentViewModel));
-           return View(_StudentViewModel);
+            
+           return View();
 
         }
         #endregion
@@ -231,68 +224,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 return Content("不能直接访问!");
         }
         #endregion 
-        #region 获取学生本学期的课表 public static string[,] GetStudentNowKCBWithStuID(int StuID)
-        /// <summary>
-        /// 获取学生本学期的课表
-        /// </summary>
-        /// <param name="StuID">学生的ID</param>
-        /// <returns>存储课表的二维数组</returns>
-
-        public static string[,] GetStudentNowKCBWithStuID(int StuID)
-        {
-            string[,] KCB = new string[8, 8];
-            for (int i = 1; i <=7; i++)
-            {
-                for (int j = 1; j <=7; j++)
-                {
-                    KCB[i, j] = string.Empty;
-                }
-                
-            }
-            LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
-            var Vw_Cschedule = L_BLL.GetNowVw_CscheduleByStuid(Setting.isReadFromDB,StuID);
-            foreach (var _Vw_Cschedule in Vw_Cschedule)
-            {
-                string _KCB = string.Empty;
-                StudentKCBViewModel _StudentKCBViewModel = new StudentKCBViewModel();
-                _StudentKCBViewModel.CCID = _Vw_Cschedule.CCID;
-                _StudentKCBViewModel.TCID = _Vw_Cschedule.TCID;
-                _StudentKCBViewModel.CourseName = _Vw_Cschedule.CCname;
-                _StudentKCBViewModel.CSID = _Vw_Cschedule.CSID;
-                _StudentKCBViewModel.StartWeek = _Vw_Cschedule.StartW;
-                _StudentKCBViewModel.EndWeek = _Vw_Cschedule.EndW;
-                _StudentKCBViewModel.TeacherName = _Vw_Cschedule.PsName;
-                _StudentKCBViewModel.PSID = _Vw_Cschedule.PSID;
-                _StudentKCBViewModel.Section = _Vw_Cschedule.SectionTH;
-                _StudentKCBViewModel.RoomName = _Vw_Cschedule.CRname;
-                if (_Vw_Cschedule.DSZ!="整")
-                { _StudentKCBViewModel.SingleOrDouble ="("+ _Vw_Cschedule.DSZ+"周)"; }
-                else { _StudentKCBViewModel.SingleOrDouble = string.Empty; }
-                
-                _StudentKCBViewModel.Week = _Vw_Cschedule.DayOfWeek;
-                int intWeek = 1;
-                for (int intSection = 1; intSection <=7 ; intSection++)
-                {
-                    if  (_StudentKCBViewModel.Section==(intSection * 2 - 1).ToString() + "-" + (intSection * 2).ToString() + "节")
-                    {
-                        intWeek = Convert.ToInt32(_StudentKCBViewModel.Week);
-                         _KCB= _StudentKCBViewModel.CourseName + "<br />" + _StudentKCBViewModel.TeacherName + "<br />第" + _StudentKCBViewModel.StartWeek + "-" + _StudentKCBViewModel.EndWeek + "周&nbsp;" + _StudentKCBViewModel.SingleOrDouble + "<br />" + _StudentKCBViewModel.RoomName; 
-                        if (KCB[intWeek,intSection]==string.Empty)
-                        {
-                            KCB[intWeek, intSection] = _KCB;
-
-                        }else
-                        {
-                            KCB[intWeek, intSection] = KCB[intWeek, intSection] + "<br /><br />" + _KCB;
-                        }
-
-                    }
-                }  
-            }
-            return KCB;
-
-        }
-        #endregion
+       
         #region 所选课程 与学生课表 进行比较 看有几周冲突 private string CompareKCB(List<DataBaseModel.Vw_Cschedule> _TeachClassCcheduleList,List<DataBaseModel.Vw_Cschedule> _StudentNowCscheduleList)
 
 

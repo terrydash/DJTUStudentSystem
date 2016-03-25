@@ -307,11 +307,11 @@
                     </li>
 
                     <li class="light-blue">
-                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                            <img class="nav-user-photo" src="@StudentModel.PhotoUrl  "    alt="@StudentModel.StudentName 的照片" />
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle" data-bind="with: Student">
+                            <img class="nav-user-photo" data-bind="attr:{'src': PhotoUrl,'alt': StudentName }"     />
                             <span class="user-info">
                                 <small>欢迎光临,</small>
-                                @StudentModel.StudentName
+                                <span data-bind="html: StudentName"></span>
                             </span>
 
                             <i class="icon-caret-down"></i>
@@ -521,7 +521,7 @@
                     </div><!-- #nav-search -->
                 </div>
 
-                <div class="page-content">
+                <div class="page-content" id="pagecontent">
                 @RenderBody()
 
                 

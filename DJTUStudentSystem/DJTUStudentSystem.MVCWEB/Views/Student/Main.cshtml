@@ -1,23 +1,22 @@
-﻿@using DJTUStudentSystem.MVCWEB.Models
+﻿
 @using FluentBootstrap;
-@using FluentBootstrap.Mvc;
-@model StudentViewModel
+
+
 @{ 
-    ViewBag.Title = Model.StudentName+"的基本信息";
-    Layout = "~/Views/Shared/_Layout.cshtml";
     
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
 
 
-<div class="well well-small center text-success ">
+<div class="well well-small center text-success " data-bind="with: Student">
     <h3 class="hidden-480">
-        大连科技学院-@Model.GetNowActYear().ATName <br /> @Model.StudentName 的课程表
+        大连科技学院-<span data-bind="html:GetNowActYear.ATName"></span>  <br /><span data-bind="html:StudentName"></span>的课程表
     </h3>
     
     <h4 class="text-left text-danger">
-       @Html.Bootstrap().Alert(AlertState.Success, " 欢迎你!<b>"+@Model.StudentName +"同学</b>，如果你对软件开发(C#,ASP.NET MVC,BOOTSTRAP,JQUERY等)和本系统有任何建议欢迎你点击<a target='blank' href='http://shang.qq.com/wpa/qunwpa?idkey=73d440ad17b13b11fc91e12206c1fe73091dffd2cf29feff473ea7cd02bd1919'><img border='0' src='http://pub.idqqimg.com/wpa/images/group.png' alt='大科院选课系统开发群' title='大科院选课系统开发群'></a>进行讨论，进群请改真实姓名和学号!")
+       @Html.Bootstrap().Alert(AlertState.Success, " 欢迎你!<b><span data-bind='html:StudentName '></span>同学</b>，如果你对软件开发(C#,ASP.NET MVC,BOOTSTRAP,JQUERY等)和本系统有任何建议欢迎你点击<a target='blank' href='http://shang.qq.com/wpa/qunwpa?idkey=73d440ad17b13b11fc91e12206c1fe73091dffd2cf29feff473ea7cd02bd1919'><img border='0' src='http://pub.idqqimg.com/wpa/images/group.png' alt='大科院选课系统开发群' title='大科院选课系统开发群'></a>进行讨论，进群请改真实姓名和学号!")
     </h4>
     
 </div>
@@ -80,39 +79,29 @@
                         </tr>
                     </thead>
                     
-                    <tbody>
-                        @if (Model != null)
-                        {
-                            //var item = Model;
-
-                             foreach (var item in Model.NowStuReportViewModelList)
-
-                            {
-
-                                    <tr>
+                    <tbody data-bind="foreach: Student.NowStuReportViewModelList"> 
+                        <tr>
                                                                             
-                                        <td class="hidden-480">
-                                            <a href="#">@Html.DisplayFor(d=>item.AtyName)</a>
-                                        </td>                                       
+                                      <td class="hidden-480">
+                                      <a href="#" data-bind="html: AtyName"></a>
+                                      </td>                                       
+                                      
                                         <td>
-                                            @Html.DisplayFor(d => item.CourseName)
-                                     </td>
+                                           <span data-bind="html: CourseName"></span>
+                                        </td>
 
                                     <td class="hidden-480" >
-                                      
-                                            @Html.DisplayFor(d => item.Minor)
-                                     
+                                        <span data-bind="html: Minor"></span>
                                         
                                     </td>
-
+                                   
 
                                     <td>
-                                        @Html.DisplayFor(d => item.CourseResult)
+                                        <span data-bind="html:CourseResult"></span>
                                     </td>
                                 </tr>
 
-                                }
-                            }
+                             
 
                         
 

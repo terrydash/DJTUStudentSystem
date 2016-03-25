@@ -1,13 +1,18 @@
 ﻿
-var ViewModel = new function () { this.CourseList = ko.observableArray();}
-ko.applyBindings(ViewModel);
+/*
+全局JS：
 
-
-
-   
+*/
+var ViewModel = new function ()
+{
+    this.CourseList = ko.observableArray();    
+    this.Student = ko.observable();
+    this.Student.HowManyNowHaveStudentChoose = ko.observable();
+}
 var vw;
 var w;
-var ajaxresult="";
+var ajaxresult = "";
+
 $(function () { $('#myModal').modal('hide') });
 $(function () {
     $('#myModal').on('hide.bs.modal', function () {
@@ -98,10 +103,131 @@ function DeleteCourse(srid) {
         });
     }
 }
+function GetNowElective() {
+
+    $("#Elective").showLoading();
+    $.ajax({
+        //需要使用post提交
+        type: "post",
+        url: "/GetJson/GetStudentInfoFromSession_Json",
+        async: true, //异步
+        cache: false, //不加载缓存
+        //dataType: "json",//对象为json
+        success: function (e) {
+            ajaxresult = e;
+            if (ajaxresult.length != 0) {
+
+                ViewModel.Student = null;
+                var Studentinfo = JSON.parse(ajaxresult);
+
+                alert(StudentinfoHowManyNowHaveStudentChoose);
+
+                ko.applyBindings(ViewModel);
+
+                $('#message').html(ajaxresult);
+                $('#myModal').modal({ backdrop: 'static', keyboard: true });
+
+
+            }
+
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+            alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
+
+        }
+
+    })
+    $.when(
+      $.ajax({
+          //需要使用post提交
+          type: "post",
+          url: "/GetJson/GetNowElectiveCourseList_Json",
+          async: true, //异步
+          cache: false, //不加载缓存
+          //dataType: "json",//对象为json
+          success: function (e) {
+              ajaxresult = e;
+
+          },
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+              alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
+
+          }
+
+      })).done(function () {
+          $("#Elective").hideLoading();
+          if (ajaxresult.length != 0) {
+              
+              /*
+              $('#message').html(ajaxresult);
+              $('#myModal').modal({ backdrop: 'static', keyboard: true });
+              */
+              var num = ViewModel.CourseList().length
+
+              if (num > 0) {
+                  for (var i = 0; i < num; i++) {
+                      ViewModel.CourseList.pop();
+                  }
+
+              }
+              ko.utils.arrayForEach(JSON.parse(ajaxresult), function (item) {
+
+                  ViewModel.CourseList.push(item);
+
+              });
+              
+         
+            
+              
+          }
+      })
+}
+function GetStudentinfo() {
+
+    $("#pagecontent").showLoading();
+    $.when(
+          $.ajax({
+              //需要使用post提交
+              type: "post",
+              url: "/GetJson/GetStudentInfoFromSession_Json",
+              async: true, //异步
+              cache: false, //不加载缓存
+              //dataType: "json",//对象为json
+              success: function (e) {
+                  ajaxresult = e;
+
+                  $("#pagecontent").hideLoading();
+              },
+              error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                  alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
+
+              }
+
+          })).done(function () {
+
+              if (ajaxresult.length != 0) {
+
+
+                  var Studentinfo = JSON.parse(ajaxresult);
+                  ViewModel.Student = Studentinfo;
+                  ViewModel.StudentName = Studentinfo.StudentName;
+
+                  ko.applyBindings(ViewModel);
+
+                  $('#message').html(ajaxresult);
+                  $('#myModal').modal({ backdrop: 'static', keyboard: true });
+
+
+              }
+          })
+}
 $(document).ready(function () {
     $('#message').html("<h1>当前系统为测试阶段，所选课程只为测试，选课视为无效，正式选课前将清空名单！</h1>");
     $('#myModal').modal({ backdrop: 'static', keyboard: true });
-   
     $('#sample-table-2').DataTable({
         "bSort": true, "language": {
             "sProcessing": "处理中...",
@@ -128,8 +254,86 @@ $(document).ready(function () {
             }
         }
     })
+    $("#pagecontent").showLoading();
+    $.when(
+          $.ajax({
+              //需要使用post提交
+              type: "post",
+              url: "/GetJson/GetStudentInfoFromSession_Json",
+              async: true, //异步
+              cache: false, //不加载缓存
+              //dataType: "json",//对象为json
+              success: function (e) {
+                  ajaxresult = e;
+
+                  $("#pagecontent").hideLoading();
+              },
+              error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                  alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
+
+              }
+
+          })).done(function () {
+
+              if (ajaxresult.length != 0) {
+
+                  
+                  var Studentinfo = JSON.parse(ajaxresult);
+                  ViewModel.Student = Studentinfo;
+                  var NowStuReportViewModelList = Studentinfo.NowStuReportViewModelList;
+                  var StudentKCBViewModelList = Studentinfo.StudentKCBViewModelList;
+                  //alert(ViewModel.Student.GradeCanChoose);
+                  //alert(NowStuReportViewModelList.length);
+                  $.each(StudentKCBViewModelList, function (j, item) {
+                      for (i = 1; i <= 7; i++) {
+                          if (item.Section == ((i * 2 - 1) + "-" + (i * 2) + "节")) {
+                              
+                              var str = $("#" + item.Week + "_" + i).html() + " <br />" + item.CourseName + " <br /> " + item.TeacherName + "<br />" + item.StartWeek + "-" + item.EndWeek + "周" + item.SingleOrDouble + " <br />" + item.RoomName;
+                              $("#" + item.Week + "_" + i).html(str);
+                          }
+                      }
+                  }
+                  )
+                  ko.applyBindings(ViewModel);
+                  /*
+                  $('#message').html(ajaxresult);
+                  $('#myModal').modal({ backdrop: 'static', keyboard: true });
+                  */
+                  var host = window.location.host.toUpperCase();
+                  var url = window.location.href.toUpperCase();
+                  var currentpage = url.replace(host, "").replace("HTTP://", "").replace("HTTPS://");
+
+
+                  if ((currentpage == "/Student/Main/".toUpperCase()) || (currentpage == "/Student/Main".toUpperCase())) {
+
+
+
+
+                  } else if ((currentpage == "/Student/ChooseElectiveCourse/".toUpperCase()) || (currentpage == "/Student/ChooseElectiveCourse".toUpperCase())) {
+
+                      GetNowElective();
+                     
+
+
+                         
+
+                  }
+
+
+              }
+          })
+
     
-});
+
+      
+
+  
+    
+}
+);
+
+
 /*
 $(document).ready(function () {
 

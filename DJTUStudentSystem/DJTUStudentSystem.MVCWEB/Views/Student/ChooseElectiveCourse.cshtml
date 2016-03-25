@@ -5,31 +5,34 @@
 
 }
 @using FluentBootstrap;
-@using FluentBootstrap.Mvc;
-        
+
+
+    
+      <h4 class="text-left " data-bind="with: Student">
        
-        
-        @Html.Bootstrap().Heading1("大连科技学院公选课开课计划").SetAlignment(TextAlignment.Center).SetState(TextState.Primary).SetBackgroundState(BackgroundState.Success)
-        
-        @using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").SetId("Elective").Begin())
-        {
-            
-            <thead class="text-center">
-                <tr>
-                    <th>序号</th>
-                    <th>课程名称</th>
-                    <th class=" hidden-480">任课教师</th>
-                    <th class=" hidden-480">开放状态</th>
-                    <th class=" hidden-480">开放人数</th>
-                    <th class=" hidden-480">已选人数</th>
-                    <th>余量</th>
-                    <th>课程表</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
+        <div role="alert" class="alert alert-success"> 欢迎你!<b><span data-bind='text:StudentName '></span>同学</b>，你所在的年级<span data-bind='text: GradeName '></span>级，允许选择<span data-bind='text: GradeCanChoose '></span>门,本学期你已经选择了<span data-bind='text: HowManyNowHaveStudentChoose '></span>门公选课,入学以来共修过了(成绩大于等于60分)<span data-bind='text: HowManyHaveStudentChoose '></span>门公选课。</div>
+    </h4> 
+    @Html.Bootstrap().Heading1("大连科技学院公选课开课计划").SetAlignment(TextAlignment.Center).SetState(TextState.Primary).SetBackgroundState(BackgroundState.Success)
+
+    @using (var table = Html.Bootstrap().Table().SetStyle(TableStyle.Bordered | TableStyle.Hover).SetAlignment(TextAlignment.Center).AddCss("text-center").SetId("Elective").Begin())
+    {
+
+        <thead class="text-center">
+            <tr>
+                <th>序号</th>
+                <th>课程名称</th>
+                <th class=" hidden-480">任课教师</th>
+                <th class=" hidden-480">开放状态</th>
+                <th class=" hidden-480">开放人数</th>
+                <th class=" hidden-480">已选人数</th>
+                <th>余量</th>
+                <th>课程表</th>
+                <th>操作</th>
+            </tr>
+        </thead>
             <tbody data-bind="foreach: CourseList">
-                <tr data-bind="css:{success:(IsCurrentStudentCanChoose) ,warning:(IsHaveChosen),danger:(!IsCurrentStudentCanChoose)}"  class="vert-align">
-                    <td class="vert-align"><span data-bind="html: XuHao"></span></td>                    
+                <tr data-bind="css:{success:(IsCurrentStudentCanChoose) ,warning:(IsHaveChosen),danger:(!IsCurrentStudentCanChoose)}" class="vert-align">
+                    <td class="vert-align"><span data-bind="html: XuHao"></span></td>
                     <td class="vert-align"><span data-bind="html: CourseName"></span></td>
                     <td class="vert-align"><span data-bind="html: TeacherName"></span></td>
                     <td class="vert-align"><span data-bind="html: SelectState"></span></td>
@@ -41,7 +44,6 @@
                 </tr>
             </tbody>
 
-         
-        }
 
-   
+    }
+
