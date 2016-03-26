@@ -183,7 +183,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
 
           
-            LogHelper.Logger.Info(JsonHelper.SerializeObject(Session["Student"] as StudentViewModel));
+            //LogHelper.Logger.Info(JsonHelper.SerializeObject(Session["Student"] as StudentViewModel));
             
            return View();
 

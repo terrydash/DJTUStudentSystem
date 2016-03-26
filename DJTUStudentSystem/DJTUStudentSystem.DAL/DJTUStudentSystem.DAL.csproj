@@ -45,9 +45,14 @@
   <ItemGroup>
     <Compile Include="Activeyear_DAL.cs" />
     <Compile Include="ClassAndTeach_DAL.cs" />
+    <Compile Include="ClassRoom_DAL.cs" />
+    <Compile Include="CSchedule_DAL.cs" />
+    <Compile Include="Curricula_DAL.cs" />
     <Compile Include="StrReport_DAL.cs" />
     <Compile Include="Student_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeachClass_DAL.cs" />
+    <Compile Include="Teacher_DAL.cs" />
     <Compile Include="Vw_Cschedule_DAL.cs" />
     <Compile Include="Vw_Student_DAL.cs" />
     <Compile Include="Vw_Stureport.cs" />

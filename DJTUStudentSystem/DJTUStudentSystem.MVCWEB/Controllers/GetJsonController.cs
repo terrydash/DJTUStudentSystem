@@ -15,7 +15,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         {
             if (!Request.IsAjaxRequest()) { return Content("不可直接调用"); }
             
-            var CheckSessionResult = SessionHelper.CheckSession("获取当前学期的选修课", 2);
+            var CheckSessionResult = SessionHelper.CheckSession("获取当前学期的选修课", 5);
             if (CheckSessionResult != "SessionOk".ToUpper())
             {
                 return null;
