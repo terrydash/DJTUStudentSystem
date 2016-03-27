@@ -15,7 +15,14 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
     public partial class StudentController : Controller
     {
         private bool AllowChooseChourse = true;//是否允许选课
-      
+        public ActionResult Logout()
+        {
+
+            Session.RemoveAll();
+            return Redirect("/Login/Index");
+            
+
+        }
         #region 进入选课页面  public ActionResult ChooseElectiveCourse()
         //
         // GET: /Student/
@@ -52,7 +59,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
           if (Request.IsAjaxRequest())
             {
                 string Message = string.Empty;
-                var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 15);
+                var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 5);
 
              if (CheckSessionResult!="SessionOk".ToUpper())
                 {
@@ -197,7 +204,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult DeleteCourse(int srid)
         {
-            var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 15);
+            var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 5);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
             {

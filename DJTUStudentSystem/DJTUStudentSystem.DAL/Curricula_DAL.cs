@@ -42,5 +42,14 @@ namespace DJTUStudentSystem.DAL
                           .OrderBy(Curricula._.CCID.Desc)
                           .ToList();
         }
+        public List<Curricula> GetNowCurriculaCsort2()
+        {
+            return DISTDBSession.Context.From<Curricula>()
+                         .Select(d => new { d.CCID, d.CCname, d.CCode, d.Csort, d.Source, d.Period })
+                         .Where(d=>d.Csort=="2")
+                         .OrderBy(Curricula._.CCID.Desc)
+                         .ToList();
+
+        }
     }
 }

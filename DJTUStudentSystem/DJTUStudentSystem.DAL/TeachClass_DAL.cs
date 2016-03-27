@@ -37,6 +37,16 @@ namespace DJTUStudentSystem.DAL
 
 
         }
+        public List<TeachClass> GetEntityFromDB_WithEntityIDByCCID(int CCID,string Minor,int atyid)
+        {
+            return DISTDBSession.Context.From<TeachClass>()
+                           .Select(d => new { d.TCHID, d.RGID, d.TCID, d.TCName, d.CCID, d.ActYear, d.EPID, d.Grade, d.Havenum, d.OpenNum, d.SelectState, d.Minor, d.MaxStuNum, d.LimitGrade, d.LimitSP, d.SPID, d.CTID })
+                           .OrderBy(TeachClass._.TCID.Desc)
+                           .Where(d => d.CCID == CCID && d.Minor==Minor && d.ActYear==(int)atyid)
+                           .ToList();
+
+
+        }
 
         public List<TeachClass> GetEntityListFromDB_WithEntityID(int _EntityID)
         {

@@ -5,6 +5,7 @@ using System.Text;
 using DJTUStudentSystem.DataBaseModel;
 using DJTUStudentSystem.Interface;
 using DJTUStudentSystem.BLL;
+using DJTUStudentSystem.Common;
 namespace DJTUStudentSystem.MVCWEB.Models 
 {
     public class StuReportViewModel :IDataBaseModelToViewModel<StuReportViewModel,Vw_StuReport>
@@ -35,17 +36,36 @@ namespace DJTUStudentSystem.MVCWEB.Models
             var _StuReportViewModel = new StuReportViewModel();
             _StuReportViewModel.CourseID = _Entity.CCID;
             _StuReportViewModel.CourseName = _Entity.课程名称;
-            try
+            System.Text.RegularExpressions.Regex rex =
+            new System.Text.RegularExpressions.Regex(@"^\d+$");
+            if (_Entity.成绩==null)
             {
-                Convert.ToInt32(_Entity.成绩);
+                _StuReportViewModel.CourseResult = "0";
 
             }
-            catch
+            else
             {
+                try
+                {
+                    if (rex.IsMatch(_Entity.成绩))
+                    {
+                        _StuReportViewModel.CourseResult = _Entity.成绩;
+                    }
+                    else
+                    {
+                        _StuReportViewModel.CourseResult = "0";
+                    }
 
-                _Entity.成绩 = "0";
+
+                }
+                catch (Exception e)
+                {
+                    LogHelper.Logger.Error(e.ToString());
+                    _StuReportViewModel.CourseResult = "0";
+                }
             }
-            _StuReportViewModel.CourseResult = _Entity.成绩;
+          
+           
             _StuReportViewModel.AtyName = _Entity.当前学期;
             _StuReportViewModel.Minor = _Entity.Minor;
             _StuReportViewModel.TeachClassID = _Entity.TCID;

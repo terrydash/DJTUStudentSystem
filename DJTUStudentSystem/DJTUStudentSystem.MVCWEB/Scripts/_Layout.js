@@ -15,40 +15,12 @@ var ViewModel = new function ()
     
 }
 
-var vw;
-var w;
+
+
 var ajaxresult = "";
+var IsAjaxing = false;
 
-$(function () { $('#myModal').modal('hide') });
-$(function () {
-    $('#myModal').on('hide.bs.modal', function () {
 
-        
-        if (w == "选课成功！请返回首页查看课表！" || w == "退选成功！")
-        {
-            $(':button').attr("disabled", true);
-            w = "";
-            $.when
-            (   
-                GetStudentinfo()
-               
-
-            )
-            .done
-            (function ()
-            {
-                
-                GetNowElective();
-                $(':button').attr("disabled", false);
-                
-            }
-
-            )
-
-        }
-
-    })
-});
 
 //选课的AJAX
 function ChooseCourse(tcid) {
@@ -64,14 +36,19 @@ function ChooseCourse(tcid) {
         cache: false, //不加载缓存
         //dataType: "json",//对象为json
         success: function (e) {
-            w = e;
-            $(':button').attr("disabled", false);
+            
+            IsAjaxing = false;
             $('#message').html(e);
             $('#myModal').modal({ backdrop: 'static', keyboard: true });
-
+            $(':button').attr("disabled", false)
+            if (e = "选课成功！请返回首页查看课表！")
+             {
+                   $.when(GetStudentinfo())
+                   .done(GetNowElective())
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-
+            IsAjaxing = false;
             alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
             $(':button').attr("disabled", false);
 
@@ -96,14 +73,22 @@ function DeleteCourse(srid) {
             cache: false, //不加载缓存
             //dataType: "json",//对象为json
             success: function (e) {
-                w = e;
-                $(':button').attr("disabled", false);
+                IsAjaxing = false;
+                $(':button').attr("disabled", false)
                 $('#message').html(e);
                 $('#myModal').modal({ backdrop: 'static', keyboard: true });
+                if (e == "退选成功！")
+                {
+                 $.when(GetStudentinfo())
+                .done( GetNowElective())
+                }
+                
+
+
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-
+                IsAjaxing = false;
                 alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
                 $(':button').attr("disabled", false);
             }
@@ -114,7 +99,10 @@ function DeleteCourse(srid) {
 function GetNowElective() {
 
     
-    
+    if (IsAjaxing)
+    {
+        return false;
+    }
     $("#Elective").showLoading();
    
     $.when(
@@ -126,11 +114,15 @@ function GetNowElective() {
           cache: false, //不加载缓存
           //dataType: "json",//对象为json
           success: function (e) {
+              IsAjaxing = false;
+              if (e == "tofast".toUpperCase()) {
+                  return false;
+              }
               ajaxresult = e;
               
           },
           error: function (XMLHttpRequest, textStatus, errorThrown) {
-              
+              IsAjaxing = false;
               alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
 
           }
@@ -158,6 +150,7 @@ function GetNowElective() {
 
               });
               MakeTablePager("Elective");
+              return false;
          
             
               
@@ -165,7 +158,9 @@ function GetNowElective() {
       })
 }
 function GetStudentinfo() {
-    
+    if (IsAjaxing) {
+        return false;
+    }
     $("#pagecontent").showLoading();
     $.when(
           $.ajax({
@@ -176,12 +171,17 @@ function GetStudentinfo() {
               cache: false, //不加载缓存
               //dataType: "json",//对象为json
               success: function (e) {
+                  IsAjaxing = false;
+                  if (e == "tofast".toUpperCase() ) {
+                     
+                      return false;
+                  }
                   ajaxresult = e;
 
                   $("#pagecontent").hideLoading();
               },
               error: function (XMLHttpRequest, textStatus, errorThrown) {
-
+                  IsAjaxing = false;
                   alert("访问出错请联系管理员!出错信息:" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus);
 
               }
@@ -237,7 +237,7 @@ function GetStudentinfo() {
                      
                   }
                   ko.applyBindings(ViewModel);
-                  
+                  return false;
 
 
               }
@@ -248,9 +248,9 @@ $(document).ready(function () {
     $('#message').html("<h1>当前系统为测试阶段，所选课程只为测试，选课视为无效，正式选课前将清空名单！</h1>");
     $('#myModal').modal({ backdrop: 'static', keyboard: true });
    
-    $.when(
-        GetStudentinfo()
-        ).done();
+    
+    GetStudentinfo();
+      
     
     
 
