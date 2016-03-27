@@ -58,6 +58,10 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
            
           if (Request.IsAjaxRequest())
             {
+                if (!Setting.AllowChooseChourse)
+                {
+                    return Content("选课开关未打开！现在不允许选课！");
+                }
                 string Message = string.Empty;
                 var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 5);
 
@@ -131,9 +135,9 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                   if (_TeachClassCscheduleList!=null && _StudentViewModel.NowStuReportViewModelList != null)
                    {
                         var _StudentNowCscheduleList = _Vw_Cschedule_BLL.GetNowVw_CscheduleyListForStudent_WithStuID(_StudentViewModel.StudentID);
-                        AllowChooseChourse = true;
+                       
                       Message = CompareKCB(_TeachClassCscheduleList, _StudentNowCscheduleList);
-                        if (AllowChooseChourse == false && Message!=string.Empty)
+                        if (Message!=string.Empty)
                         {
 
                             return Content(Message);
@@ -144,8 +148,9 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
                 //选课成功插入数据库
               
-                Stureport_BLL Stu1_BLL = new Stureport_BLL();
-                bool result=false;
+                   Stureport_BLL Stu1_BLL = new Stureport_BLL();
+                  bool result=false;
+                    
                
                     result = Stu1_BLL.Insert(tcid, _StudentViewModel.StudentID);
                     Setting.isReadFromDB = false;
@@ -350,10 +355,10 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             if (ConfictWeek > Setting.AllowConfictWeeks)
             {
                 _StringBuilder.Append("超过了系统设定的只允许冲突" + Setting.AllowConfictWeeks + "周，不允许选课！");
-                AllowChooseChourse = false;
+                Setting.AllowChooseChourse = false;
 
             }
-            if (_StringBuilder.Length == 0 && AllowChooseChourse == true)
+            if (_StringBuilder.Length == 0 && Setting.AllowChooseChourse == true)
             {
                 return string.Empty;
             }
