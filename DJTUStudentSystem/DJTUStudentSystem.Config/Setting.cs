@@ -7,8 +7,11 @@ namespace DJTUStudentSystem.Config
 {
     public class Setting
     {
+        private static bool AllowChooseChourse = true;//是否允许选课
+        private static DateTime StartChooseTime { get; set; }//开始选课时间        
+        private static DateTime EndChooseTime { get; set; }//结束选课时间
         public static int AllowConfictWeeks = 3;//选课时，所选的课程与学生课表存在冲突时，允许冲突几周
-        public static bool isReadFromDB = true;//是否忽略缓存，从数据库直接读取数据；
+        public static bool isReadFromDB = false;//是否忽略缓存，从数据库直接读取数据；
        public static List<GradeCanChooseCourseModel> GradeCanChooseCourse()//哪个年纪可以选课
         {
             GradeCanChooseCourseModel _GradeCanChooseCourseModel = new GradeCanChooseCourseModel() { GradeName = "2012", HowManyCanChoose = 3, isChooseCouse = true };

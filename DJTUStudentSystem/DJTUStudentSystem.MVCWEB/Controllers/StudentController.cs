@@ -14,7 +14,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
     //学生选课相关
     public partial class StudentController : Controller
     {
-        private bool AllowChooseChourse = true;//是否允许选课
+        
         public ActionResult Logout()
         {
 
