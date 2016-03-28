@@ -70,7 +70,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                     return Content(CheckSessionResult);
                 }
                 StudentViewModel _StudentViewModel = Session["Student"] as StudentViewModel;
-                DJTUStudentSystem.DataBaseModel.Vw_TeachClass teachclass;
+                DataBaseModel.Vw_TeachClass teachclass = new DataBaseModel.Vw_TeachClass(); ;
             try { 
 
             
@@ -166,6 +166,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 }
                 catch (Exception e)
                 {
+                    LogHelper.Logger.Error("错误: 学号:" + _StudentViewModel.StudentCode + " 姓名" + _StudentViewModel.StudentName + " 课程名:" + teachclass.课程名称 + " 课程ID:" + teachclass.TCID);
                     return Content(e.ToString());
                 }
             }
@@ -191,11 +192,11 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                
                 Response.Redirect("/Login/Index");
             }
-            
 
 
-          
-            //LogHelper.Logger.Info(JsonHelper.SerializeObject(Session["Student"] as StudentViewModel));
+            var Student=Session["Student"] as StudentViewModel;
+
+            LogHelper.Logger.Info("学号:"+Student.StudentCode + " 姓名" +Student.StudentName +" 成功登陆");
             
            return View();
 
@@ -224,8 +225,11 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 { 
                    result= S_Bll.Delete(srid);
                 }
-                catch
+                catch (Exception e)
                 {
+                    var Student = Session["Student"] as StudentViewModel;
+                    var Vw_TC = new Vw_TeachClass_BLL();
+                    LogHelper.Logger.Error("学号:"+Student.StudentCode +" 姓名:"+Student.StudentName +" 删除的ID:" +srid.ToString() +" 课程名:"+ Vw_TC.GetEntityFromDAL_WithEntityID((int)S_Bll.GetEntityFromDAL_WithEntityID(srid).TCID).课程名称+" 课程TCID:" + S_Bll.GetEntityFromDAL_WithEntityID(srid).TCID.ToString());
                     return Content("退选出错！请联系管理员");
                 }
 
