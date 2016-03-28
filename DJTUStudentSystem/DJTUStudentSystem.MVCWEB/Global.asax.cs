@@ -36,7 +36,7 @@ namespace DJTUStudentSystem.MVCWEB
                     
 
 
-                    var _KeysAndValues = ConfigHelper.LoadConfigSettingFromFile("General", new List<string> { "AllowChooseChourse","AllowConfictWeek" });
+                    var _KeysAndValues = ConfigHelper.LoadConfigSettingFromFile("General", new List<string> { "AllowChooseChourse","AllowConfictWeek","GrandCanChoose" });
                     foreach (var _KeyAndValue in _KeysAndValues)
                     {
 
@@ -65,15 +65,30 @@ namespace DJTUStudentSystem.MVCWEB
                                 }
 
                                 break;
+                            case "GrandCanChoose":
+                                try
+                                { 
+                                    Setting.GradeCanChooseCourse = JsonHelper.DeserializeJsonToList<GradeCanChooseCourseModel>(_KeyAndValue.Value);
+                                }
+                                catch (Exception e)
+                                {
+
+                                    LogHelper.Logger.Error(e.ToString());
+                                }
+                                
+                                
+                                break;
                             default:
                                 break;
                         }
                     }
                 }else
                 {
+                    
                     var _KeysAndValues = new Dictionary<string, string>();
-                    _KeysAndValues.Add("AllowChooseChourse", Setting.AllowChooseChourse.ToString());
-                    _KeysAndValues.Add("AllowConfictWeek", Setting.AllowConfictWeeks.ToString());
+                    _KeysAndValues.Add("AllowChooseChourse", Setting.AllowChooseChourse.ToString()+" #是否允许选课 即选课的开关");
+                    _KeysAndValues.Add("AllowConfictWeek", Setting.AllowConfictWeeks.ToString()+ " #学生课表与所选课程冲突时 允许冲突几周");
+                    _KeysAndValues.Add("GrandCanChoose", JsonHelper.SerializeObject(Setting.GradeCanChooseCourse)+  " #哪个年级可以选课的设定 以及选课数");
                     try
                     {
                         var state=ConfigHelper.SaveConfigSettingToFile("General", _KeysAndValues);

@@ -47,7 +47,7 @@ namespace DJTUStudentSystem.Common
             Section _ConfigSection;
             try
             {
-                _Config = Configuration.LoadFromFile(FileFullName);
+                _Config = Configuration.LoadFromFile(FileFullName, Encoding.UTF8);
                 _ConfigSection = _Config[_sectionName];
                 foreach (var _keyName in _keyNames)
                 {
@@ -65,21 +65,23 @@ namespace DJTUStudentSystem.Common
         public static bool SaveConfigSettingToFile(string _sectionName, Dictionary<string, string> _KeysAndValues)
         {
             var IsSuccess = true;
-            if (FileFullName.Length <= 0 || !File.Exists(FileFullName) || _sectionName.Length <= 0 || _KeysAndValues.Count <= 0)
+           
+            if (FileFullName.Length <= 0 || File.Exists(FileFullName) || _sectionName.Length <= 0 || _KeysAndValues.Count <= 0)
             {
                 IsSuccess = false;
                 return IsSuccess;
             }
+            
             Configuration _Config = new Configuration();
-            Section _ConfigSection = new Section(_sectionName);
+            
             try
             {
                 foreach (var _KeyAndValue in _KeysAndValues)
                 {
-                    _ConfigSection[_KeyAndValue.Key].SetValue(_KeyAndValue.Value);
+                    _Config[_sectionName][_KeyAndValue.Key].StringValue = _KeyAndValue.Value;
                 }
-                _Config.SaveToFile(FileFullName);
-                Console.WriteLine(FileFullName);
+                _Config.SaveToFile(FileFullName,Encoding.UTF8);
+                
             }
             catch (Exception e)
             {

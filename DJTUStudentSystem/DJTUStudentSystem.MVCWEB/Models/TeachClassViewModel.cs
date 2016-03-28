@@ -119,7 +119,7 @@ namespace DJTUStudentSystem.MVCWEB.Models
                 
                 int SRID = -1;                
                 var StudentModel = System.Web.HttpContext.Current.Session["Student"] as StudentViewModel;
-                var GradeCanChoose = Setting.GradeCanChooseCourse().Find(d => d.GradeName == StudentModel.GradeName);
+                var GradeCanChoose = Setting.GradeCanChooseCourse.Find(d => d.GradeName == StudentModel.GradeName);
                 if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == _TeachClassViewModel.TCID) != null)
                 {
                     _TeachClassViewModel.IsHaveChosen = true;
@@ -284,7 +284,7 @@ namespace DJTUStudentSystem.MVCWEB.Models
                 StudentModel = StudentModel.ConvertDataBaseModelToViewModel((S_BLL.GetEntityFromDAL_WithEntityID(StudentModel.StudentID)));
                 System.Web.HttpContext.Current.Session["Student"] = StudentModel;
                 Setting.isReadFromDB = false;
-                var GradeCanChoose = Setting.GradeCanChooseCourse().Find(d => d.GradeName == StudentModel.GradeName);
+                var GradeCanChoose = Setting.GradeCanChooseCourse.Find(d => d.GradeName == StudentModel.GradeName);
                 if (StudentModel.NowStuReportViewModelList.Find(d => d.TeachClassID == _TeachClassViewModel.TCID) != null)
                 {
                     _TeachClassViewModel.IsHaveChosen = true;

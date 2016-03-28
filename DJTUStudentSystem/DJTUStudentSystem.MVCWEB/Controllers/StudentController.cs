@@ -41,9 +41,18 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 {
                     return Content(CheckSessionResult);
                 }
-            var StudentModelView = Session["Student"] as StudentViewModel;
-            
-            
+            var _StudentModelView = Session["Student"] as StudentViewModel;
+            var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentModelView.GradeName);
+            if (GradeCanChooseCourse == null)
+            {
+                return Content("当前年级没有设置，请联系管理员!");
+            }
+            if (GradeCanChooseCourse.isChooseCouse == false)
+            {
+                return Content(_StudentModelView.StudentName + "同学,你当前所在的年级" + _StudentModelView.GradeName + "级现在不允许选课!");                
+            }
+
+
             return View();
         }
         #endregion
@@ -55,13 +64,25 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult ChooseCourse(int tcid)
         {
-           
-          if (Request.IsAjaxRequest())
+            if (!Setting.AllowChooseChourse)
             {
-                if (!Setting.AllowChooseChourse)
-                {
-                    return Content("选课开关未打开！现在不允许选课！");
-                }
+                return Content(("选课开关未打开！"));
+
+            }
+            var _StudentModelView = Session["Student"] as StudentViewModel;
+            var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentModelView.GradeName);
+            if (GradeCanChooseCourse == null)
+            {
+                return Content("当前年级没有设置，请联系管理员!");
+            }
+            if (GradeCanChooseCourse.isChooseCouse == false)
+            {
+                return Content(_StudentModelView.StudentName + "同学,你当前所在的年级" + _StudentModelView.GradeName + "级现在不允许选课!");
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+               
                 string Message = string.Empty;
                 var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 5);
 
@@ -84,7 +105,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
            
             teachclass = VTB.GetEntityFromDAL_WithEntityID(tcid);
 
-            var GradeCanChoose = Setting.GradeCanChooseCourse().Find(d => d.GradeName == _StudentViewModel.GradeName);
+            var GradeCanChoose = Setting.GradeCanChooseCourse.Find(d => d.GradeName == _StudentViewModel.GradeName);
                 var HowManyNowHaveStudentChoose = _StudentViewModel.NowStuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修").ToList().Count;
                     //选课判断：是否超过设置的选课数目
                     if (HowManyNowHaveStudentChoose >= GradeCanChoose.HowManyCanChoose)
@@ -180,7 +201,11 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public virtual ActionResult Main()
         {
-            
+            if (!Setting.AllowChooseChourse)
+            {
+                return Content(("选课开关未打开！"));
+
+            }
             var CheckSessionResult = SessionHelper.CheckSession("刷新选课页面的时间", 5);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
@@ -210,14 +235,23 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult DeleteCourse(int srid)
         {
-            var CheckSessionResult = SessionHelper.CheckSession("提交选课AJAX的时间", 5);
-
-            if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
+            if (!Setting.AllowChooseChourse)
             {
-                return Content(CheckSessionResult);
+                return Content(("选课开关未打开！"));
+
+            }
+            var _StudentModelView = Session["Student"] as StudentViewModel;
+            var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentModelView.GradeName);
+            if (GradeCanChooseCourse == null)
+            {
+                return Content("当前年级没有设置，请联系管理员!");
+            }
+            if (GradeCanChooseCourse.isChooseCouse == false)
+            {
+                return Content(_StudentModelView.StudentName + "同学,你当前所在的年级" + _StudentModelView.GradeName + "级现在不允许选课!");
             }
 
-                if (Request.IsAjaxRequest())
+            if (Request.IsAjaxRequest())
                 {
                 Stureport_BLL S_Bll = new Stureport_BLL();
                 bool result=false;
@@ -227,9 +261,9 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 }
                 catch (Exception e)
                 {
-                    var Student = Session["Student"] as StudentViewModel;
+                  
                     var Vw_TC = new Vw_TeachClass_BLL();
-                    LogHelper.Logger.Error("学号:"+Student.StudentCode +" 姓名:"+Student.StudentName +" 删除的ID:" +srid.ToString() +" 课程名:"+ Vw_TC.GetEntityFromDAL_WithEntityID((int)S_Bll.GetEntityFromDAL_WithEntityID(srid).TCID).课程名称+" 课程TCID:" + S_Bll.GetEntityFromDAL_WithEntityID(srid).TCID.ToString());
+                    LogHelper.Logger.Error("学号:" + _StudentModelView.StudentCode + " 姓名:" + _StudentModelView.StudentName + " 删除的ID:" + srid.ToString());
                     return Content("退选出错！请联系管理员");
                 }
 

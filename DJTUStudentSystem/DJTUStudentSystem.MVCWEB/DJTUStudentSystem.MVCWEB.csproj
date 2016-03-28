@@ -266,6 +266,10 @@
     <Content Include="assets\js\typeahead-bs2.min.js" />
     <Content Include="assets\js\x-editable\ace-editable.min.js" />
     <Content Include="assets\js\x-editable\bootstrap-editable.min.js" />
+    <Content Include="Content\001.jpg" />
+    <Content Include="Content\001min.jpg" />
+    <Content Include="Content\002.jpg" />
+    <Content Include="Content\002min.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

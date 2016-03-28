@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using DJTUStudentSystem.BLL;
 using DJTUStudentSystem.Common;
 using DJTUStudentSystem.MVCWEB.Models;
-
+using DJTUStudentSystem.Config;
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
     public partial class LoginController : Controller
@@ -23,7 +23,10 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 RedirectToAction("/Login/Index");
             }
 
-            
+          
+
+
+
             return View();
         }
         [AllowAnonymous]
@@ -69,29 +72,14 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
             string StudentCode = Request.Form["StudentCode"];
             string StudentPassword = Request.Form["StudentPassword"];
+            var CheckSessionResult = SessionHelper.CheckSession("LoginTimePass", 5);
 
-
-            if (Session["LoginTimePass"] != null)
+            if (CheckSessionResult != "SessionOk".ToUpper())
             {
-
-                var session = Session["LoginTimePass"].ToString(); ;
-                var dt1 = DateTime.Now;
-                try
-                {
-                    dt1 = Convert.ToDateTime(session);
-                }
-                catch
-                {
-                    return Content("出错了");
-                }
-                var dt2 = DateTime.Now;
-                TimeSpan ts = dt2.Subtract(dt1);
-                if (ts.TotalSeconds < 10)
-                {
-                    return Content("请等待10秒后再试!已等待" + ts.TotalSeconds.ToString("0.00") + "秒");
-
-                }
+                return Content(CheckSessionResult);
             }
+
+         
 
             string result = "SB";
             if (Request.IsAjaxRequest())
@@ -109,8 +97,17 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 _StudentViewModel = _StudentViewModel.ConvertDataBaseModelToViewModel(_StudentModel);
                 if (_StudentViewModel != null)
                 {
+                    var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentViewModel.GradeName);
+                     if (GradeCanChooseCourse==null)
+                    {
+                        return Content("当前年级没有设置，请联系管理员!");
+                    }
+                    if (GradeCanChooseCourse.isChooseCouse==false)
+                    {
 
-                    Session["Student"] = _StudentViewModel;
+                        return Content(_StudentViewModel.StudentName + "同学,你当前所在的年级" + _StudentViewModel.GradeName + "级现在不允许选课!");
+                    }
+                   Session["Student"] = _StudentViewModel;
                     Session["LoginTimePass"] = null;
                     return Content("loginok");
 
@@ -119,7 +116,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 {
                     result = "学号或者密码错误!";
                 }
-                Session["LoginTimePass"] = DateTime.Now.ToString();
+                
 
             }
             return Content(result);
