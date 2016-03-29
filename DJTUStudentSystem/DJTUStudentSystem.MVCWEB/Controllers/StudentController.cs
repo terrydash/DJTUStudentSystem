@@ -64,11 +64,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult ChooseCourse(int tcid)
         {
+            /*
             if (!Setting.AllowChooseChourse)
             {
                 return Content(("选课开关未打开！"));
 
             }
+            */
             var _StudentModelView = Session["Student"] as StudentViewModel;
             var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentModelView.GradeName);
             if (GradeCanChooseCourse == null)
@@ -201,11 +203,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public virtual ActionResult Main()
         {
+            /*
             if (!Setting.AllowChooseChourse)
             {
                 return Content(("选课开关未打开！"));
 
             }
+            */
             var CheckSessionResult = SessionHelper.CheckSession("刷新选课页面的时间", 5);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
@@ -235,11 +239,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult DeleteCourse(int srid)
         {
+            /*
             if (!Setting.AllowChooseChourse)
             {
                 return Content(("选课开关未打开！"));
 
             }
+            */
             var _StudentModelView = Session["Student"] as StudentViewModel;
             var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentModelView.GradeName);
             if (GradeCanChooseCourse == null)

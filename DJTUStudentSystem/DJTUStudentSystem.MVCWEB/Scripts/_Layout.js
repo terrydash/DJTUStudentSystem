@@ -19,14 +19,17 @@ var ViewModel = new function ()
 
 var ajaxresult = "";
 var IsAjaxing = false;
-
+var IsBind = false;
 
 
 //选课的AJAX
 function ChooseCourse(tcid) {
-
+    if (IsAjaxing) {
+        return false;
+    }
     var data = "tcid=" + tcid;
     $(':button').attr("disabled", true);
+    IsAjaxing = true;
     $.ajax({
         //需要使用post提交
         type: "post",
@@ -59,11 +62,19 @@ function ChooseCourse(tcid) {
 }
 
 function DeleteCourse(srid) {
+   
+   
     if (confirm("确定退选吗?")) {
-
+      
 
         var data = "srid=" + srid;
         $(':button').attr("disabled", true);
+        if (IsAjaxing) {
+            return false;
+        }
+
+
+        IsAjaxing = true;
         $.ajax({
             //需要使用post提交
             type: "post",
@@ -104,7 +115,7 @@ function GetNowElective() {
         return false;
     }
     $("#Elective").showLoading();
-   
+    IsAjaxing = true;
     $.when(
       $.ajax({
           //需要使用post提交
@@ -162,6 +173,7 @@ function GetStudentinfo() {
         return false;
     }
     $("#pagecontent").showLoading();
+    IsAjaxing = true;
     $.when(
           $.ajax({
               //需要使用post提交
@@ -236,7 +248,12 @@ function GetStudentinfo() {
                       GetNowElective();
                      
                   }
-                  ko.applyBindings(ViewModel);
+                  if (!IsBind)
+                  {
+                      ko.applyBindings(ViewModel);
+                      IsBind = true;
+                  }
+                  
                   return false;
 
 
@@ -245,9 +262,7 @@ function GetStudentinfo() {
 
 }
 $(document).ready(function () {
-    $('#message').html("<h1>当前系统为测试阶段，所选课程只为测试，选课视为无效，正式选课前将清空名单！</h1>");
-    $('#myModal').modal({ backdrop: 'static', keyboard: true });
-   
+  
     
     GetStudentinfo();
       
