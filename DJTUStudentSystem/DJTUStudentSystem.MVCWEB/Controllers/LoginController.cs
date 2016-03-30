@@ -69,6 +69,11 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
         public virtual ActionResult CheckLogin()
         {
+            if (!Setting.AllowChooseChourse)
+            {
+                return Content(("选课开关未打开！"));
+
+            }
 
             string StudentCode = Request.Form["StudentCode"];
             string StudentPassword = Request.Form["StudentPassword"];

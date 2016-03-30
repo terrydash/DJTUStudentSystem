@@ -18,7 +18,7 @@ namespace DJTUStudentSystem.MVCWEB.Models
         public string CSort { get; set; }//课程类型
         public string CourseResult { get; set; }//课程成绩
          public string Minor { get; set; }//课程方式
-        
+        public string ResultState { get; set; }//成绩归档情况
         public List<StuReportViewModel> ConvertDataBaseModelToViewModelList(List<Vw_StuReport> _EntityList)
         {
             if (_EntityList.Count == 0) { return null; }
@@ -36,8 +36,7 @@ namespace DJTUStudentSystem.MVCWEB.Models
             var _StuReportViewModel = new StuReportViewModel();
             _StuReportViewModel.CourseID = _Entity.CCID;
             _StuReportViewModel.CourseName = _Entity.课程名称;
-            System.Text.RegularExpressions.Regex rex =
-            new System.Text.RegularExpressions.Regex(@"^\d+$");
+            _StuReportViewModel.ResultState = _Entity.ReportState;
             if (_Entity.成绩==null)
             {
                 _StuReportViewModel.CourseResult = "0";
@@ -47,20 +46,12 @@ namespace DJTUStudentSystem.MVCWEB.Models
             {
                 try
                 {
-                    if (rex.IsMatch(_Entity.成绩))
-                    {
-                        _StuReportViewModel.CourseResult = _Entity.成绩;
-                    }
-                    else
-                    {
-                        _StuReportViewModel.CourseResult = "0";
-                    }
-
-
+                   _StuReportViewModel.CourseResult =Convert.ToInt32(_Entity.成绩).ToString();                   
                 }
                 catch (Exception e)
                 {
-                    LogHelper.Logger.Error(e.ToString());
+                
+                LogHelper.Logger.Error(e.ToString());
                     _StuReportViewModel.CourseResult = "0";
                 }
             }

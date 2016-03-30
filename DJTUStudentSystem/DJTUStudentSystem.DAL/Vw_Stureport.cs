@@ -46,7 +46,7 @@ namespace DJTUStudentSystem.DAL
         public List<Vw_StuReport> GetVw_StuReportListFromDB_WithStuID(int _StuID)
         {
             return DISTDBSession.Context.From<Vw_StuReport>()
-                              .Select(d => new {d.当前学期,d.课程名称, d.GRName, d.ATYID, d.StuID, d.SRID, d.TCID, d.CCID, d.CLID, d.成绩, d.班级, d.Discipline, d.学分, d.Minor, d.PJState, d.SPID })
+                              .Select(d => new {d.当前学期,d.课程名称, d.GRName, d.ATYID, d.StuID, d.SRID, d.TCID, d.CCID, d.CLID, d.成绩, d.班级, d.Discipline, d.学分, d.Minor, d.PJState, d.SPID,d.ReportState ,d.Csort})
                               .OrderBy(Vw_StuReport._.SRID.Desc)
                               .Where(d => d.StuID == _StuID)
                               .ToList();

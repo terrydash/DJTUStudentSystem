@@ -10,11 +10,12 @@ using System.Text;
 
 namespace DJTUStudentSystem.MVCWEB.Controllers
 {
+   
 
     //学生选课相关
     public partial class StudentController : Controller
     {
-        
+        private bool IsCanChoose = true;
         public ActionResult Logout()
         {
 
@@ -32,6 +33,11 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult ChooseElectiveCourse()
         {
+            if (!Setting.AllowChooseChourse)
+            {
+                return Content(("选课开关未打开！"));
+
+            }
             if (Session["Student"] == null)
             {
                 Response.Redirect("/Login/Index");
@@ -64,13 +70,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult ChooseCourse(int tcid)
         {
-            /*
+            
             if (!Setting.AllowChooseChourse)
             {
                 return Content(("选课开关未打开！"));
 
             }
-            */
+            
             var _StudentModelView = Session["Student"] as StudentViewModel;
             var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentModelView.GradeName);
             if (GradeCanChooseCourse == null)
@@ -150,9 +156,17 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 }
 
             }
+                    if (_StudentViewModel.HowManyHaveStudentChoose+_StudentViewModel.HowManyNowHaveStudentChoose>=3)
+                    {
+
+                       
+                            return Content("本学期已选和以往选过的课程已经达到3门，不允许再选");
+                        
+
+                    }
 
                     //选课判断：课表是否与本学期课表冲突
-                  Vw_Cschedule_BLL _Vw_Cschedule_BLL = new Vw_Cschedule_BLL();
+                    Vw_Cschedule_BLL _Vw_Cschedule_BLL = new Vw_Cschedule_BLL();
                   var _TeachClassCscheduleList=  _Vw_Cschedule_BLL.GetNowVw_CscheduleyList_WithAtyidAndTCID(tcid);
 
                   if (_TeachClassCscheduleList!=null && _StudentViewModel.NowStuReportViewModelList != null)
@@ -160,7 +174,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                         var _StudentNowCscheduleList = _Vw_Cschedule_BLL.GetNowVw_CscheduleyListForStudent_WithStuID(_StudentViewModel.StudentID);
                        
                       Message = CompareKCB(_TeachClassCscheduleList, _StudentNowCscheduleList);
-                        if (Message!=string.Empty)
+                        if (Message!=string.Empty && IsCanChoose==false)
                         {
 
                             return Content(Message);
@@ -181,7 +195,8 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 {
                         Session["刷新选课页面的时间"] = null;
                         if (Message != string.Empty) { return Content(Message+"选课成功！请返回首页查看课表！"); }
-                    return Content("选课成功！请返回首页查看课表！");
+                        LogHelper.Logger.Error("选课成功！ 学号:" + _StudentViewModel.StudentCode + " 姓名" + _StudentViewModel.StudentName + " 课程名:" + teachclass.课程名称 + " 课程ID:" + teachclass.TCID);
+                        return Content("选课成功！请返回首页查看课表！");
                 }else
                 {
                     return Content("选课失败！请联系管理员");
@@ -203,13 +218,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public virtual ActionResult Main()
         {
-            /*
+            
             if (!Setting.AllowChooseChourse)
             {
                 return Content(("选课开关未打开！"));
 
             }
-            */
+            
             var CheckSessionResult = SessionHelper.CheckSession("刷新选课页面的时间", 5);
 
             if (CheckSessionResult.ToString() != "SessionOk".ToUpper())
@@ -225,7 +240,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
 
             var Student=Session["Student"] as StudentViewModel;
 
-            LogHelper.Logger.Info("学号:"+Student.StudentCode + " 姓名" +Student.StudentName +" 成功登陆");
+            //LogHelper.Logger.Info("学号:"+Student.StudentCode + " 姓名" +Student.StudentName +" 成功登陆");
             
            return View();
 
@@ -239,13 +254,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         public ActionResult DeleteCourse(int srid)
         {
-            /*
+            
             if (!Setting.AllowChooseChourse)
             {
                 return Content(("选课开关未打开！"));
 
             }
-            */
+            
             var _StudentModelView = Session["Student"] as StudentViewModel;
             var GradeCanChooseCourse = Setting.GradeCanChooseCourse.First(d => d.GradeName == _StudentModelView.GradeName);
             if (GradeCanChooseCourse == null)
@@ -269,13 +284,13 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
                 {
                   
                     var Vw_TC = new Vw_TeachClass_BLL();
-                    LogHelper.Logger.Error("学号:" + _StudentModelView.StudentCode + " 姓名:" + _StudentModelView.StudentName + " 删除的ID:" + srid.ToString());
+                  //  LogHelper.Logger.Error("学号:" + _StudentModelView.StudentCode + " 姓名:" + _StudentModelView.StudentName + " 删除的ID:" + srid.ToString());
                     return Content("退选出错！请联系管理员");
                 }
-
+                LogHelper.Logger.Error("删除选课！ 学号:" + _StudentModelView.StudentCode + " 姓名:" + _StudentModelView.StudentName + " 删除的ID:" + srid.ToString());
                 return Content("退选成功！");
-
-                }
+                
+            }
 
                 return Content("不能直接访问!");
         }
@@ -292,6 +307,7 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
         /// <returns></returns>
         private string CompareKCB(List<DataBaseModel.Vw_Cschedule> _TeachClassCcheduleList,List<DataBaseModel.Vw_Cschedule> _StudentNowCscheduleList)
         {
+            IsCanChoose = true;
             int ConfictWeek = 0;//冲突周数
             string Message = string.Empty;
 
@@ -399,10 +415,10 @@ namespace DJTUStudentSystem.MVCWEB.Controllers
             if (ConfictWeek > Setting.AllowConfictWeeks)
             {
                 _StringBuilder.Append("超过了系统设定的只允许冲突" + Setting.AllowConfictWeeks + "周，不允许选课！");
-                Setting.AllowChooseChourse = false;
+                IsCanChoose=false;
 
             }
-            if (_StringBuilder.Length == 0 && Setting.AllowChooseChourse == true)
+            if (_StringBuilder.Length == 0 && IsCanChoose== true)
             {
                 return string.Empty;
             }
