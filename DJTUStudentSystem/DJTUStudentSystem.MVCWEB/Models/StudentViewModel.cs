@@ -6,6 +6,7 @@ using DJTUStudentSystem.BLL;
 using DJTUStudentSystem.DataBaseModel;
 using DJTUStudentSystem.Interface;
 using DJTUStudentSystem.Config;
+using MoreLinq;
 namespace DJTUStudentSystem.MVCWEB.Models
 {
     public class StudentViewModel :IDataBaseModelToViewModel<StudentViewModel,Student>
@@ -73,7 +74,7 @@ namespace DJTUStudentSystem.MVCWEB.Models
 
                 _StudentViewModel.HowManyNowHaveStudentChoose = _StudentViewModel.NowStuReportViewModelList.Where(d => d.CSort == "2" && d.Minor == "主修").ToList().Count;
                 _StudentViewModel.GradeCanChoose = Setting.GradeCanChooseCourse.Find(d => d.GradeName == _StudentViewModel.GradeName).HowManyCanChoose;
-                _StudentViewModel.HowManyHaveStudentChoose = _StudentViewModel.StuReportViewModelList.FindAll(d=>d.CSort=="2" && d.Minor=="主修" && Convert.ToInt32(d.CourseResult)>=60).ToList().Count;
+                _StudentViewModel.HowManyHaveStudentChoose = _StudentViewModel.StuReportViewModelList.FindAll(d=>d.CSort=="2" && d.Minor=="主修" && Convert.ToInt32(d.CourseResult)>=60).DistinctBy(d=>d.CourseID).ToList().Count;
                 List<StudentKCBViewModel> _StudentKCBViewModelList = new List<StudentKCBViewModel>();
                 LoadEntityListFromCache_BLL L_BLL = new LoadEntityListFromCache_BLL();
                 var Vw_Cschedule = L_BLL.GetNowVw_CscheduleByStuid(Setting.isReadFromDB, _StudentViewModel.StudentID);

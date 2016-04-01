@@ -262,8 +262,8 @@ function GetStudentinfo() {
 
 }
 $(document).ready(function () {
-    $('#message').html("<h3>公选课目前只开放了总人数的80%,其余20%和14级剩余容量将在第二轮本周五（2016年4月1日）16:00准时开放，未选上的同学可以再次选择。</h3>");
-    $('#myModal').modal({ backdrop: 'static', keyboard: true });
+    //$('#message').html("<h3>公选课目前只开放了总人数的80%,其余20%和14级剩余容量将在第二轮本周五（2016年4月1日）16:00准时开放，未选上的同学可以再次选择。</h3>");
+    //$('#myModal').modal({ backdrop: 'static', keyboard: true });
     
     GetStudentinfo();
       
